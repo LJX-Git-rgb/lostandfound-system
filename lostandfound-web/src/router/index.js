@@ -20,7 +20,7 @@ const routes = [
       //   name: 'accountInfo'
       // },
       {
-        path: '/mainSite',
+        path: '/',
         component: MainSiteBody
       }
     ]

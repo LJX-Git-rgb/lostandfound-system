@@ -1,8 +1,8 @@
 未完成
-  1. 密码小眼睛查看
-  2. 注册页面布局
-  3. 页面一些内容不知道写什么
-  4. 登录信息存入cookie和localStorage
+  0. logo
+  1. 注册页面布局
+  2. 登录信息存入cookie和localStorage
+  最小分辨率为1157 * 613左右
 <template>
   <div id="body">
     <div id="login-bac-img">
@@ -22,13 +22,20 @@
           没有账号？去<span id="register" @click="dialogFormVisible = true">注册</span>
         </p>
       </div>
-      <el-form label-width="80px">
+      <el-form :label-width="formLabelWidth">
         <el-form-item label="账号">
-          <el-input v-model="userName"  placeholder="请输入账号" prefix-icon="el-icon-user"></el-input>
+          <el-input v-model="userName"  placeholder="请输入用户名 / 邮箱 / 账号" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         
         <el-form-item label="密码">
-          <el-input v-model="password"  placeholder="请输入密码" prefix-icon="el-icon-lock" suffix-icon="el-icon-view"></el-input>
+          <el-input 
+            :type='pwdShow ? "password" : "text"' 
+            v-model="password"  
+            placeholder="请输入密码" 
+            prefix-icon="el-icon-lock"
+            >
+            <i id="showPwd" class="el-input__icon  el-icon-view" slot="suffix" @click="pwdShow = !pwdShow" :style="{'color' : pwdShow ? '' : '#409eff'}"></i>
+          </el-input>
         </el-form-item>
         
         <el-form-item>
@@ -40,19 +47,22 @@
       <span id="login-help">
         <a id="login-help-text" href="">我需要帮助</a>
         <span id="login-help-line"></span>
-        <!-- <a id="login-helper-service" href=""></a> -->
+        <a id="login-helper-service" href="" class="el-icon-headset"></a>
       </span>
     </div>
 
     <!-- reg message box -->
     <el-dialog title="我要注册哈哈哈" :visible.sync="dialogFormVisible">
-
       <el-form :model="form">
-        <el-form-item label="用户名" :label-width="formLabelWidth">
+        <el-form-item label="昵称" :label-width="formLabelWidth">
+          <el-input v-model="form.userName" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="学号" :label-width="formLabelWidth">
           <el-input v-model="form.userName" autocomplete="off"></el-input>
         </el-form-item>
         
-        <el-form-item label="用户密码" :label-width="formLabelWidth">
+        <el-form-item label="密码" :label-width="formLabelWidth">
           <el-input v-model="form.password" autocomplete="off"></el-input>
         </el-form-item>
         
@@ -60,22 +70,10 @@
           <el-input v-model="form.sex" autocomplete="off"></el-input>
         </el-form-item>
         
-        <el-form-item label="年龄" :label-width="formLabelWidth">
-          <el-input v-model="form.age" autocomplete="off"></el-input>
-        </el-form-item>
-        
-        <el-form-item label="地址" :label-width="formLabelWidth">
+        <el-form-item label="学校" :label-width="formLabelWidth">
           <el-input v-model="form.address" autocomplete="off"></el-input>
         </el-form-item>
-        
-        <el-form-item label="标签" :label-width="formLabelWidth">
-          <el-select v-model="form.tag" placeholder="请选择活动区域">
-          <el-option label="家" value="home"></el-option>
-          <el-option label="公司" value="company"></el-option>
-          </el-select>
-        </el-form-item>
       </el-form>
-
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="createUser">确 定</el-button>
@@ -94,7 +92,9 @@ export default {
       //dialog form data
       dialogFormVisible: false,
       form: {},
-      formLabelWidth: '80px'
+      formLabelWidth: '80px',
+
+      pwdShow: true,
     };
   },
   methods:{
@@ -214,38 +214,25 @@ export default {
     left: 70px;
     bottom: 57px;
     font-size: 14px;
-    color: #fff;
-
-    border: 1px solid red;
   }
   #login-help a{
     text-decoration: none;
     color: #fff;
     cursor: pointer;
     opacity: 0.8;
+    font-weight: 500;
   }
   #login-help-line{
     display: inline-block;
     width: 2px;
     height: 12px;
-    filter: alpha(opacity=78);
     opacity: .78;
-    margin: 0 12px 0 13px;
+    margin: 0 12px;
     background: #fff;
     position: relative;
     top: 1px;
   }
 
-  /* 未完成，是错的 */
-  #login-help-service{
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background: url('https://ppui-static-pc.cdn.bcebos.com/static/passpc-account/img/reg/service-2x.png') no-repeat;
-    background-size: 100%;
-    position: relative;
-    top: 3px;
-  }
   /* element Ui */
   .el-form{
     margin-top: 70px;
@@ -260,6 +247,13 @@ export default {
     width: 100%;
     border-radius: 18px;
     margin-top: 6%;
+  }
+
+  #showPwd{
+    cursor: pointer;
+  }
+  #showPwd:hover{
+    color: #409eff;
   }
  
 </style>
