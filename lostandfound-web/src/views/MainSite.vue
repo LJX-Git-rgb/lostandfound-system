@@ -1,26 +1,18 @@
 <template>
-    <div id="mainSite">
-      <my-header/>
-      <div id="body">
-        <my-side/>
-        <router-view></router-view>
-      </div>
-      
-    </div>
+  <div id="mainSite">
+    <main-site-header/>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import MyHeader from '../components/MyHeader.vue'
-import MySide from '../components/MySide.vue'
-
+import MainSiteHeader from '../components/MainSiteHeader.vue';
 export default {
-  components: { MySide, MyHeader },
+  components: { MainSiteHeader },
 }
+
 </script>
 
 <style scoped>
-  #body{
-    display: flex;
-    flex-wrap: wrap;
-  }
+ 
 </style>

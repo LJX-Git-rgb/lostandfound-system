@@ -6,7 +6,7 @@
 <template>
   <div id="body">
     <div id="login-bac-img">
-      <img src="https://passport.baidu.com/static/passpc-account/img/reg_bg_min.jpg" alt="">
+      <img src="../../public/image/login_backImg.jpeg" alt="">
     </div>
     <div id="login-logo">
       <!-- <img src="https://passport.baidu.com/static/passpc-account/img/baidu.png" alt=""> -->
@@ -186,8 +186,8 @@ export default {
     right: 139px;
     top: 50%;
     margin-top: -300px;
-    width: 480px;
-    height: 600px;
+    width: 360px;
+    height: 480px;
     background: rgba(255,255,255,.9);
     border-radius: 12px;
     border-radius: 12px;

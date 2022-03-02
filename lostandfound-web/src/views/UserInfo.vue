@@ -271,12 +271,4 @@ import axios from 'axios'
         width: 600px;
         margin-top: 15px;
     }
-
-/* element-ui css */
-    .el-select .el-input {
-        width: 130px;
-    }
-    .input-with-select .el-input-group__prepend {
-        background-color: #fff;
-    }
 </style>
