@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import UserInfo from '../views/UserInfo.vue'
 import MainSite from '../views/MainSite.vue'
-import login from '../views/Login.vue'
-
+import AdminSite from "../views/AdminSite.vue";
+import Login from '../views/Login.vue'
+import MainSiteBody from '../views/MainSiteBody.vue'
 
 
 Vue.use(VueRouter)
@@ -14,6 +15,26 @@ const routes = [
     name: 'mainSite',
     component: MainSite,
     children:[
+      // {
+      //   path: 'accountInfo',
+      //   name: 'accountInfo'
+      // },
+      {
+        path: '/',
+        component: MainSiteBody
+      }
+    ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+  },
+  {
+    path: '/admin',
+    name: 'adminSite',
+    component: AdminSite,
+    children:[
       {
         path: 'allUser', 
         name: 'UserInfo',
@@ -21,23 +42,6 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/login',
-    name: 'login',
-    component: login,
-  },
-  // {
-  //   path: '/admin',
-  //   name: 'admin',
-  //   component: MainSite,
-  //   children:[
-  //     {
-  //       path: 'allUser',
-  //       name: 'UserInfo',
-  //       component: UserInfo
-  //     }
-  //   ]
-  // },
 ]
 
 const router = new VueRouter({
