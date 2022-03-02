@@ -45,8 +45,7 @@
     </div>
 
     <!-- reg message box -->
-    <el-dialog title="我要注册哈哈哈" :visible.sync="dialogFormVisible">
-
+    <el-dialog title="我要注册" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="form.userName" autocomplete="off"></el-input>
@@ -108,10 +107,14 @@ export default {
         }
       }).then(res => {
         if(res.data.code == 200){
+          //放入localStorage
+          /*localStorage适合浏览器历史记录和用过的用户名密码,而Cookie更适用于保持登录的状态,比如存储一个isLogin和登录用户的信息*/ 
+          if(localStorage.getItem(this.userName) == null){
+            localStorage.setItem(this.userName,this.password);
+          }
           this.$store.dispatch('setUser',res.data.data)
           //这个是否登录可能需要存在cookie里
           this.$store.commit('setIsLogin',true);
-          //放入cookie和浏览器历史
           //路由转换
           this.$router.push({path:'/allUser'})
         }

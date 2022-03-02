@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/SpringBootVue
+    url: jdbc:mysql://localhost:3306/graduation_project
 
 mybatis:
   type-aliases-package: team.system.lostandfoundserver.mapper
