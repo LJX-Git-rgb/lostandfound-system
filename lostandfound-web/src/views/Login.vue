@@ -60,7 +60,7 @@
     </div>
 
     <!-- reg message box -->
-    <el-dialog 
+    <el-dialog
       :visible.sync="dialogFormVisible"
       center
       width="60%"
@@ -96,7 +96,7 @@
             </el-radio-group>
           </el-form-item>
         </el-form>
-        
+
         <div class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
           <el-button type="primary" @click="createUser">确 定</el-button>
@@ -143,10 +143,14 @@ export default {
         }
       }).then(res => {
         if(res.data.code == 200){
+          //放入localStorage
+          /*localStorage适合浏览器历史记录和用过的用户名密码,而Cookie更适用于保持登录的状态,比如存储一个isLogin和登录用户的信息*/
+          if(localStorage.getItem(this.userName) == null){
+            localStorage.setItem(this.userName,this.password);
+          }
           this.$store.dispatch('setUser',res.data.data)
           //这个是否登录可能需要存在cookie里
           this.$store.commit('setIsLogin',true);
-          //放入cookie和浏览器历史
           //路由转换
           this.$router.push({path:'/allUser'})
         }
@@ -188,7 +192,7 @@ export default {
     background: url(https://passport.baidu.com/static/passpc-account/img/reg_bg_min.jpg) no-repeat;
     background-size: cover;
   }
-  
+
   #login-logo{
     position: fixed;
     left: 70px;
@@ -202,7 +206,7 @@ export default {
     width: 100%;
     height: 100%;
   }
-  
+
   #login-text{
     position: fixed;
     left: 195px;
@@ -219,7 +223,7 @@ export default {
     letter-spacing: 3.81px;
     font-weight: 300;
   }
-  
+
   #login-content{
     position: absolute;
     right: 139px;
@@ -254,7 +258,7 @@ export default {
     color: #2e58ff;
     cursor: pointer;
   }
-  
+
   #login-footer{
     position: fixed;
     left: 70px;
@@ -278,7 +282,7 @@ export default {
     position: relative;
     top: 1px;
   }
-  
+
   /*  */
   #loginButton{
     width: 100%;
