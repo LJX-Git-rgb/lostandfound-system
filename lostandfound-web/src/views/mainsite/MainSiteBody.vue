@@ -1,5 +1,8 @@
 <template>
 	<div id="mainsite-body">
+		<div id="menu-class">
+			
+		</div>
 		<div id="carousel-and-filter">
 			<div id="carousel-wrap">
 				<el-carousel :interval="5000">
@@ -10,28 +13,16 @@
 			</div>
 			<ul id="filter-menu">
 				<li>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
 				</li>
 				<li>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-				</li>
-				<li>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-				</li>
-				<li>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
-					<div><a href="">hahajack</a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+					<div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
 				</li>
 			</ul>
 		</div>
@@ -64,11 +55,11 @@ export default {
 			imgFolder: '',
 			imgList:[
 				{
-					url: '/image/haha.jpeg',
+					url: require('../../assets/image/haha.jpeg'),
 					alt: 'haha'
 				},
 				{
-					url: '/image/login_backImg.jpeg',
+					url: require('../../assets/image/login_backImg.jpeg'),
 					alt: 'heihei'
 				},
 			]
@@ -97,13 +88,17 @@ export default {
 <style lang="less" scoped>
 	#mainsite-body{
 		padding: 0 6%;
-		
+
+		#menu-class{
+			width: 100%;
+			height: 110px;
+		}
 		#carousel-and-filter{
 			height: 300px;
 			display: flex;
 			
 			#carousel-wrap{
-				flex: 0.7;
+				flex: 0.5;
 			
 				.el-carousel__item h3 {
 					color: #475669;
@@ -119,25 +114,30 @@ export default {
 				}
 			}
 			#filter-menu{
-				flex: 0.5;
-				margin-top: 20px;
 				margin-left: 30px;
-
+				flex: 1;
 				li{
-					height: 30px;
+					height: 50%;
 					width: 100%;
-					line-height: 30px;
-					border: 1px solid;
-					margin: 23px;
+					text-align: center;
 					display: flex;
 					div{
 						flex: 1;
+						margin-right: 3%;
+						margin-top: 1.5%;
+						img{
+							width: 100%;
+							height: 80%;
+						}
 					}
 				}
 			}
 		}
 	.infinite-list-wrapper{
 		margin-top: 3%;
+		li{
+			margin-bottom: 2%;
+		}
 	}
 }
 </style>

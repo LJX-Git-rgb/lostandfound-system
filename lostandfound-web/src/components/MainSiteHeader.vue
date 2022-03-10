@@ -5,12 +5,12 @@
                 <li>
                     <a href="" id="home">
                         <!-- logo -->
-                        <img src="../../public/image/login_backImg.jpeg" alt="">
+                        <img src="../assets/image/login_backImg.jpeg" alt="">
                         <span>首页</span>
                     </a>
                 </li>
-                <li><a href=""><span>失物招领</span></a></li>
-                <li><a href=""><span>寻物启事</span></a></li>
+                <li><a href="#"><span>失物招领</span></a></li>
+                <li><a href="#"><span>寻物启事</span></a></li>
             </ul>
             <div id="header-search">
                 <div id="search-bar">
@@ -20,9 +20,9 @@
                 </div>
             </div>
             <ul id="right-menu">
-                <li><a href=""><span>互动消息</span></a></li>
-                <li><a href=""><span>历史记录</span></a></li>
-                <li class="el-icon-location-information"><a href="" ><span>{{location}}</span></a></li>
+                <li><a href="#"><span>我的发布</span></a></li>
+                <li><a href="#"><span>历史记录</span></a></li>
+                <li class="el-icon-location-information"><a @click="checkCity"><span>{{location}}</span></a></li>
                 <li>
                     <div id="loginInfo">
                         <el-dropdown @command="handleCommand" v-if="this.$store.state.isLogin">
@@ -45,7 +45,7 @@
             </ul>
         </div>
         <div id="header-banner">
-            <img src="../../public/image/login_backImg.jpeg" alt="">
+            <img src="../assets/image/login_backImg.jpeg" alt="">
         </div>
     </div>
 </template>
@@ -61,6 +61,9 @@ export default {
     methods: {
         transLogin(){
             this.$router.push({path:'/login'})
+        },
+        checkCity(){
+            
         }
     },
     mounted() {
@@ -173,8 +176,7 @@ export default {
 
     /* banner */
     #header-banner{
-        background-color: green;
-        /* position: absolute; */
+        // position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
@@ -199,7 +201,7 @@ export default {
 
     a span{
         font-weight: normal;
-        font-size: 16px;
+        font-size: 18px;
         color: white;
     }
 

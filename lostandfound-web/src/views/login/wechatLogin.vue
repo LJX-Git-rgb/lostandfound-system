@@ -1,7 +1,7 @@
 <template>
   <div>
       <center><span>请扫描二维码登录</span></center>
-      <img src="../../../public/image/login_backImg.jpeg" alt="">
+      <img src="../../assets/image/login_backImg.jpeg" alt="">
   </div>
 </template>
 

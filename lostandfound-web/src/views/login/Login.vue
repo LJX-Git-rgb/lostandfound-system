@@ -7,7 +7,7 @@
 <template>
   <div id="body">
     <div id="login-bac-img">
-      <img src="../../../public/image/login_backImg.jpeg" alt="">
+      <img src="../../assets/image/login_backImg.jpeg" alt="">
     </div>
     <div id="login-logo">
       <!-- <img src="https://passport.baidu.com/static/passpc-account/img/baidu.png" alt=""> -->
@@ -59,7 +59,7 @@ export default {
     right: 0;
     top: 0;
     bottom: 0;
-    background: url(https://passport.baidu.com/static/passpc-account/img/reg_bg_min.jpg) no-repeat;
+    background: url(../../assets/image/login_backImg.jpeg) no-repeat;
     background-size: cover;
   }
 

@@ -78,7 +78,7 @@
                 <div id="mid"></div>
                 <div id="right">
                 <center>
-                    <img src="../../../public/image/login_backImg.jpeg" alt="">
+                    <img src="../../assets/image/login_backImg.jpeg" alt="">
                     <h4>微信扫二维码直接登录</h4>
                 </center>
                 </div>
