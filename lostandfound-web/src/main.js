@@ -7,10 +7,15 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
+Vue.use(ElementUI, { locale })
+
+// axios
 import axios from 'axios'
 Vue.prototype.$axios = axios
 
-Vue.use(ElementUI, { locale })
+// jsonp
+import { VueJsonp } from 'vue-jsonp'
+Vue.use(VueJsonp)
 
 Vue.config.productionTip = false
 new Vue({

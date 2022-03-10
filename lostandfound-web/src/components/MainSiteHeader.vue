@@ -4,44 +4,25 @@
             <ul id="left-menu">
                 <li>
                     <a href="" id="home">
+                        <!-- logo -->
                         <img src="../../public/image/login_backImg.jpeg" alt="">
                         <span>首页</span>
                     </a>
                 </li>
-                <li>
-                    <a href="">
-                        <span>嘿嘿嘿嘿嘿</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                    <span>端午活动</span>
-                    </a>
-                </li>
+                <li><a href=""><span>失物招领</span></a></li>
+                <li><a href=""><span>寻物启事</span></a></li>
             </ul>
             <div id="header-search">
                 <div id="search-bar">
-                    <el-input placeholder="请输入内容" v-model="searchInput" class="input-with-select">
+                    <el-input placeholder="请输入查找关键字：物品名，姓名或证件号后四位" v-model="searchInput" class="input-with-select">
                         <el-button slot="append" icon="el-icon-search"></el-button>
                     </el-input>
                 </div>
             </div>
             <ul id="right-menu">
-                <li>
-                    <a href="">
-                    <span>端午活动</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                    <span>端午活动</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                    <span>端午活动</span>
-                    </a>
-                </li>
+                <li><a href=""><span>互动消息</span></a></li>
+                <li><a href=""><span>历史记录</span></a></li>
+                <li class="el-icon-location-information"><a href="" ><span>{{location}}</span></a></li>
                 <li>
                     <div id="loginInfo">
                         <el-dropdown @command="handleCommand" v-if="this.$store.state.isLogin">
@@ -73,59 +54,91 @@
 export default {
     data() {
         return {
-            searchInput:""
+            searchInput:"",
+            location:"我的位置",
         }
     },
     methods: {
         transLogin(){
             this.$router.push({path:'/login'})
         }
-    }
+    },
+    mounted() {
+        // 获取当前位置
+        this.$jsonp("https://apis.map.qq.com/ws/location/v1/ip", {
+            key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
+            output:'jsonp'
+        }).then(res => {
+        if(res.message == 'query ok'){
+            console.log(res.result.ad_info);
+            this.location = res.result.ad_info.city
+        }
+        }).catch(err => {
+        console.log("catch", err);
+        });
+        // 获取全国地区
+        this.$jsonp("https://apis.map.qq.com/ws/district/v1/list", {
+            key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
+            output:'jsonp'
+        }).then(res => {
+        if(res.message == 'query ok'){
+            console.log(res.result);
+        }
+        }).catch(err => {
+        console.log("catch", err);
+        });
+    },
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
     #header{
         min-height: 64px;
         position: relative;
         margin: 0 auto;
         width: 100%;
         background-color: grey;
-    }
-    #header #header-bar{
-        position: absolute;
-        display: flex;
-        align-items: center;
-        z-index: 1;
-        width: 100%;
-        height: 64px;
+        
+        #header-bar{
+            position: absolute;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            width: 100%;
+            height: 64px;
+            margin-top: 24px;
+        }
     }
     
     /* left menu */
     #left-menu{
-        margin-right: 10px;
+        margin-right: 5%;
+        margin-left: 5%;
         display: flex;
         align-items: center;
         flex-shrink: 0;
         padding-left: 5%;
-    }
-    #left-menu a{
-        height: 64px;
-        line-height: 64px;
-        font-size: 14px;
-        cursor: pointer;
-        margin-right: 15px;
-    }
-    #left-menu #home{
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        cursor: pointer;
-        margin-right: 30px;
-    }
-    #home img{
-        height: 20px;
-        width: 20px;
+
+        a{
+            height: 64px;
+            line-height: 64px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        #home{
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 30px;
+
+            img{
+                height: 20px;
+                width: 20px;
+            }
+        }
     }
    
    /* search */
@@ -144,17 +157,18 @@ export default {
     #right-menu{
         display: flex;
         align-items: center;
-        margin-left: 10px;
+        margin-left: 5%;
         padding-right: 3%;
-    }
-    #right-menu li{
-        margin: 0 3px;
-        min-width: 25px;
-        display: block;
-        flex-shrink: 0;
-        margin-right: 4px;
-        text-align: center;
-        cursor: pointer;
+
+        li{
+            margin: 0 3px;
+            min-width: 25px;
+            display: block;
+            flex-shrink: 0;
+            margin-right: 4px;
+            text-align: center;
+            cursor: pointer;
+        }
     }
 
     /* banner */
@@ -168,11 +182,11 @@ export default {
         overflow: hidden;
         opacity: 1;
         height: 160px;
+    
+        img{
+            width: 100%;
+        }
     }
-    /* #header-banner img{
-        width: 100%;
-        height: 160px;
-    } */
 
     /* login button */
     #loginInfo{
@@ -187,5 +201,11 @@ export default {
         font-weight: normal;
         font-size: 16px;
         color: white;
+    }
+
+    .el-icon-location-information:before{
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
     }
 </style>

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import MainSiteHeader from '../components/MainSiteHeader.vue';
+import MainSiteHeader from '../../components/MainSiteHeader.vue';
 export default {
   components: { MainSiteHeader },
 }

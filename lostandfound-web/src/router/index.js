@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import UserInfo from '../views/UserInfo.vue'
-import MainSite from '../views/MainSite.vue'
-import AdminSite from "../views/AdminSite.vue";
-import Login from '../views/Login.vue'
-import MainSiteBody from '../views/MainSiteBody.vue'
+import UserInfo from '../views/adminsite/UserInfo.vue'
+import MainSite from '../views/mainsite/MainSite.vue'
+import AdminSite from "../views/adminsite/AdminSite.vue";
+import MainSiteBody from '../views/mainsite/MainSiteBody.vue'
+import Login from '../views/login/Login.vue'
+import NormalLogin from '../views/login/NormalLogin.vue'
+import WechatLogin from '../views/login/wechatLogin.vue'
+
 
 
 Vue.use(VueRouter)
@@ -29,6 +32,16 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login,
+    children:[
+      {
+        path: '/',
+        component: NormalLogin
+      },
+      {
+        path: 'wechat',
+        component: WechatLogin
+      }
+    ]
   },
   {
     path: '/admin',
