@@ -2361,6 +2361,20 @@
   "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001314.tgz"
   "version" "1.0.30001314"
 
+"canvas-nest.js@^2.0.4":
+  "integrity" "sha512-Wgc+39fQBIP8fm9+Rq+Zt6+QLHZRsIKpaOQPL5KcWPlXTAalCKY4KCuklY7qzzZqBRF/t2APIrk+PuRw6ZlOog=="
+  "resolved" "https://registry.npmjs.org/canvas-nest.js/-/canvas-nest.js-2.0.4.tgz"
+  "version" "2.0.4"
+  dependencies:
+    "size-sensor" "^0.2.0"
+
+"canvas-nest.js@2.0.3":
+  "integrity" "sha512-zL+AN9alP5fl/Ek2gZMpWS4Hoz5jMf1NonYPvdsU5SV++m8/b45EUnTje6GUs1998q6wGISYYRHiWho1JXGM6w=="
+  "resolved" "https://registry.npmjs.org/canvas-nest.js/-/canvas-nest.js-2.0.3.tgz"
+  "version" "2.0.3"
+  dependencies:
+    "size-sensor" "^0.2.0"
+
 "case-sensitive-paths-webpack-plugin@^2.3.0":
   "integrity" "sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw=="
   "resolved" "https://registry.npmjs.org/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz"
@@ -7178,6 +7192,11 @@
   dependencies:
     "is-arrayish" "^0.3.1"
 
+"size-sensor@^0.2.0":
+  "integrity" "sha512-0EZ0tXXjyRl9R9+JpoBdH57Xpnbf5NTyDdj7fnFL6KqCsdKyah286ShMflnV2SonnrSFH4OAT/52Jy8qqnoerg=="
+  "resolved" "https://registry.npmjs.org/size-sensor/-/size-sensor-0.2.6.tgz"
+  "version" "0.2.6"
+
 "slash@^1.0.0":
   "integrity" "sha1-xB8vbDn8FtHNF61LXYlhFK5HDVU="
   "resolved" "https://registry.npmjs.org/slash/-/slash-1.0.0.tgz"
@@ -8034,6 +8053,13 @@
   "resolved" "https://registry.npmjs.org/vm-browserify/-/vm-browserify-1.1.2.tgz"
   "version" "1.1.2"
 
+"vue-canvas-nest@^2.0.0":
+  "integrity" "sha512-YUKwbDDEB36NlEvU/Et6S68LaP+RQatEQIJZuL1f0nGIp5h8r+WjsWmwAZK/pt2c7FeXvWWNmuHUcY+539EPbA=="
+  "resolved" "https://registry.npmjs.org/vue-canvas-nest/-/vue-canvas-nest-2.0.0.tgz"
+  "version" "2.0.0"
+  dependencies:
+    "canvas-nest.js" "2.0.3"
+
 "vue-hot-reload-api@^2.3.0":
   "integrity" "sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog=="
   "resolved" "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
@@ -8090,7 +8116,7 @@
   "resolved" "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2 || ^3.0.0-0", "vue@^2.0.0", "vue@^2.5.17", "vue@^2.6.11":
+"vue@^2 || ^3.0.0-0", "vue@^2.0.0", "vue@^2.5.17", "vue@^2.6.11", "vue@^2.x":
   "integrity" "sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.14.tgz"
   "version" "2.6.14"

@@ -2,11 +2,11 @@
     <div id="goods-row">
         <el-row type="flex" justify="center">
             <el-col v-for="(o, index) in 4" :key="o" :offset="index > 0 ? 1 : 0">
-                <a href="">
-                    <el-card :body-style="{ padding: '10px' }">
-                        <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                <a :href="'lostgood/' + id">
+                    <el-card :body-style="{ padding: '10px'}">
+                        <img src="../assets/image/login_backImg.jpeg" class="image">
                         <div id="card-text">
-                            <span>好吃的汉堡</span>
+                            <center>对图片的形容</center>
                         </div>
                     </el-card>
                 </a>
@@ -17,17 +17,23 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            id:1,
+        }
+    },
 }
 </script>
 
-<style>
+<style lang="less" scoped>
     #goods-row{
         padding: 0 5%;
+
+        #card-text{
+            padding: 10px;
+        }
     }
-    #card-text{
-        padding: 10px;
-    }
+   
     /* element ui */
     .time {
     font-size: 13px;
@@ -58,4 +64,4 @@ export default {
     .clearfix:after {
         clear: both
     }
-    </style>
+</style>

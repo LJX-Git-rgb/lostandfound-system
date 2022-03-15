@@ -28,7 +28,7 @@
 		</div>
 		<div class="infinite-list-wrapper" style="overflow:auto">
 			<ul
-			  class="list"
+			  class="goodslist"
 			  v-infinite-scroll="load"
 			  infinite-scroll-disabled="disabled"
 			  >
@@ -49,7 +49,7 @@ export default {
 	data () {
 		return {
 			// 无限滚动展示
-			count: 10,
+			count: 3,
 			loading: false,
 			// 轮播图
 			imgFolder: '',
@@ -76,19 +76,22 @@ export default {
 	methods: {
 		load () {
 			this.loading = true
-			setTimeout(() => {
-				this.count += 2
-				this.loading = false
-			}, 2000)
+			// setTimeout(() => {
+			// 	this.count += 2
+			// 	this.loading = false
+			// }, 2000)
 		},
 		haha(){}
 	},
 }
 </script>
+
 <style lang="less" scoped>
 	#mainsite-body{
 		padding: 0 6%;
-
+		background: #74ebd5; 
+		background: -webkit-linear-gradient(to top, #ACB6E5, #74ebd5);  
+		background: linear-gradient(to top, #0a3442,#ACB6E5);
 		#menu-class{
 			width: 100%;
 			height: 110px;
@@ -98,7 +101,7 @@ export default {
 			display: flex;
 			
 			#carousel-wrap{
-				flex: 0.5;
+				flex: 0.7;
 			
 				.el-carousel__item h3 {
 					color: #475669;
@@ -137,6 +140,15 @@ export default {
 		margin-top: 3%;
 		li{
 			margin-bottom: 2%;
+		}
+		p{
+			text-align: center;
+			font-size: 18px;
+			font-weight: 600;
+			color: #475669;
+			margin-bottom: 5%;
+			border-bottom: 2px solid #475669;
+			opacity: 0.7;
 		}
 	}
 }

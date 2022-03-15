@@ -7,6 +7,9 @@ import MainSiteBody from '../views/mainsite/MainSiteBody.vue'
 import Login from '../views/login/Login.vue'
 import NormalLogin from '../views/login/NormalLogin.vue'
 import WechatLogin from '../views/login/wechatLogin.vue'
+import AccountInfo from '../views/mainsite/PersonInfo.vue'
+import LostGoodsInfo from '../views/LostGoodsInfo.vue';
+import FindGoodsInfo from '../views/FindGoodsInfo.vue';
 
 
 
@@ -18,13 +21,25 @@ const routes = [
     name: 'mainSite',
     component: MainSite,
     children:[
-      // {
-      //   path: 'accountInfo',
-      //   name: 'accountInfo'
-      // },
+      {
+        path: 'accountInfo',
+        name: 'accountInfo',
+        component:AccountInfo
+      },
+      
       {
         path: '/',
         component: MainSiteBody
+      },
+
+      {
+        path:'lostgood/:id',
+        component: LostGoodsInfo,
+      },
+
+      {
+        path:'findgood/:id',
+        component: FindGoodsInfo
       }
     ]
   },
