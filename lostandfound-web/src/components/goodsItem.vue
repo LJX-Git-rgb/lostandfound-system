@@ -2,7 +2,7 @@
     <div id="goods-row">
         <el-row type="flex" justify="center">
             <el-col v-for="(o, index) in 4" :key="o" :offset="index > 0 ? 1 : 0">
-                <a :href="'lostgood/' + id">
+                <a :href="'lostgood?id=' + id">
                     <el-card :body-style="{ padding: '10px'}">
                         <img src="../assets/image/login_backImg.jpeg" class="image">
                         <div id="card-text">

@@ -3,14 +3,14 @@
         <div id="header-bar">
             <ul id="left-menu">
                 <li>
-                    <a href="" id="home">
+                    <a href="/" id="home">
                         <!-- logo -->
                         <img src="../assets/image/login_backImg.jpeg" alt="">
                         <span>首页</span>
                     </a>
                 </li>
-                <li><a href="#"><span>失物招领</span></a></li>
-                <li><a href="#"><span>寻物启事</span></a></li>
+                <li><a href="/lostgoods"><span>失物招领</span></a></li>
+                <li><a href="/findgoods"><span>寻物启事</span></a></li>
             </ul>
             <div id="header-search">
                 <div id="search-bar">

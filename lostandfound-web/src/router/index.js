@@ -33,7 +33,7 @@ const routes = [
       },
 
       {
-        path:'lostgood/:id',
+        path:'lostgood',
         component: LostGoodsInfo,
       },
 
