@@ -5,7 +5,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/graduation_project
+    url: jdbc:mysql://localhost:3306/SpringBootVue
 
 mybatis:
-  type-aliases-package: team.system.lostandfoundserver.mapper
+  type-aliases-package: team.system.lostandfoundserver.mapper #mybatis扫描包
+  configuration:
+    map-underscore-to-camel-case: true #开启mybatis命名转换

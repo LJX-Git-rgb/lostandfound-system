@@ -9,7 +9,7 @@
                         <span>首页</span>
                     </a>
                 </li>
-                <li><a href="/lostgoods"><span>失物招领</span></a></li>
+                <li><a href="/"><span>失物招领</span></a></li>
                 <li><a href="/findgoods"><span>寻物启事</span></a></li>
             </ul>
             <div id="header-search">
@@ -31,10 +31,10 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </li>
-                <li class="el-icon-location-information"><a @click="checkCity"><span>{{location}}</span></a></li>
+                <li class="el-icon-location-information location"><a @click="checkCity"><span>{{location}}</span></a></li>
                 <li>
                     <div id="loginInfo">
-                        <el-dropdown @command="handleCommand" v-if="!this.$store.state.isLogin">
+                        <el-dropdown @command="handleCommand" v-if="this.$store.state.isLogin">
                             <span class="el-dropdown-link">
                                 我的信息<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
@@ -45,7 +45,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                         
-                        <div id="unLogin" v-if="this.$store.state.isLogin">
+                        <div id="unLogin" v-if="!this.$store.state.isLogin">
                             <el-button type="primary" @click="transLogin" size = "small">点我登录</el-button>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ export default {
             }else if(command == 'setting'){
                 console.log("setting")
             }else if(command == 'quit'){
-                this.$store.state.isLogin = true;
+                this.$store.state.isLogin = false;
             }else if(command == 'lostGoods'){
                 console.log("lost")
             }else if(command == 'findGoods'){
@@ -92,29 +92,29 @@ export default {
             
         }
     },
-    mounted() {
+    mounted() {        
         // 获取当前位置
         this.$jsonp("https://apis.map.qq.com/ws/location/v1/ip", {
             key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
             output:'jsonp'
         }).then(res => {
-        if(res.message == 'query ok'){
-            console.log(res.result.ad_info);
-            this.location = res.result.ad_info.city
-        }
+            if(res.message == 'Success' || res.state == 0){
+                console.log(res.result.ad_info);
+                this.location = res.result.ad_info.city
+            }
         }).catch(err => {
-        console.log("catch", err);
+            console.log("catch", err);
         });
         // 获取全国地区
         this.$jsonp("https://apis.map.qq.com/ws/district/v1/list", {
             key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
             output:'jsonp'
         }).then(res => {
-        if(res.message == 'query ok'){
-            console.log(res.result);
-        }
+            if(res.message == 'query ok'){
+                console.log(res.result);
+            }
         }).catch(err => {
-        console.log("catch", err);
+            console.log("catch", err);
         });
     },
 }
@@ -197,7 +197,9 @@ export default {
                     text-align: center;
                     cursor: pointer;
                 }
-
+                .location{
+                    width: 100px;
+                }
                 .el-icon-location-information a span{
                     font-weight: 500;
                 }

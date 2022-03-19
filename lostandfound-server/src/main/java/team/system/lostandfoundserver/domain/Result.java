@@ -1,5 +1,7 @@
 package team.system.lostandfoundserver.domain;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @ClassName: Result
  * @Description:
@@ -7,6 +9,7 @@ package team.system.lostandfoundserver.domain;
  * @Date: 2022/2/14 3:39 下午
  * @Version: 1.0
  */
+@Component
 public class Result<T> {
     private String code;
     private String msg;

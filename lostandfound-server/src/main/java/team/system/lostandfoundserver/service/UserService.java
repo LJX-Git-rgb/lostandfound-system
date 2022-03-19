@@ -1,11 +1,16 @@
 package team.system.lostandfoundserver.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.mapper.UserMapper;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
+
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @ClassName: UserService
@@ -28,13 +33,27 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
-    public Boolean add(User user) {
-        userMapper.addUser(user);
-        return true;
+    public User add(String userName, String pwd) {
+        User user = new User();
+        user.setUserName(userName);
+        user.setPassword(pwd);
+        UUID uuid = UUID.randomUUID();
+        user.setUid(uuid.toString());
+        try {
+            userMapper.addUser(user);
+        }catch (Exception exception){
+            if (exception instanceof SQLIntegrityConstraintViolationException || exception instanceof DuplicateKeyException) {
+                System.out.println("用户名冲突");
+                return null;
+            }else{
+                exception.printStackTrace();
+            }
+        }
+        return userMapper.findByUserName(userName);
     }
 
     @Override
-    public User login(String userName, String password) {
+    public User login(String userName) {
         return userMapper.findByUserName(userName);
     }
 
@@ -51,5 +70,10 @@ public class UserService implements UserServiceImpl {
     @Override
     public Integer countUser() {
         return userMapper.countUser();
+    }
+
+    @Override
+    public Boolean findUserByUserNameAndEmail(String email) {
+        return true;
     }
 }

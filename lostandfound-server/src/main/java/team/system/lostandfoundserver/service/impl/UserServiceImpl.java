@@ -7,13 +7,15 @@ import java.util.List;
 public interface UserServiceImpl {
     List<User> findUserByPage(Integer currentPage, Integer pageSize);
 
-    Boolean add(User user);
+    User add(String userName, String pwd);
 
-    User login(String userName, String password);
+    User login(String userName);
 
     Boolean delete(Integer userId);
 
     Boolean update(User newUser);
 
     Integer countUser();
+
+    Boolean findUserByUserNameAndEmail(String email);
 }

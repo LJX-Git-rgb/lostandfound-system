@@ -8060,6 +8060,11 @@
   dependencies:
     "canvas-nest.js" "2.0.3"
 
+"vue-get-code@^1.1.4":
+  "integrity" "sha512-wS1HHU554lYh7HWigejci8Zx7kF3m0MrZ2Ow4zLjh/8i2Dpav8R+hW+Z87AgqZvzJyb9Cz8Bt9IYkT/NmOIlrA=="
+  "resolved" "https://registry.npmjs.org/vue-get-code/-/vue-get-code-1.1.4.tgz"
+  "version" "1.1.4"
+
 "vue-hot-reload-api@^2.3.0":
   "integrity" "sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog=="
   "resolved" "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"

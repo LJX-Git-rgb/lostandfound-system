@@ -44,36 +44,34 @@
             </template>
             <div id="reg-body" style="display:flex">
                 <div id="left">
-                <el-form ref="form" :model="form" :label-width="formLabelWidth">
-                    <el-form-item label="昵称">
-                    <el-input v-model="form.name" placeholder="起个昵称吧"></el-input>
-                    </el-form-item>
+					<el-form ref="form" :model="form" :label-width="formLabelWidth">
+						<el-form-item label="昵称">
+							<el-input v-model="form.name" placeholder="起个昵称吧"></el-input>
+						</el-form-item>
 
-                    <!-- <el-form-item label="学号">
-                    <el-input v-model="form.userName"  placeholder="我们需要您的学号">
-                        <el-tooltip effect="dark" content="请认真填写，我们会核实您的学号" slot="suffix" placement="bottom">
-                        <a class="el-input__icon  el-icon-warning-outline" ></a>
-                        </el-tooltip>
-                    </el-input>
-                    </el-form-item> -->
+						<el-form-item label="密码">
+							<el-input v-model="form.password" placeholder="设置您的密码"></el-input>
+						</el-form-item>
 
-                    <el-form-item label="密码">
-                    <el-input v-model="form.password" placeholder="设置您的密码"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="性别">
-                    <el-radio-group v-model="form.resource">
-                        <el-radio label="男"></el-radio>
-                        <el-radio label="女"></el-radio>
-                        <el-radio label="未知"></el-radio>
-                    </el-radio-group>
-                    </el-form-item>
-                </el-form>
-
-                <div class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="createUser">确 定</el-button>
-                </div>
+						<!-- <el-form-item label="验证码">
+							<el-input placeholder="请输入电话号码" v-model="phone"/>
+							验证码：未完善
+							<vue-get-code
+								:getCode="getCode"
+								:interval="30"
+								:disable="!phone"
+								>
+								
+								<template v-slot:default="child">{{child.count<=0 ? "haha" : "嘿嘿"}}"+"{{child}}</template>
+								<template v-slot:countdown="child">请等待{{ child.data.interval - child.data.seconds }}秒</template>
+							</vue-get-code>
+						</el-form-item> -->
+					</el-form>
+					
+					<div class="dialog-footer">
+						<el-button @click="dialogFormVisible = false">取 消</el-button>
+						<el-button type="primary" @click="createUser">确 定</el-button>
+					</div>
                 </div>
                 <div id="mid"></div>
                 <div id="right">
@@ -88,73 +86,118 @@
 </template>
 
 <script>
+import VueGetCode from 'vue-get-code'
 export default {
-  data() {
-    return {
-      userName: '',
-      password: '',
+	components:{VueGetCode},
+	data() {
+		return {
+			userName: '',
+			password: '',
 
-      //dialog form data
-      dialogFormVisible: false,
-      form: {},
-      formLabelWidth: '80px',
+			//dialog form data
+			dialogFormVisible: false,
+			form: {},
+			formLabelWidth: '80px',
 
-      pwdShow: true,
+			pwdShow: true,
 
-      autoLogin:false,
-      rememberPwd:false
-    };
-  },
-  methods:{
-    login(){
-      this.$axios({
-        method: "post",
-        url: "/user/login",
-        data: {
-          userName: this.userName,
-          password: this.password
-        }
-      }).then(res => {
-        if(res.data.code == 200){
-          //放入localStorage
-          /*localStorage适合浏览器历史记录和用过的用户名密码,而Cookie更适用于保持登录的状态,比如存储一个isLogin和登录用户的信息*/
-          if(localStorage.getItem(this.userName) == null){
-            localStorage.setItem(this.userName,this.password);
-          }
-          this.$store.dispatch('setUser',res.data.data)
-          //这个是否登录可能需要存在cookie里
-          this.$store.commit('setIsLogin',true);
-          //路由转换
-          this.$router.push({path:'/allUser'})
-        }
-        else{
-          this.$message.error(res.data.msg);
-        }
-      }).catch(res => {
-        this.$message.error("服务器错误，稍等会再登录")
-        console.log(res);
-      });
-    },
+			autoLogin:false,
+			rememberPwd:false,
+			
+			//验证码
+			phone:''
+		};
+	},
+	methods:{
+		login(){
+			this.$axios({
+				method: "post",
+				url: "/user/login",
+				data: {
+					userName: this.userName,
+					password: this.password
+				}
+			}).then(res => {
+				if(res.data.code == 200){
+					//放入localStorage
+					/*localStorage适合浏览器历史记录和用过的用户名密码,而Cookie更适用于保持登录的状态,比如存储一个isLogin和登录用户的信息*/
+					if(localStorage.getItem(this.userName) == null){
+						localStorage.setItem(this.userName,this.password);
+					}
+					this.$store.dispatch('setUser',res.data.data)
+					//这个是否登录可能需要存在cookie里
+					this.$store.commit('setIsLogin',true);
+					//路由转换
+					this.$router.push({path:'/'})
+				}else{
+					this.$message.error(res.data.msg);
+				}
+			}).catch(res => {
+				this.$message.error("服务器错误，稍等会再登录")
+				console.log(res);
+			});
+		},
 
-    createUser(){
-      this.dialogFormVisible = false;
-      this.addUser(this.form);
-    },
+		createUser(){
+			this.dialogFormVisible = false;
+			this.addUser(this.form);
+		},
 
-    addUser(user){
-      axios({
-          method: "post",
-          url: "/user/add",
-          data: user
-      }).then(res => {
-          this.form = {}
-      });
-    },
-    }
+		addUser(user){
+			this.$axios({
+				method: "get",
+				url: "/user/add",
+				params: {
+					userName: this.form.name,
+					pwd: this.form.password,
+				}
+			}).then(res => {
+				this.form = {}
+				if(res.data.code == 200){
+					this.$message({
+			        	type: 'success',
+						message: res.data.msg
+					})
+				}else{
+					this.$message.error(res.data.msg);
+				}
+			}).catch(err => {
+				this.$message.error("服务器错误，稍等会再注册")
+				console.log(res);
+			});
+		},
+
+		// 调用获取验证码的接口，此函数请返回 Promise 对象
+		 getCode() {
+			if (this.phone.length < 7) {
+				alert('请填写正确的手机号码')
+				throw '请填写正确的手机号码' // 抛出错误，中断 Promise chain
+			}
+
+			let mockApi = 'https://cdn.jsdelivr.net/npm/vue@2/package.json'
+			return fetch(mockApi)
+    	},
+		log() {
+			console.log(JSON.stringify(arguments))
+		}
+	}
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+
+	//验证码组件
+	.vue-get-code {
+		color: #1092ed;
+		cursor: pointer;
+		float: right;
+	}
+	.vue-get-code::after{
+		clear: both;
+	}
+	.vue-get-code.enable-countdown {
+  		cursor: not-allowed;
+	}
 /* text */
   #login-guide-reg{
     margin: 35px 0 22px 39px;

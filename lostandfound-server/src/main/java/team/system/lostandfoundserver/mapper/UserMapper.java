@@ -21,24 +21,24 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Insert("insert into user (username,password,age,address,sex,tag)  values(#{userName},#{password},#{age},#{address},#{sex},#{tag}) ")
+    @Insert("insert into user_base (uid,user_name,password)  values(#{uid},#{userName},#{password}) ")
     boolean addUser(User user);
 
-    @Select("select * from user")
+    @Select("select * from user_base")
     List<User> findAll();
 
-    @Select("select * from user limit #{currentIndex},#{endIndex}")
+    @Select("select * from user_base limit #{currentIndex},#{endIndex}")
     List<User> findByPage(Integer currentIndex,Integer endIndex);
 
-    @Update("update user set username = #{userName},password = #{password},age = #{age},address = #{address},sex = #{sex},tag = #{tag}, where id = #{id}")
+    @Update("update user_base set username = #{userName},password = #{password},age = #{age},address = #{address},sex = #{sex},tag = #{tag}, where id = #{id}")
     Boolean update(User user);
 
-    @Delete("delete from user where id = #{id}")
+    @Delete("delete from user_base where id = #{id}")
     Boolean delete(Integer id);
 
-    @Select("select * from user where userName = #{userName}")
+    @Select("select * from user_base where user_name = #{userName}")
     User findByUserName(String userName);
 
-    @Select("select count(*) from user")
+    @Select("select count(*) from user_base")
     Integer countUser();
 }

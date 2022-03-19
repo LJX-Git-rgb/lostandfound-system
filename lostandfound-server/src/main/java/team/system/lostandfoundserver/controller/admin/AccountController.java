@@ -1,4 +1,5 @@
-package team.system.lostandfoundserver.controller;
+/*
+package team.system.lostandfoundserver.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,24 +7,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import team.system.lostandfoundserver.domain.LoginUser;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+*/
 /**
  * @ClassName: UserController
  * @Description:
  * @Author: Jason
  * @Date: 2022/2/14 3:53 下午
  * @Version: 1.0
- */
+ *//*
+
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+//@RequestMapping("/user")
+public class AccountController {
 
     @Autowired
     private UserServiceImpl userService;
@@ -54,9 +56,9 @@ public class UserController {
 
 //   因为get传参有问题，只能封装对象来进行接受参数
     @RequestMapping("/login")
-    public Result<User> login(@RequestBody LoginUser loginUser){
+    public Result<User> login(String userName,String password){
         Result<User> loginResult;
-        User user = userService.login(loginUser.getUserName(), loginUser.getPassword());
+        User user = userService.login(userName,password);
         loginResult = Result.success(user);
         if (user == null){
             loginResult = Result.error("500", "抱歉，未查询到该用户，请检查您的用户名");
@@ -86,3 +88,4 @@ public class UserController {
         }
     }
 }
+*/
