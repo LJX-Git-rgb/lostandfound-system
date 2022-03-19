@@ -10,53 +10,57 @@ import WechatLogin from '../views/login/wechatLogin.vue'
 import AccountInfo from '../views/mainsite/PersonInfo.vue'
 import LostGoodsInfo from '../views/LostGoodsInfo.vue';
 import FindGoodsInfo from '../views/FindGoodsInfo.vue';
-
+import FindGoods from '../views/mainsite/FindGoods.vue'
 
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'mainSite',
-    component: MainSite,
-    children:[
-      {
-        path: 'accountInfo',
-        name: 'accountInfo',
-        component:AccountInfo
-      },
+	path: '/',
+	name: 'mainSite',
+	component: MainSite,
+	children:[
       
-      {
-        path: '/',
-        component: MainSiteBody
-      },
+		{
+			path: '/',
+			component: MainSiteBody
+		},
 
-      {
-        path:'lostgood',
-        component: LostGoodsInfo,
-      },
+		{
+			path: 'accountInfo',
+			name: 'accountInfo',
+			component:AccountInfo
+		},
+		{
+			path: 'findgoods',
+			component: FindGoods,
+		},
+		{
+		path:'lostgood/:id',
+			component: LostGoodsInfo,
+		},
 
-      {
-        path:'findgood/:id',
-        component: FindGoodsInfo
-      }
+		{
+		path:'findgood/:id',
+			component: FindGoodsInfo
+		}
     ]
   },
   {
-    path: '/login',
-    name: 'login',
-    component: Login,
-    children:[
-      {
-        path: '/',
-        component: NormalLogin
-      },
-      {
-        path: 'wechat',
-        component: WechatLogin
-      }
-    ]
+	path: '/login',
+	name: 'login',
+	component: Login,
+	children:[
+		{
+			path: '/',
+			component: NormalLogin
+		},
+		{
+			path: 'wechat',
+			component: WechatLogin
+		}
+	]
   },
   {
     path: '/admin',
