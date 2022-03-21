@@ -5,8 +5,7 @@
     <div id="space"></div>
     
     <div id="rightTop">
-      
-      <el-dropdown @command="handleCommand" v-if="this.$store.state.isLogin">
+      <el-dropdown @command="handleCommand" v-if="this.$store.state.adminIsLogin">
         <span class="el-dropdown-link">
           我的信息
           <i class="el-icon-arrow-down el-icon--right"></i>
@@ -17,13 +16,8 @@
           <el-dropdown-item>退出账号</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      
-      <div id="unLogin" v-if="!this.$store.state.isLogin">
-        <el-button type="primary" @click="transLogin" size = "small">点我登录</el-button>
-      </div>
-
     </div>
-
+    
   </div>
 </template>
 

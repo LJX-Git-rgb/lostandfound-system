@@ -1,40 +1,64 @@
 <template>
     <el-menu
-        default-active="2"
+        default-active="1"
         class="el-menu-vertical-demo"
         @open="handleOpen"
-        @close="handleClose">
+        @close="handleClose"
+        @select="handleSelect">
 
-        <el-menu-item index="1">
-                <i class="el-icon-location"></i>
-                <span>用户管理</span>
-        </el-menu-item>
+        <el-submenu index="userInfo">
+            <template slot="title"><i class="el-icon-s-custom"></i>用户信息管理</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+            <el-submenu index="2-4">
+                <template slot="title">选项4</template>
+                <el-menu-item index="2-4-1">选项1</el-menu-item>
+                <el-menu-item index="2-4-2">选项2</el-menu-item>
+                <el-menu-item index="2-4-3">选项3</el-menu-item>
+            </el-submenu>
+        </el-submenu>
 
-        <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">失物招领管理</span>
-        </el-menu-item>
-        
-        <el-menu-item index="3">
-            <i class="el-icon-setting"></i>
-            <span slot="title">寻物启事管理</span>
-        </el-menu-item>
-        
-        <el-menu-item index="3">
-            <i class="el-icon-setting"></i>
-            <span slot="title">公告管理</span>
-        </el-menu-item>
+       <el-submenu index="findGoods">
+            <template slot="title"><i class="el-icon-message-solid"></i>寻物启事管理</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+        </el-submenu>
+        <el-submenu index="lostGoods">
+            <template slot="title"><i class="el-icon-message-solid"></i>失物招领管理</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+        </el-submenu>
+        <el-submenu index="announcement">
+            <template slot="title"><i class="el-icon-s-comment"></i>公告管理</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+        </el-submenu>
+        <el-submenu index="myInfo">
+            <template slot="title"><i class="el-icon-s-cooperation"></i>我的信息</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+        </el-submenu>
+
     </el-menu>
 </template>
 
 <script>
 export default {
     methods: {
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath);
+        handleOpen(index, keyPath) {
+            console.log("open: ",index, keyPath);
         },
-        handleClose(key, keyPath) {
-            console.log(key, keyPath);
+        handleClose(index, keyPath) {
+            console.log("close: ",index, keyPath[keyPath.length-1]);
+        },
+        handleSelect(index, keyPath) {
+           //根据index进行路由跳转
+           router.push(index)
         }
     }
 }
