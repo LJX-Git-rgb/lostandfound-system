@@ -7,17 +7,22 @@
 
         <el-menu-item index="1">
                 <i class="el-icon-location"></i>
-                <span>导航一</span>
+                <span>用户管理</span>
         </el-menu-item>
 
         <el-menu-item index="2">
             <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
+            <span slot="title">失物招领管理</span>
         </el-menu-item>
         
         <el-menu-item index="3">
             <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
+            <span slot="title">寻物启事管理</span>
+        </el-menu-item>
+        
+        <el-menu-item index="3">
+            <i class="el-icon-setting"></i>
+            <span slot="title">公告管理</span>
         </el-menu-item>
     </el-menu>
 </template>

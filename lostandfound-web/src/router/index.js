@@ -11,7 +11,7 @@ import AccountInfo from '../views/mainsite/PersonInfo.vue'
 import LostGoodsInfo from '../views/LostGoodsInfo.vue';
 import FindGoodsInfo from '../views/FindGoodsInfo.vue';
 import FindGoods from '../views/mainsite/FindGoods.vue'
-
+import AdminLogin from '../views/login/AdminLogin.vue';
 
 Vue.use(VueRouter)
 
@@ -67,11 +67,17 @@ const routes = [
     name: 'adminSite',
     component: AdminSite,
     children:[
-      {
-        path: 'allUser', 
-        name: 'UserInfo',
-        component: UserInfo
-      }
+		{
+			path: 'login',
+			name: 'login',
+			component: AdminLogin
+
+		},
+		{
+			path: 'allUser', 
+			name: 'UserInfo',
+			component: UserInfo
+		}
     ]
   },
 ]
