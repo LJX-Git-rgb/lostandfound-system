@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import MainSiteHeader from '../../components/MainSiteHeader.vue';
+import MainSiteHeader from '../../components/mainsite/MainSiteHeader.vue';
 import vueCanvasNest from '../../../node_modules/vue-canvas-nest/src/vueCanvasNest.vue'
 
 export default {

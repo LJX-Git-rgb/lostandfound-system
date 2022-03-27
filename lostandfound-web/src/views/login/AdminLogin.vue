@@ -26,6 +26,9 @@ export default {
 		}
 	},
 	methods:{
+		adminLogin(){
+			console.log("adminLogin")
+		}
 	},
 }
 </script>

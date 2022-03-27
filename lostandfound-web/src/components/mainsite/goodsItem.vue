@@ -4,7 +4,7 @@
             <el-col v-for="(o, index) in 4" :key="o" :offset="index > 0 ? 1 : 0">
                 <a :href="'lostgood?id=' + id">
                     <el-card :body-style="{ padding: '10px'}">
-                        <img src="../assets/image/login_backImg.jpeg" class="image">
+                        <img src="../../assets/image/login_backImg.jpeg" class="image">
                         <div id="card-text">
                             <center>对图片的形容</center>
                         </div>

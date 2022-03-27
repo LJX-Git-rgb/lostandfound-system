@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import MyHeader from '../../components/AdminHeader.vue'
-import MySide from '../../components/AdminSide.vue'
+import MyHeader from '../../components/admin/AdminHeader.vue'
+import MySide from '../../components/admin/AdminSide.vue'
 export default {
   components: { MySide, MyHeader },
 }

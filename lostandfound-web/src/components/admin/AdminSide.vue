@@ -6,9 +6,9 @@
         @close="handleClose"
         @select="handleSelect">
 
-        <el-submenu index="userInfo">
+        <el-submenu index="account/">
             <template slot="title"><i class="el-icon-s-custom"></i>用户信息管理</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="allUser">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
             <el-submenu index="2-4">
@@ -43,7 +43,6 @@
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
-
     </el-menu>
 </template>
 
@@ -58,7 +57,7 @@ export default {
         },
         handleSelect(index, keyPath) {
            //根据index进行路由跳转
-           router.push(index)
+           this.$router.push({path:index})
         }
     }
 }

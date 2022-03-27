@@ -5,7 +5,7 @@
                 <li>
                     <a href="/" id="home">
                         <!-- logo -->
-                        <img src="../assets/image/login_backImg.jpeg" alt="">
+                        <img src="../../assets/image/login_backImg.jpeg" alt="">
                         <span>首页</span>
                     </a>
                 </li>
@@ -20,6 +20,7 @@
                 </div>
             </div>
             <ul id="right-menu">
+                <li class="upload"><a href="/upload" @click="checkCity"><span>我要发布</span></a></li>
                 <li>
                     <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
@@ -53,7 +54,7 @@
             </ul>
         </div>
         <div id="header-banner">
-            <img src="../assets/image/login_backImg.jpeg" alt="">
+            <img src="../../assets/image/login_backImg.jpeg" alt="">
         </div>
     </div>
 </template>
@@ -185,7 +186,7 @@ export default {
             #right-menu{
                 display: flex;
                 align-items: center;
-                margin-left: 5%;
+                margin-left: 2%;
                 padding-right: 3%;
 
                 li{

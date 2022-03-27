@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import goodsItem from '../../components/goodsItem.vue'
+import goodsItem from '../../components/mainsite/goodsItem.vue'
 export default {
 	components: { goodsItem },
 	data () {

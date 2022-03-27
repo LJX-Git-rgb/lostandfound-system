@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import UserInfo from '../views/adminsite/UserInfo.vue'
+
+import AllUser from '../views/adminsite/UserInfo.vue'
 import MainSite from '../views/mainsite/MainSite.vue'
 import AdminSite from "../views/adminsite/AdminSite.vue";
 import MainSiteBody from '../views/mainsite/MainSiteBody.vue'
@@ -8,14 +9,15 @@ import Login from '../views/login/Login.vue'
 import NormalLogin from '../views/login/NormalLogin.vue'
 import WechatLogin from '../views/login/wechatLogin.vue'
 import AccountInfo from '../views/mainsite/PersonInfo.vue'
-import LostGoodsInfo from '../views/LostGoodsInfo.vue';
-import FindGoodsInfo from '../views/FindGoodsInfo.vue';
+import LostGoodsInfo from '../views/mainsite/LostGoodsInfo.vue';
+import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
 import FindGoods from '../views/mainsite/FindGoods.vue'
 import AdminLogin from '../views/login/AdminLogin.vue';
 
 Vue.use(VueRouter)
 
 const routes = [
+// mainsite路由
   {
 	path: '/',
 	name: 'mainSite',
@@ -37,6 +39,10 @@ const routes = [
 			component: FindGoods,
 		},
 		{
+			path: 'upload',
+			component: FindGoods,
+		},
+		{
 		path:'lostgood/:id',
 			component: LostGoodsInfo,
 		},
@@ -47,6 +53,8 @@ const routes = [
 		}
     ]
   },
+  
+//  login路由
   {
 	path: '/login',
 	name: 'login',
@@ -62,6 +70,8 @@ const routes = [
 		}
 	]
   },
+  
+//   admin路由
   {
     path: '/admin',
     name: 'adminSite',
@@ -71,12 +81,10 @@ const routes = [
 			path: 'login',
 			name: 'login',
 			component: AdminLogin
-
 		},
 		{
-			path: 'allUser', 
-			name: 'UserInfo',
-			component: UserInfo
+			path: 'allUser',
+			component: AllUser
 		}
     ]
   },
