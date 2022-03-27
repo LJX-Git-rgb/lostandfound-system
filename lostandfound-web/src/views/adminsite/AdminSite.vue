@@ -13,6 +13,20 @@ import MyHeader from '../../components/admin/AdminHeader.vue'
 import MySide from '../../components/admin/AdminSide.vue'
 export default {
   components: { MySide, MyHeader },
+    mounted() {
+        //应该先判断管理员是否登录
+        if(this.$store.state.adminIsLogin == true){
+            this.$router.push({
+            path : '/admin',
+          })
+        }
+        else{
+          this.$message.error("先登录行不行")
+          this.$router.push({
+            path : '/admin/login',
+          })
+        }
+    },
 }
 </script>
 

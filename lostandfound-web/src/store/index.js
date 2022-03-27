@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin:false,
     user:{
       id:"",
       userName:"",
@@ -14,26 +13,36 @@ export default new Vuex.Store({
       age:"",
       sex:"",
       tag:"",
+      isLogin:false,
+    },
+    admin:{
+      adminIsLogin: false
     }
   },
   getters:{
-
+    adminIsLogin(state){
+      return state.admin.adminIsLogin;
+    }
   },
-  
   mutations: {
     setUser(state,user){
-      state.user = user
+      let loginUser = user
+      state.user = loginUser
+      user.isLogin = true;
     },
-    setIsLogin(state,flag){
-      state.isLogin = flag;
+    setAdminLogin(state,flag){
+      state.admin.adminIsLogin = flag;
     }
   },
   actions: {
     setUser(context,user){
       context.commit('setUser',user);
+    },
+    setAdminLogin(context,flag){
+      context.commit('setAdminLogin',flag);
+    },
+    setUserLogin(context,flag){
+      context.commit('setUserLogin',flag);
     }
   },
-
-  modules: {
-  }
 })

@@ -27,7 +27,19 @@ export default {
 	},
 	methods:{
 		adminLogin(){
-			console.log("adminLogin")
+		    console.log("adminLogin");
+          //登录功能
+          // this.$axios({
+          //   url: ""
+          // }).then({
+          //
+          // }).catch({
+          //
+          // })
+            this.$router.push({
+                path : "allUser"
+            })
+            this.$store.dispatch('setAdminLogin',true);
 		}
 	},
 }

@@ -126,7 +126,6 @@ export default {
 					}
 					this.$store.dispatch('setUser',res.data.data)
 					//这个是否登录可能需要存在cookie里
-					this.$store.commit('setIsLogin',true);
 					//路由转换
 					this.$router.push({path:'/'})
 				}else{

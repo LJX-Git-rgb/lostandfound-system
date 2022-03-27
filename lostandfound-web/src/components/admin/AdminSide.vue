@@ -4,9 +4,10 @@
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
-        @select="handleSelect">
+        @select="handleSelect"
+        router>
 
-        <el-submenu index="account/">
+        <el-submenu index="account/" :disabled="this.adminLogin == false">
             <template slot="title"><i class="el-icon-s-custom"></i>用户信息管理</template>
             <el-menu-item index="allUser">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
@@ -19,25 +20,31 @@
             </el-submenu>
         </el-submenu>
 
-       <el-submenu index="findGoods">
+       <el-submenu index="findGoods" :disabled="this.adminLogin == false">
             <template slot="title"><i class="el-icon-message-solid"></i>寻物启事管理</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
-        <el-submenu index="lostGoods">
+        <el-submenu index="lostGoods" :disabled="this.adminLogin == false">
             <template slot="title"><i class="el-icon-message-solid"></i>失物招领管理</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
-        <el-submenu index="announcement">
+        <el-submenu index="announcement" :disabled="this.adminLogin == false">
             <template slot="title"><i class="el-icon-s-comment"></i>公告管理</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
-        <el-submenu index="myInfo">
+        <el-submenu index="myInfo" :disabled="this.adminLogin == false">
+          <template slot="title"><i class="el-icon-s-cooperation"></i>管理员管理</template>
+          <el-menu-item index="2-1">选项1</el-menu-item>
+          <el-menu-item index="2-2">选项2</el-menu-item>
+          <el-menu-item index="2-3">选项3</el-menu-item>
+        </el-submenu>
+        <el-submenu index="myInfo" :disabled="this.adminLogin == false">
             <template slot="title"><i class="el-icon-s-cooperation"></i>我的信息</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
@@ -48,17 +55,17 @@
 
 <script>
 export default {
-    methods: {
-        handleOpen(index, keyPath) {
-            console.log("open: ",index, keyPath);
-        },
-        handleClose(index, keyPath) {
-            console.log("close: ",index, keyPath[keyPath.length-1]);
-        },
-        handleSelect(index, keyPath) {
-           //根据index进行路由跳转
-           this.$router.push({path:index})
+    computed: {
+        adminLogin(){
+            return this.$store.getters.adminIsLogin;
         }
+    },
+    data(){
+        return{
+            adminIsLogin:this.$store.getters.adminIsLogin,
+        }
+    },
+    methods: {
     }
 }
 </script>

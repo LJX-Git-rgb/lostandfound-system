@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <div id="logo">失物招领</div>
+    <div id="logo"><a href="/">失物招领</a></div>
     
     <div id="space"></div>
     
@@ -46,11 +46,12 @@ export default {
     border-bottom: 1px solid #ccc;
     display: flex;
   }
-  #logo{
-    width: 200px;
-    margin-left: 20px;
-    font-weight: bold;
-    color: #409EFF;
+  #logo a{
+      width: 200px;
+      margin-left: 20px;
+      font-weight: bold;
+      font-size: 20px;
+      color: #409EFF;
   }
   #space{
     flex: 1;

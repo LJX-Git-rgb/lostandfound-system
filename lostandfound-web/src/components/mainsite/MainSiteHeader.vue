@@ -35,7 +35,7 @@
                 <li class="el-icon-location-information location"><a @click="checkCity"><span>{{location}}</span></a></li>
                 <li>
                     <div id="loginInfo">
-                        <el-dropdown @command="handleCommand" v-if="this.$store.state.isLogin">
+                        <el-dropdown @command="handleCommand" v-if="this.$store.state.user.isLogin">
                             <span class="el-dropdown-link">
                                 我的信息<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
@@ -46,7 +46,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                         
-                        <div id="unLogin" v-if="!this.$store.state.isLogin">
+                        <div id="unLogin" v-if="!this.$store.state.user.isLogin">
                             <el-button type="primary" @click="transLogin" size = "small">点我登录</el-button>
                         </div>
                     </div>
