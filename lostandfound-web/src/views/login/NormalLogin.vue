@@ -3,7 +3,7 @@
         <div id="login-guide-reg">
             <h3>欢迎登录失物招领网</h3>
             <p>
-                没有账号？去<span id="register" @click="dialogFormVisible = true">注册</span>
+                没有账号？去<span id="register" @click="regist">注册</span>
             </p>
         </div>
         <!-- login form -->
@@ -53,21 +53,26 @@
 							<el-input v-model="form.password" placeholder="设置您的密码"></el-input>
 						</el-form-item>
 
-						<!-- <el-form-item label="验证码">
-							<el-input placeholder="请输入电话号码" v-model="phone"/>
-							验证码：未完善
-							<vue-get-code
-								:getCode="getCode"
-								:interval="30"
-								:disable="!phone"
-								>
-								
-								<template v-slot:default="child">{{child.count<=0 ? "haha" : "嘿嘿"}}"+"{{child}}</template>
-								<template v-slot:countdown="child">请等待{{ child.data.interval - child.data.seconds }}秒</template>
-							</vue-get-code>
-						</el-form-item> -->
+						<el-form-item label="验证码" id="identifyCode">
+<!--							<el-input placeholder="请输入电话号码" v-model="phone"/>-->
+<!--							验证码：未完善-->
+<!--							<vue-get-code-->
+<!--								:getCode="getCode"-->
+<!--								:interval="30"-->
+<!--								:disable="!phone"-->
+<!--								>-->
+<!--								-->
+<!--								<template v-slot:default="child">{{child.count<=0 ? "haha" : "嘿嘿"}}"+"{{child}}</template>-->
+<!--								<template v-slot:countdown="child">请等待{{ child.data.interval - child.data.seconds }}秒</template>-->
+<!--							</vue-get-code>-->
+                            <el-input v-model="checkCode" placeholder="请输入验证码"></el-input>
+                            <div id="get-code" @click="refreshCode">
+                                <SIdentify :identifyCode="identifyCode"></SIdentify>
+                            </div>
+						</el-form-item>
+
 					</el-form>
-					
+
 					<div class="dialog-footer">
 						<el-button @click="dialogFormVisible = false">取 消</el-button>
 						<el-button type="primary" @click="createUser">确 定</el-button>
@@ -87,9 +92,10 @@
 
 <script>
 import VueGetCode from 'vue-get-code'
+import SIdentify from "@/components/SIdentify";
 export default {
-	components:{VueGetCode},
-	data() {
+	components:{SIdentify, VueGetCode},
+    data() {
 		return {
 			userName: '',
 			password: '',
@@ -103,12 +109,33 @@ export default {
 
 			autoLogin:false,
 			rememberPwd:false,
-			
+
 			//验证码
-			phone:''
+			checkCode:'',
+            identifyCode: "",
+            identifyCodes: "0123456789abcdwerwshdjeJKDHRJHKOOPLMKQ",//绘制的随机数
 		};
 	},
 	methods:{
+        randomNum (min, max) {
+            max = max + 1
+            return Math.floor(Math.random() * (max - min) + min)
+        },
+        // 随机生成验证码字符串
+        makeCode (data, len) {
+            for (let i = 0; i < len; i++) {
+                this.identifyCode += data[this.randomNum(0, data.length - 1)]
+            }
+        },
+        refreshCode() {
+            this.identifyCode = "";
+            this.makeCode(this.identifyCodes,4);
+        },
+        regist(){
+            this.dialogFormVisible = true;
+            this.refreshCode()
+        },
+
 		login(){
 			this.$axios({
 				method: "post",
@@ -214,7 +241,7 @@ export default {
     color: #2e58ff;
     cursor: pointer;
   }
-  
+
 /* form */
   .login-form{
     margin-top: 45px;
@@ -238,6 +265,11 @@ export default {
     margin-left: 60%;
     font-size: 12px;
     color: #2e58ff;
+  }
+  /deep/ #identifyCode .el-form-item__content{
+      display: flex;
+      #get-code{
+      }
   }
 
 /* dialog */
@@ -265,7 +297,7 @@ export default {
     width: 300px;
     height: 250px;
   }
-  
+
   /* dialog footer */
   .dialog-footer{
     display: flex;
