@@ -48,17 +48,22 @@
                 </li>
                 <li>
                     <div id="loginInfo">
-                        <el-dropdown @command="handleCommand" v-if="this.$store.state.user.isLogin">
-                            <span class="el-dropdown-link">
-                                我的信息<i class="el-icon-arrow-down el-icon--right"></i>
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item command="personInfo">个人中心</el-dropdown-item>
-                                <el-dropdown-item command="setting">设置</el-dropdown-item>
-                                <el-dropdown-item command="quit">退出账号</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                        
+                        <div v-if="this.$store.state.user.isLogin" id="userImg">
+                            <img src="../../assets/image/haha.jpeg" alt="" @click="$router.push({path: 'myInfo'})">
+                            <div>
+                                <el-dropdown @command="handleCommand">
+                                    <span class="el-dropdown-link">
+                                        {{ $store.state.user.userName }}<i class="el-icon-arrow-down el-icon--right"></i>
+                                    </span>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item command="personInfo">个人中心</el-dropdown-item>
+                                        <el-dropdown-item command="setting">设置</el-dropdown-item>
+                                        <el-dropdown-item command="quit">退出账号</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </div>
+                        </div>
+
                         <div id="unLogin" v-if="!this.$store.state.user.isLogin">
                             <el-button type="primary" @click="$router.push({path:'/login'})" size = "small">点我登录</el-button>
                         </div>
@@ -89,7 +94,8 @@ export default {
             }else if(command == 'setting'){
                 console.log("setting")
             }else if(command == 'quit'){
-                this.$store.state.isLogin = false;
+                console.log("quit")
+                this.$store.state.user.isLogin = false;
             }else if(command == 'lostGoods'){
                 console.log("lost")
             }else if(command == 'findGoods'){
@@ -285,6 +291,26 @@ export default {
         #loginInfo{
             width: 100px;
             margin-left: 20px;
+
+            #userImg {
+                display: flex;
+                flex-direction: column;
+                width: 100px;
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    margin: auto;
+                    cursor: pointer;
+                }
+
+                div {
+                    line-height: 0px;
+                    margin: auto;
+                    margin-top: 1px;
+                }
+            }
         }
         #unLogin button{
             border-radius: 10px;
