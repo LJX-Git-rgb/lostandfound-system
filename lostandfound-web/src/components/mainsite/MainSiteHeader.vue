@@ -20,7 +20,7 @@
                 </div>
             </div>
             <ul id="right-menu">
-                <li class="upload"><a href="/upload" @click="checkCity"><span>我要发布</span></a></li>
+                <li class="upload"><a href="/upload" @click="changeCity"><span>我要发布</span></a></li>
                 <li>
                     <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
@@ -32,7 +32,20 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </li>
-                <li class="el-icon-location-information location"><a @click="checkCity"><span>{{location}}</span></a></li>
+                <li class="el-icon-location-information location">
+                    <el-popover
+                        width="100"
+                        trigger="click"
+                        >
+                        <div id="changeCity">
+                            <el-input placeholder="输入市区" v-model="searchLocation"></el-input>
+                            <el-button @click="changeCity">更改</el-button>
+                        </div>
+                        <a slot="reference">
+                            <span>{{location}}</span>
+                        </a>
+                    </el-popover>
+                </li>
                 <li>
                     <div id="loginInfo">
                         <el-dropdown @command="handleCommand" v-if="this.$store.state.user.isLogin">
@@ -47,7 +60,7 @@
                         </el-dropdown>
                         
                         <div id="unLogin" v-if="!this.$store.state.user.isLogin">
-                            <el-button type="primary" @click="transLogin" size = "small">点我登录</el-button>
+                            <el-button type="primary" @click="$router.push({path:'/login'})" size = "small">点我登录</el-button>
                         </div>
                     </div>
                 </li>
@@ -64,7 +77,9 @@ export default {
     data() {
         return {
             searchInput:"",
+            searchLocation:"",
             location:"我的位置",
+            map:[],
         }
     },
     methods: {
@@ -86,11 +101,21 @@ export default {
                 });
             }
         },
-        transLogin(){
-            this.$router.push({path:'/login'})
-        },
-        checkCity(){
-            
+        changeCity(){
+            //  关键字搜索
+            this.$jsonp("https://apis.map.qq.com/ws/district/v1/search?keyword=" + this.searchLocation, {
+                key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
+                output:'jsonp',
+            }).then(res => {
+                if(res.message == 'query ok'){
+                    console.log(res.result)
+                    this.searchLocation = '';
+                    this.location = res.result[0][0].fullname;
+                }
+            }).catch(err => {
+                console.log("catch", err);
+            });
+
         }
     },
     mounted() {        
@@ -101,22 +126,49 @@ export default {
         }).then(res => {
             if(res.message == 'Success' || res.state == 0){
                 console.log(res.result.ad_info);
-                this.location = res.result.ad_info.city
+                if (this.location == "我的位置") {
+                    this.location = res.result.ad_info.city
+                }
             }
         }).catch(err => {
-            console.log("catch", err);
+            console.log("catch： ", err);
         });
-        // 获取全国地区
-        this.$jsonp("https://apis.map.qq.com/ws/district/v1/list", {
-            key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
-            output:'jsonp'
-        }).then(res => {
-            if(res.message == 'query ok'){
-                console.log(res.result);
-            }
-        }).catch(err => {
-            console.log("catch", err);
-        });
+
+        // // 获取全国地区
+        // this.$jsonp("https://apis.map.qq.com/ws/district/v1/list", {
+        //     key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
+        //     output:'jsonp'
+        // }).then(res => {
+        //     if(res.message == 'query ok'){
+        //         console.log(res.result);
+        //     }
+        // }).catch(err => {
+        //     console.log("catch", err);
+        // });
+
+        // //根据行政区号匹配 子地区
+        // this.$jsonp("https://apis.map.qq.com/ws/district/v1/getchildren?id=" + "110000", {
+        //     key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
+        //     output:'jsonp',
+        // }).then(res => {
+        //     if(res.message == 'query ok'){
+        //         console.log("getchildren", res.result);
+        //     }
+        // }).catch(err => {
+        //     console.log("catch", err);
+        // });
+        //
+        // //  关键字搜索
+        // this.$jsonp("https://apis.map.qq.com/ws/district/v1/search?keyword=" + "郑州", {
+        //     key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
+        //     output:'jsonp',
+        // }).then(res => {
+        //     if(res.message == 'query ok'){
+        //         console.log(res.result);
+        //     }
+        // }).catch(err => {
+        //     console.log("catch", err);
+        // });
     },
 }
 </script>
@@ -243,5 +295,12 @@ export default {
             font-size: 18px;
             font-weight: 600;
         }
+    }
+
+    #changeCity .el-button.el-button--default{
+        width: 100%;
+        background-color: #409eff;
+        color: #ffffff;
+        margin-top: 5px;
     }
 </style>

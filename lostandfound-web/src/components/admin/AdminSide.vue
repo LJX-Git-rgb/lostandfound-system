@@ -39,7 +39,7 @@
             <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
         <el-submenu index="myInfo" :disabled="this.adminLogin == false">
-          <template slot="title"><i class="el-icon-s-cooperation"></i>管理员管理</template>
+          <template slot="title"><i class="el-icon-s-cooperation"></i>管理员权限管理</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>

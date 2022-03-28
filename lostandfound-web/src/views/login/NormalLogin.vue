@@ -92,7 +92,7 @@
 
 <script>
 import VueGetCode from 'vue-get-code'
-import SIdentify from "@/components/SIdentify";
+import SIdentify from "@/components/utils/SIdentify";
 export default {
 	components:{SIdentify, VueGetCode},
     data() {
