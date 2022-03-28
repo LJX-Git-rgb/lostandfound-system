@@ -5,7 +5,7 @@
   4. 注册需要的验证码（网上搜搜应该有组件）
   5. 忘记/找回密码（仿照注册写就可以，关键点在于完整的逻辑，需要发邮件的工具类）
   6. 两种登录方式的切换效果，主要是样式（很简单）
-  
+
   7. 修改成响应式布局 （尽量）
   
   大问题
@@ -16,7 +16,7 @@
       <img src="../../assets/image/login_backImg.jpeg" alt="">
     </div>
     <div id="login-logo">
-      <!-- <img src="https://passport.baidu.com/static/passpc-account/img/baidu.png" alt=""> -->
+       <img src="../../assets/image/logo.png" alt="">
     </div>
     <div id="login-text">
       <h3>用互联网</h3>
@@ -71,12 +71,8 @@ export default {
 /* logo */
   #login-logo{
     position: fixed;
-    left: 70px;
-    top: 60px;
-    width: 124.4px;
-    height: 40px;
-
-    border: 1px solid red;
+    left: 100px;
+    top: 40px;
   }
   #login-logo img{
     width: 100%;
