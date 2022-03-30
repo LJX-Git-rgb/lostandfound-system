@@ -21,7 +21,6 @@ export default {
           })
         }
         else{
-          this.$message.error("先登录行不行")
           this.$router.push({
             path : '/admin/login',
           })
