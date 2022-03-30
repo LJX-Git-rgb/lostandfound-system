@@ -39,7 +39,7 @@ export default {
             this.$router.push({
                 path : "allUser"
             })
-            this.$store.dispatch('setAdminLogin',true);
+            this.$store.dispatch('setAdmin', {});
 		}
 	},
 }

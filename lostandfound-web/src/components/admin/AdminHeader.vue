@@ -15,9 +15,9 @@
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>个人中心</el-dropdown-item>
-                    <el-dropdown-item>设置</el-dropdown-item>
-                    <el-dropdown-item>退出账号</el-dropdown-item>
+                  <el-dropdown-item command="personInfo">个人中心</el-dropdown-item>
+                  <el-dropdown-item command="setting">设置</el-dropdown-item>
+                  <el-dropdown-item command="quit">退出账号</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -29,11 +29,14 @@
 export default {
   methods: {
     handleCommand(command) {
-      this.$message('click on item ' + command);
-    },
-
-    transLogin(){
-      this.$router.push({path:'/login'})
+      if(command == "personInfo"){
+        this.$router.push('/accountInfo');
+      }else if(command == 'setting'){
+        console.log("setting")
+      }else {
+        this.$router.push({path:'login'})
+        this.$store.dispatch('quitLogin',"admin");
+      }
     },
       toUserInfo(){
           this.$router.push({path:'myInfo'})

@@ -95,7 +95,7 @@ export default {
                 console.log("setting")
             }else if(command == 'quit'){
                 console.log("quit")
-                this.$store.state.user.isLogin = false;
+                this.$store.dispatch('quitLogin',"user");
             }else if(command == 'lostGoods'){
                 console.log("lost")
             }else if(command == 'findGoods'){

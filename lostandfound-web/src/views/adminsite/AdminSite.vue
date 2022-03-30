@@ -15,9 +15,9 @@ export default {
   components: { MySide, MyHeader },
     mounted() {
         //应该先判断管理员是否登录
-        if(this.$store.state.adminIsLogin == true){
-            this.$router.push({
-            path : '/admin',
+        if(this.$store.state.admin.adminIsLogin == true){
+          this.$router.push({
+            path : '/admin/allUser',
           })
         }
         else{

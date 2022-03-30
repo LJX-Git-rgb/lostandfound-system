@@ -2,9 +2,6 @@
     <el-menu
         default-active="1"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-        @select="handleSelect"
         router>
 
         <el-submenu index="account/" :disabled="this.adminLogin == false">
