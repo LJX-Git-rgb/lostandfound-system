@@ -22,10 +22,14 @@
       <h3>用互联网</h3>
       <p>让您丢失的物品快速回到您身边</p>
     </div>
-    <div id="login-content">
-      <div id="loginMethod">
-        <div id="normalLogin" @click="showNormalLogin"><span>账号密码登录</span></div>
-        <div id="wechatLogin"  @click="showWechatLogin"><span>微信登录</span></div>
+    <div id="login-content" class="tab">
+      <div id="loginMethod" class="tab_list">
+        <div  id="normalLogin" :class="normalCurrent" @click="showNormalLogin">
+            <span>账号密码登录</span>
+        </div>
+        <div id="wechatLogin" :class="wechatCurrent" @click="showWechatLogin">
+            <span >微信扫码登录</span>
+        </div>
       </div>
       <router-view></router-view>
     </div>
@@ -43,14 +47,20 @@
 export default {
   data() {
     return {
+      normalCurrent:"current",
+      wechatCurrent:"",
     };
   },
   methods:{
     showNormalLogin(){
       this.$router.push({path:'/login'})
+      this.normalCurrent = "current"
+      this.wechatCurrent = ""
     },
     showWechatLogin(){
       this.$router.push({path:'/login/wechat'})
+      this.normalCurrent = ""
+      this.wechatCurrent = "current"
     }
   }
 }
@@ -110,6 +120,11 @@ export default {
     border-radius: 12px;
     overflow: hidden;
   }
+  /*点击改变背景颜色*/
+#login-content .tab_list .current{
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
   #login-content #loginMethod{
     display: flex;
     height: 40px;
@@ -121,20 +136,22 @@ export default {
     flex: 1;
     border-right: 2px solid rgb(200,200,200);
   }
-  #login-content #loginMethod #normalLogin:hover{
-    background-color: aqua;
+  #login-content #loginMethod #normalLogin:hover,
+  #login-content #loginMethod #wechatLogin:hover{
+    opacity: 1;
   }
   #login-content #loginMethod #wechatLogin{
     flex: 1;
   }
-  #login-content #loginMethod #wechatLogin:hover{
-    background-color: aqua;
+  #login-content #loginMethod div {
+    background-color: #cccccc;
+    opacity: 0.7;
+    color: #ffffff;
   }
-  #login-content #loginMethod span{
+#login-content #loginMethod span{
     width: 100%;
     font-size: 20px;
     margin-left: 27%;
-
   }
 
   /* footer&helper */
