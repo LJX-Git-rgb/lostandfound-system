@@ -13,6 +13,7 @@ import LostGoodsInfo from '../views/mainsite/LostGoodsInfo.vue';
 import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
 import FindGoods from '../views/mainsite/FindGoods.vue'
 import AdminLogin from '../views/login/AdminLogin.vue';
+import Upload from "../views/mainsite/upload";
 
 Vue.use(VueRouter)
 
@@ -40,7 +41,7 @@ const routes = [
 		},
 		{
 			path: 'upload',
-			component: FindGoods,
+			component: Upload,
 		},
 		{
 		path:'lostgood/:id',
