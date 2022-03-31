@@ -5,7 +5,7 @@
                 <li>
                     <a href="/" id="home">
                         <!-- logo -->
-                        <img src="../../assets/image/login_backImg.jpeg" alt="">
+                        <img src="../../assets/image/logo.png" alt="">
                         <span>首页</span>
                     </a>
                 </li>
@@ -198,8 +198,8 @@ export default {
     
             /* left menu */
             #left-menu{
-                margin-right: 5%;
-                margin-left: 5%;
+                margin-right: 2%;
+                //margin-left: 5%;
                 display: flex;
                 align-items: center;
                 flex-shrink: 0;
@@ -213,8 +213,8 @@ export default {
                     margin-right: 30px;
 
                     img{
-                        height: 24px;
-                        width: 24px;
+                        height: 50px;
+                        width: 50px;
                     }
                 }
 
@@ -245,7 +245,7 @@ export default {
                 display: flex;
                 align-items: center;
                 margin-left: 2%;
-                padding-right: 3%;
+                padding-right: 4%;
 
                 li{
                     margin: 0 15px;
@@ -289,9 +289,6 @@ export default {
 
         /* login button */
         #loginInfo{
-            width: 100px;
-            margin-left: 20px;
-
             #userImg {
                 display: flex;
                 flex-direction: column;
