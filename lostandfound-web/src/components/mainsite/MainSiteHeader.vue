@@ -97,8 +97,10 @@ export default {
                 console.log("quit")
                 this.$store.dispatch('quitLogin',"user");
             }else if(command == 'lostGoods'){
+                this.$router.push({path:'/mypost'})
                 console.log("lost")
             }else if(command == 'findGoods'){
+                this.$router.push({path:'/mypost'})
                 console.log("find")
             }else{
                 this.$message({

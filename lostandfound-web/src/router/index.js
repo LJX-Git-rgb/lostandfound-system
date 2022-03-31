@@ -14,6 +14,7 @@ import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
 import FindGoods from '../views/mainsite/FindGoods.vue'
 import AdminLogin from '../views/login/AdminLogin.vue';
 import Upload from "../views/mainsite/upload";
+import MyPost  from "../views/mainsite/MyPost";
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,10 @@ const routes = [
 		{
 		path:'findgood/:id',
 			component: FindGoodsInfo
+		},
+		{
+			path:'mypost',
+			component: MyPost
 		}
     ]
   },
