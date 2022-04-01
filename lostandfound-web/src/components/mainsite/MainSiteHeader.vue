@@ -101,28 +101,11 @@ export default {
             location:"我的位置",
             map:[],
 
-
             options: [],
             value: [],
             list: [],
             loading: false,
-            states: ["Alabama", "Alaska", "Arizona",
-                "Arkansas", "California", "Colorado",
-                "Connecticut", "Delaware", "Florida",
-                "Georgia", "Hawaii", "Idaho", "Illinois",
-                "Indiana", "Iowa", "Kansas", "Kentucky",
-                "Louisiana", "Maine", "Maryland",
-                "Massachusetts", "Michigan", "Minnesota",
-                "Mississippi", "Missouri", "Montana",
-                "Nebraska", "Nevada", "New Hampshire",
-                "New Jersey", "New Mexico", "New York",
-                "North Carolina", "North Dakota", "Ohio",
-                "Oklahoma", "Oregon", "Pennsylvania",
-                "Rhode Island", "South Carolina",
-                "South Dakota", "Tennessee", "Texas",
-                "Utah", "Vermont", "Virginia",
-                "Washington", "West Virginia", "Wisconsin",
-                "Wyoming"]
+            states: []
         }
     },
     methods: {
@@ -163,27 +146,15 @@ export default {
             }
         },
         changeCity(){
-            //  关键字搜索
-            this.$jsonp("https://apis.map.qq.com/ws/district/v1/search?keyword=" + this.searchLocation, {
-                key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
-                output:'jsonp',
-            }).then(res => {
-                if(res.message == 'query ok'){
-                    console.log(res.result)
-                    this.searchLocation = '';
-                    this.location = res.result[0][0].fullname;
-                }
-            }).catch(err => {
-                console.log("catch", err);
-            });
-
         }
     },
-    mounted() {
-        this.list = this.states.map(item => {
-            return { value: `${item}`, label: `${item}` };
-        });
+    created() {
 
+    },
+    beforeMount() {
+
+    },
+    mounted() {
         // 获取当前位置
         this.$jsonp("https://apis.map.qq.com/ws/location/v1/ip", {
             key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
@@ -198,18 +169,37 @@ export default {
         }).catch(err => {
             console.log("catch： ", err);
         });
-
-        // // 获取全国地区
-        // this.$jsonp("https://apis.map.qq.com/ws/district/v1/list", {
-        //     key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
-        //     output:'jsonp'
-        // }).then(res => {
-        //     if(res.message == 'query ok'){
-        //         console.log(res.result);
-        //     }
-        // }).catch(err => {
-        //     console.log("catch", err);
-        // });
+        // 获取全国地区
+        if (window.localStorage.getItem("area") != null){
+            this.states = JSON.parse(localStorage.getItem("area"))
+        }
+        else {
+            this.$jsonp("https://apis.map.qq.com/ws/district/v1/list", {
+                key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
+                output: 'jsonp'
+            }).then(res => {
+                if (res.message == 'query ok') {
+                    var k = 0;
+                    for (var i = 0; i < 3; i++) {
+                        for (var j = 0; j < res.result[i].length; j++) {
+                            if (res.result[i][j].fullname.includes("市") || res.result[i][j].fullname.includes("地区")) {
+                                this.states[k++] = res.result[i][j].fullname;
+                            }
+                        }
+                    }
+                    this.list = this.states.map(item => {
+                        return { value: `${item}`, label: `${item}` };
+                    });
+                    window.localStorage.setItem("area", JSON.stringify(this.states));
+                }
+            }).catch(err => {
+                console.log("catch", err);
+            });
+        }
+        this.list = this.states.map(item => {
+            console.log("list")
+            return { value: `${item}`, label: `${item}` };
+        });
 
         // //根据行政区号匹配 子地区
         // this.$jsonp("https://apis.map.qq.com/ws/district/v1/getchildren?id=" + "110000", {

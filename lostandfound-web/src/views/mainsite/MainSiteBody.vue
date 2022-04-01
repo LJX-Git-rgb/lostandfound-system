@@ -7,12 +7,13 @@
                 <el-form-item>
                     <span>日期： </span>
                     <el-date-picker
-                        v-model="value1"
+                        v-model="timeRange"
                         type="daterange"
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
-                    </el-date-picker></el-form-item>
+                    </el-date-picker>
+                </el-form-item>
                 <el-form-item>
                     <span>类别： </span>
                     <el-select v-model="value" placeholder="请选择" id="type">
@@ -72,6 +73,7 @@ export default {
 	components: { goodsItem },
 	data () {
 		return {
+		    timeRange:'',
         options: [{
             value: '选项1',
             label: '黄金糕'
