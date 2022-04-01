@@ -1,7 +1,31 @@
 <template>
 	<div id="mainsite-body">
 		<div id="menu-class">
-			
+        <el-card shadow="hover">
+            <h3>筛选条件 :</h3>
+            <el-form>
+                <el-form-item>
+                    <span>日期： </span>
+                    <el-date-picker
+                        v-model="value1"
+                        type="daterange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                    </el-date-picker></el-form-item>
+                <el-form-item>
+                    <span>类别： </span>
+                    <el-select v-model="value" placeholder="请选择" id="type">
+                        <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+        </el-card>
 		</div>
 		<div id="carousel-and-filter">
 			<div id="carousel-wrap">
@@ -48,6 +72,23 @@ export default {
 	components: { goodsItem },
 	data () {
 		return {
+        options: [{
+            value: '选项1',
+            label: '黄金糕'
+        }, {
+            value: '选项2',
+            label: '双皮奶'
+        }, {
+            value: '选项3',
+            label: '蚵仔煎'
+        }, {
+            value: '选项4',
+            label: '龙须面'
+        }, {
+            value: '选项5',
+            label: '北京烤鸭'
+        }],
+        value: '',
 			// 无限滚动展示
 			count: 3,
 			loading: false,
@@ -74,6 +115,9 @@ export default {
 		}
 	},
 	methods: {
+	    searchGoods(){
+	      console.log("search")
+      },
 		load () {
 			this.loading = true
 			// setTimeout(() => {
@@ -87,15 +131,28 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	#mainsite-body{
-		padding: 0 6%;
-		background: #74ebd5; 
-		background: -webkit-linear-gradient(to top, #ACB6E5, #74ebd5);  
-		background: linear-gradient(to top, #0a3442,#ACB6E5);
-		#menu-class{
-			width: 100%;
-			height: 110px;
-		}
+    #mainsite-body{
+        padding: 0 6%;
+        background: #74ebd5;
+        border-top: 1px solid;
+        background: -webkit-linear-gradient(to top, #ACB6E5, #74ebd5);
+        background: linear-gradient(to top, #0a3442,#ACB6E5);
+
+        #menu-class{
+            margin: 20px 0px;
+            width: 100%;
+            height: 170px;
+            /deep/ .el-card.is-hover-shadow{
+                height: 100%;
+                background-color: rgba(255,255,255,0.3);
+            }
+            h3{
+                margin-bottom: 10px;
+            }
+            /deep/ .el-form{
+                width: 400px;
+            }
+        }
 		#carousel-and-filter{
 			height: 300px;
 			display: flex;

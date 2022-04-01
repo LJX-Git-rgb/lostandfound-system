@@ -103,6 +103,7 @@ export default {
         }
         #content{
             text-align: center;
+            margin-left: 15px;
         }
         #delete{
             position: relative;

@@ -9,9 +9,10 @@ import Login from '../views/login/Login.vue'
 import NormalLogin from '../views/login/NormalLogin.vue'
 import WechatLogin from '../views/login/wechatLogin.vue'
 import AccountInfo from '../views/mainsite/PersonInfo.vue'
+import FindGoods from '../views/mainsite/FindGoods.vue'
+import LostGoods from "@/views/mainsite/LostGoods";
 import LostGoodsInfo from '../views/mainsite/LostGoodsInfo.vue';
 import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
-import FindGoods from '../views/mainsite/FindGoods.vue'
 import AdminLogin from '../views/login/AdminLogin.vue';
 import Upload from "../views/mainsite/upload";
 import MyPost  from "../views/mainsite/MyPost";
@@ -39,6 +40,10 @@ const routes = [
 		{
 			path: 'findgoods',
 			component: FindGoods,
+		},
+		{
+			path: 'lostgoods',
+			component: LostGoods,
 		},
 		{
 			path: 'upload',

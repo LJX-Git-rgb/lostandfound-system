@@ -9,8 +9,8 @@
                         <span>首页</span>
                     </a>
                 </li>
-                <li><a href="/"><span>失物招领</span></a></li>
-                <li><a href="/findgoods"><span>寻物启事</span></a></li>
+                <li><a href="/findgoods"><span>失物招领</span></a></li>
+                <li><a href="/lostgoods"><span>寻物启事</span></a></li>
             </ul>
             <div id="header-search">
                 <div id="search-bar">
@@ -38,7 +38,22 @@
                         trigger="click"
                         >
                         <div id="changeCity">
-                            <el-input placeholder="输入市区" v-model="searchLocation"></el-input>
+                            <el-select
+                                v-model="searchLocation"
+                                multiple
+                                filterable
+                                remote
+                                reserve-keyword
+                                placeholder="请输入市区名"
+                                :remote-method="remoteMethod"
+                                :loading="loading">
+                                <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
                             <el-button @click="changeCity">更改</el-button>
                         </div>
                         <a slot="reference">
@@ -85,9 +100,47 @@ export default {
             searchLocation:"",
             location:"我的位置",
             map:[],
+
+
+            options: [],
+            value: [],
+            list: [],
+            loading: false,
+            states: ["Alabama", "Alaska", "Arizona",
+                "Arkansas", "California", "Colorado",
+                "Connecticut", "Delaware", "Florida",
+                "Georgia", "Hawaii", "Idaho", "Illinois",
+                "Indiana", "Iowa", "Kansas", "Kentucky",
+                "Louisiana", "Maine", "Maryland",
+                "Massachusetts", "Michigan", "Minnesota",
+                "Mississippi", "Missouri", "Montana",
+                "Nebraska", "Nevada", "New Hampshire",
+                "New Jersey", "New Mexico", "New York",
+                "North Carolina", "North Dakota", "Ohio",
+                "Oklahoma", "Oregon", "Pennsylvania",
+                "Rhode Island", "South Carolina",
+                "South Dakota", "Tennessee", "Texas",
+                "Utah", "Vermont", "Virginia",
+                "Washington", "West Virginia", "Wisconsin",
+                "Wyoming"]
         }
     },
     methods: {
+        remoteMethod(query) {
+            if (query !== '') {
+                this.loading = true;
+                setTimeout(() => {
+                    this.loading = false;
+                    this.options = this.list.filter(item => {
+                        return item.label.toLowerCase()
+                            .indexOf(query.toLowerCase()) > -1;
+                    });
+                }, 200);
+            } else {
+                this.options = [];
+            }
+        },
+
         handleCommand(command) {
             if(command == "personInfo"){
                 this.$router.push('/accountInfo');
@@ -126,7 +179,11 @@ export default {
 
         }
     },
-    mounted() {        
+    mounted() {
+        this.list = this.states.map(item => {
+            return { value: `${item}`, label: `${item}` };
+        });
+
         // 获取当前位置
         this.$jsonp("https://apis.map.qq.com/ws/location/v1/ip", {
             key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
