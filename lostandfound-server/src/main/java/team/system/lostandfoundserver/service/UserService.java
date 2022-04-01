@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.mapper.UserMapper;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
+import team.system.lostandfoundserver.utils.SMTPClient;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -53,6 +54,26 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
+    public User retrive(String email) {
+        User userByEmail = userMapper.findUserByEmail(email);
+        try {
+            String identifyCode = "haha";
+            for (int i = 0; i < 4; i++) {
+
+            }
+            SMTPClient smtpClient = new SMTPClient(identifyCode,email);
+            boolean b = smtpClient.sendMessage();
+            if (!b){
+                //未区分出来是没有该用户还是邮件发不出去
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userByEmail;
+    }
+
+    @Override
     public User login(String userName) {
         return userMapper.findByUserName(userName);
     }
@@ -72,8 +93,4 @@ public class UserService implements UserServiceImpl {
         return userMapper.countUser();
     }
 
-    @Override
-    public Boolean findUserByUserNameAndEmail(String email) {
-        return true;
-    }
 }

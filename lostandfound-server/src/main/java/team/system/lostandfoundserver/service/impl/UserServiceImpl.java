@@ -17,5 +17,5 @@ public interface UserServiceImpl {
 
     Integer countUser();
 
-    Boolean findUserByUserNameAndEmail(String email);
+    User retrive(String email);
 }

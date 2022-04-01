@@ -69,20 +69,12 @@ public class UserController {
      * @return: team.system.lostandfoundserver.domain.Result
      **/
     @RequestMapping("/retrive")
-    public Result retrive(String email){
-        Boolean userByUserNameAndEmail = userService.findUserByUserNameAndEmail(email);
-        boolean emailFlag;
-        if (userByUserNameAndEmail) {
-            //发邮件，返回结果
-            emailFlag = true;
-            if (emailFlag){
-                //确认邮件后
-
-            }else{
-                //没有确认，邮件失效后
-            }
+    public Result<User> retrive(@RequestBody HashMap<String,String> map) {
+        User user = userService.retrive(map.get("email"));
+        if (user == null){
+            return Result.error("500", "抱歉，未查询到该用户，请检查您的邮箱");
         }
-        return Result.error("500","您的用户名和邮箱不匹配，请确认后重新输入");
+        return Result.success(user);
     }
 //    @RequestMapping("/update")
 //    public Result retrive(String email, String password){

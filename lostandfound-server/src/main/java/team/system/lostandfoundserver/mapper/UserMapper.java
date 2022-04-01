@@ -39,6 +39,9 @@ public interface UserMapper {
     @Select("select * from user_base where user_name = #{userName}")
     User findByUserName(String userName);
 
+    @Select("select * from user_base where email = #{email}")
+    User findUserByEmail(String email);
+
     @Select("select count(*) from user_base")
     Integer countUser();
 }

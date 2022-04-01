@@ -21,7 +21,7 @@
                 >
                 <i id="showPwd" class="el-input__icon  el-icon-view" slot="suffix" @click="pwdShow = !pwdShow" :style="{'color' : pwdShow ? '' : '#409eff'}"></i>
                 </el-input>
-                <a href="/forgetPwd" id="forgetpwd">忘记密码？点击找回</a>
+                  <span id="forgetpwd" @click="forgetPwd">忘记密码?点击找回</span>
             </el-form-item>
             <el-form-item id="loginbutton">
                 <el-button type="primary" id="loginButton" @click="login">登录</el-button>
@@ -31,6 +31,33 @@
                 </div>
             </el-form-item>
         </el-form>
+<!--findpssword-->
+      <el-dialog
+          :visible.sync="dialogFormFound"
+          center
+          width="40%"
+          top="30vh"
+      >
+        <template slot="title">
+          <h2>找回密码</h2>
+        </template>
+        <div id="reg-body1" style="display:flex">
+          <div id="left1">
+            <el-form ref="form" :label-width="formLabelWidth1">
+              <el-form-item label="邮箱">
+                <el-input v-model="forgetPwdEmail" placeholder="请输入邮箱"></el-input>
+              </el-form-item>
+
+<!--              <el-form-item label="密码">-->
+<!--                <el-input v-model="form.password" placeholder="输入您的密码"></el-input>-->
+<!--              </el-form-item>-->
+            </el-form>
+            <div class="dialog-footer1">
+              <el-button type="primary" @click="findUserByUserNameAndEmail">确 定</el-button>
+            </div>
+          </div>
+        </div>
+      </el-dialog>
 
     <!-- reg message box -->
         <el-dialog
@@ -99,11 +126,15 @@ export default {
 		return {
 			userName: '',
 			password: '',
+      forgetPwdEmail:'',
 
 			//dialog form data
 			dialogFormVisible: false,
 			form: {},
 			formLabelWidth: '80px',
+
+      dialogFormFound:false,
+      formLabelWidth1:'100px',
 
 			pwdShow: true,
 
@@ -135,7 +166,31 @@ export default {
             this.dialogFormVisible = true;
             this.refreshCode()
         },
-
+    forgetPwd(){
+      this.dialogFormFound = true;
+    },
+    findUserByUserNameAndEmail(){
+      this.$axios({
+        method: "post",
+        url: "/user/retrive",
+        data: {
+          email:this.forgetPwdEmail,
+        }
+      }).then(res => {
+        if(res.data.code == 200){
+          this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }else{
+          this.$message.error(res.data.msg);
+        }
+        console.log(res)
+      }).catch(err => {
+        this.$message.error("服务器错误，稍等会再找回密码")
+        console.log(res);
+      });
+    },
 		login(){
 			this.$axios({
 				method: "post",
@@ -280,6 +335,18 @@ export default {
     padding: 25px 30px 20px 0px;
   }
 
+  #reg-body1 #left1{
+    flex: 1;
+  }
+  #reg-body1 #mid{
+    background: grey;
+    opacity: 0.5;
+    flex: 0.005;
+    margin: 0 6%;
+  }
+  #reg-body1 #right{
+    flex: 1;
+  }
   /* dialog body */
   #reg-body #left{
     flex: 1;
@@ -298,6 +365,10 @@ export default {
     height: 250px;
   }
 
+  .dialog-footer1{
+    display: flex;
+    margin-left: 49%;
+  }
   /* dialog footer */
   .dialog-footer{
     display: flex;
