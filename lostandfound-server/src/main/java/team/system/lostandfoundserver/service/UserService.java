@@ -11,6 +11,7 @@ import team.system.lostandfoundserver.utils.SMTPClient;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -57,12 +58,15 @@ public class UserService implements UserServiceImpl {
     public User retrive(String email) {
         User userByEmail = userMapper.findUserByEmail(email);
         try {
-            String identifyCode = "hahahaha";
-//            for (int i = 0; i < 4; i++) {
-//
-//            }
-            SMTPClient smtpClient = new SMTPClient(identifyCode,email);
-            boolean b = smtpClient.sendMessage();
+            String identifyCode = "";
+            //生成4/6位数的随机验证码(改成字母数字组合)
+            Random random = new Random();
+            for (int i = 0; i < 6; i++) {
+                int code = random.nextInt(10);
+                identifyCode += code;
+            }
+            SMTPClient smtpClient = new SMTPClient();
+            boolean b = smtpClient.sendMessage(email,identifyCode);
             if (!b){
                 //未区分出来是没有该用户还是邮件发不出去
                 return null;

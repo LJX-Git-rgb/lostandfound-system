@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.controller.account;
 
+import com.alibaba.fastjson.support.odps.udf.CodecCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,8 @@ import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -32,9 +35,11 @@ public class UserController {
      * @return: team.system.lostandfoundserver.domain.Result<team.system.lostandfoundserver.domain.User>
      **/
     @RequestMapping("/add")
-    public Result<User> add(String userName,String pwd){
+    public Result add(String userName,String pwd){
         User user = userService.add(userName, pwd);
-        Result<User> regResult = Result.success(user);
+        ArrayList data = new ArrayList();
+        data.add(user);
+        Result regResult = Result.success(data);
         regResult.setMsg("恭喜您注册成功");
         if (user == null){
             regResult = Result.error("500","用户名已存在，请更换用户名");
@@ -50,7 +55,7 @@ public class UserController {
      * @return: team.system.lostandfoundserver.domain.Result<team.system.lostandfoundserver.domain.User>
      **/
     @RequestMapping("/login")
-    public Result<User> login(@RequestBody HashMap<String,String> map){
+    public Result login(@RequestBody HashMap<String,String> map){
         User user = userService.login(map.get("userName"));
         if (user == null){
             return Result.error("500", "抱歉，未查询到该用户，请检查您的用户名");
@@ -58,7 +63,9 @@ public class UserController {
         if (!map.get("password").equals(user.getPassword())){
             return Result.error("500","密码错误，请检查密码");
         }
-        return Result.success(user);
+        ArrayList<Object> data = new ArrayList<>();
+        data.add(user);
+        return Result.success(data);
     }
 
     /**
@@ -69,12 +76,14 @@ public class UserController {
      * @return: team.system.lostandfoundserver.domain.Result
      **/
     @RequestMapping("/retrive")
-    public Result<User> retrive(@RequestBody HashMap<String,String> map) {
+    public Result retrive(@RequestBody HashMap<String,String> map) {
         User user = userService.retrive(map.get("email"));
+        ArrayList data = new ArrayList();
+        data.add(user);
         if (user == null){
             return Result.error("500", "抱歉，未查询到该用户，请检查您的邮箱");
         }
-        return Result.success(user);
+        return Result.success(data);
     }
 //    @RequestMapping("/update")
 //    public Result retrive(String email, String password){

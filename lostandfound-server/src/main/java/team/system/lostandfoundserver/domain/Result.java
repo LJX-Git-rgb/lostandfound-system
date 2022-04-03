@@ -1,6 +1,7 @@
 package team.system.lostandfoundserver.domain;
 
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
 
 /**
  * @ClassName: Result
@@ -10,13 +11,13 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class Result<T> {
+public class Result {
     private String code;
     private String msg;
-    private T data;
+    private ArrayList<Object> data;
 
     public Result() {}
-    public Result(T data) {
+    public Result(ArrayList<Object> data) {
         this.data = data;
     }
 
@@ -36,11 +37,11 @@ public class Result<T> {
         this.msg = msg;
     }
 
-    public T getData() {
+    public ArrayList<Object> getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(ArrayList<Object> data) {
         this.data = data;
     }
 
@@ -53,14 +54,8 @@ public class Result<T> {
                 '}';
     }
 
-    public static Result success(){
-        Result result = new Result();
-        result.setCode("200");
-        result.setMsg("success");
-        return result;
-    }
-    public static <T> Result<T> success(T data){
-        Result<T> result = new Result<>(data);
+    public static Result success(ArrayList<Object> data){
+        Result result = new Result(data);
         result.setCode("200");
         result.setMsg("success");
         return  result;

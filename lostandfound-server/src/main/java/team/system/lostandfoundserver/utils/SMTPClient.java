@@ -21,15 +21,12 @@ public class SMTPClient {
     private Socket socket = new Socket(mailServer,25);
     private InputStream inputStream = socket.getInputStream();
     private OutputStream outputStream = socket.getOutputStream();
-    private String userQQ = "1612253221";
-    private String receiveEmail = " ";
+    private String userQQ = "1612253221@qq.com";
+    private String receiveEmail = "";
     private String authorizationCode = "aGZka25wdXRtd3h3YmViZg==";
 //    private String  Acode = "ihrefbanxusececi";
 
-    public SMTPClient(String message,String receiveEmail) throws Exception {
-        this.receiveEmail = receiveEmail;
-        this.userQQ = userQQ + "@qq.com";
-        msg = msg + message;
+    public SMTPClient() throws Exception {
     }
 
     private String receiveFromServer() throws IOException {
@@ -44,7 +41,7 @@ public class SMTPClient {
         System.out.println(response);
     }
 
-    public boolean sendMessage() throws IOException {
+    public boolean sendMessage(String email, String message) throws IOException {
         /**
          * @Features: 使用SMTP给特定QQ号发送QQ邮件
          * @description:
@@ -54,6 +51,9 @@ public class SMTPClient {
          * @time: 2020/1/1 13:55
          *
          */
+        msg = msg + message;
+        this.receiveEmail = email;
+
         String recv;
         Base64.Encoder encoder = Base64.getEncoder();
         String EuserQQ = new String(encoder.encode(userQQ.getBytes()));
