@@ -22,11 +22,12 @@ public class SMTPClient {
     private InputStream inputStream = socket.getInputStream();
     private OutputStream outputStream = socket.getOutputStream();
     private String userQQ = "1612253221";
-    private String receiveQQ = "1952181944";
+    private String receiveEmail = " ";
     private String authorizationCode = "aGZka25wdXRtd3h3YmViZg==";
-    private String  Acode = "ihrefbanxusececi";
+//    private String  Acode = "ihrefbanxusececi";
 
-    public SMTPClient(String message) throws Exception {
+    public SMTPClient(String message,String receiveEmail) throws Exception {
+        this.receiveEmail = receiveEmail;
         this.userQQ = userQQ + "@qq.com";
         msg = msg + message;
     }
@@ -107,8 +108,7 @@ public class SMTPClient {
         /**
          * 发送对方(接收者)邮箱号
          */
-//        String rcpt_toCommand = "rcpt to: " + "<" + receiveQQ + "@qq.com>\r\n";
-        String rcpt_toCommand = "rcpt to: " + "<gqi3531@dingtalk.com>\r\n";
+        String rcpt_toCommand = "rcpt to: " + "<" + receiveEmail +">\r\n";
         sendToServer(rcpt_toCommand);
         receiveFromServer();
 
@@ -143,11 +143,6 @@ public class SMTPClient {
         outputStream.close();
         inputStream.close();
         return true;
-    }
-
-    public static void main(String[] args) throws Exception {
-        SMTPClient smtpClient = new SMTPClient("I love you");
-        smtpClient.sendMessage();
     }
 }
 
