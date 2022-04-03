@@ -57,10 +57,10 @@ public class UserService implements UserServiceImpl {
     public User retrive(String email) {
         User userByEmail = userMapper.findUserByEmail(email);
         try {
-            String identifyCode = "haha";
-            for (int i = 0; i < 4; i++) {
-
-            }
+            String identifyCode = "hahahaha";
+//            for (int i = 0; i < 4; i++) {
+//
+//            }
             SMTPClient smtpClient = new SMTPClient(identifyCode,email);
             boolean b = smtpClient.sendMessage();
             if (!b){
