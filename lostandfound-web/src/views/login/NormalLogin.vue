@@ -11,7 +11,6 @@
             <el-form-item label="账号">
                 <el-input v-model="userName" placeholder="请输入用户名 / 邮箱 / 账号" prefix-icon="el-icon-user"></el-input>
             </el-form-item>
-
             <el-form-item label="密码">
                 <el-input
                     :type='pwdShow ? "password" : "text"'
@@ -22,7 +21,7 @@
                     <i id="showPwd" class="el-input__icon  el-icon-view" slot="suffix" @click="pwdShow = !pwdShow"
                        :style="{'color' : pwdShow ? '' : '#409eff'}"></i>
                 </el-input>
-                <span id="forgetpwd" @click="this.foundPwdDialogFormVisible = true;">忘记密码?点击找回</span>
+                <span id="forgetpwd" @click="foundPwdDialogFormVisible = true;">忘记密码?点击找回</span>
             </el-form-item>
             <el-form-item id="loginbutton">
                 <el-button type="primary" id="loginButton" @click="login">登录</el-button>
@@ -36,21 +35,21 @@
         <el-dialog
             :visible.sync="foundPwdDialogFormVisible"
             center
-            width="40%"
+            width="30%"
             top="30vh">
 
             <template slot="title"><h2>找回密码</h2></template>
             <el-form ref="form" :label-width="formLabelWidth">
-                <el-form-item label="邮箱">
+                <el-form-item label="邮箱：">
                     <el-input v-model="forgetPwdEmail" placeholder="请输入邮箱"></el-input>
                 </el-form-item>
-                <el-form-item label="密码">
-                    <el-input placeholder="请输入电话号码" v-model="phone"/>
+                <el-form-item label="验证码：" id="identifyCode">
+                    <el-input placeholder="请输入验证码" v-model="inputCheckCode" id="inputCheckCode"/>
                     <vue-get-code
                         :getCode="getCode"
                         :interval="30"
-                        :disable="!phone">
-                        <template v-slot:default="child">{{ child.count <= 0 ? "haha" : "嘿嘿" }}"+"{{ child }}</template>
+                        :disable="false">
+                        <template v-slot:default="child">{{ child.count <= 0}}"+"{{ child }}</template>
                         <template v-slot:countdown="child">请等待{{ child.data.interval - child.data.seconds }}秒</template>
                     </vue-get-code>
                 </el-form-item>
@@ -123,6 +122,7 @@ export default {
             formLabelWidth: '80px',
             forgetPwdEmail: '',
             form: {},
+            inputCheckCode:'',
             //show pwd & autoLogin rememberPwd flag
             pwdShow: true,
             autoLogin: false,
@@ -316,12 +316,19 @@ export default {
     margin-left: 60%;
     font-size: 12px;
     color: #2e58ff;
+    cursor: pointer;
 }
 
 /deep/ #identifyCode .el-form-item__content {
     display: flex;
 
     #get-code {
+    }
+
+    .vue-get-code {
+        width: 100px;
+        margin-left: 20px;
+        line-height: 50px;
     }
 }
 
