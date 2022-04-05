@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 /* element-ui css */
  .el-menu-vertical-demo:not(.el-menu--collapse) {
