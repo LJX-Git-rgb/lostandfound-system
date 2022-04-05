@@ -13,9 +13,9 @@
 
 <template>
   <div id="mainSite">
-    <main-site-header/>
-    <router-view></router-view>
-    <!-- <vue-canvas-nest></vue-canvas-nest> -->
+      <main-site-header/>
+      <router-view></router-view>
+      <!-- <vue-canvas-nest></vue-canvas-nest> -->
   </div>
 </template>
 
@@ -26,9 +26,4 @@ import vueCanvasNest from '../../../node_modules/vue-canvas-nest/src/vueCanvasNe
 export default {
   components: { MainSiteHeader,vueCanvasNest }
 }
-
 </script>
-
-<style scoped>
- 
-</style>

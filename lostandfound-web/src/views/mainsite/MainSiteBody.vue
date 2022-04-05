@@ -1,32 +1,32 @@
 <template>
 	<div id="mainsite-body">
 		<div id="menu-class">
-        <el-card shadow="hover">
-            <h3>筛选条件 :</h3>
-            <el-form>
-                <el-form-item>
-                    <span>日期： </span>
-                    <el-date-picker
-                        v-model="timeRange"
-                        type="daterange"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item>
-                    <span>类别： </span>
-                    <el-select v-model="value" placeholder="请选择" id="type">
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-        </el-card>
+<!--        <el-card shadow="hover">-->
+<!--            <h3>筛选条件 :</h3>-->
+<!--            <el-form>-->
+<!--                <el-form-item>-->
+<!--                    <span>日期： </span>-->
+<!--                    <el-date-picker-->
+<!--                        v-model="timeRange"-->
+<!--                        type="daterange"-->
+<!--                        range-separator="至"-->
+<!--                        start-placeholder="开始日期"-->
+<!--                        end-placeholder="结束日期">-->
+<!--                    </el-date-picker>-->
+<!--                </el-form-item>-->
+<!--                <el-form-item>-->
+<!--                    <span>类别： </span>-->
+<!--                    <el-select v-model="value" placeholder="请选择" id="type">-->
+<!--                        <el-option-->
+<!--                            v-for="item in options"-->
+<!--                            :key="item.value"-->
+<!--                            :label="item.label"-->
+<!--                            :value="item.value">-->
+<!--                        </el-option>-->
+<!--                    </el-select>-->
+<!--                </el-form-item>-->
+<!--            </el-form>-->
+<!--        </el-card>-->
 		</div>
 		<div id="carousel-and-filter">
 			<div id="carousel-wrap">
@@ -51,26 +51,35 @@
 				</li>
 			</ul>
 		</div>
-		<div class="infinite-list-wrapper" style="overflow:auto">
-			<ul
-			  class="goodslist"
-			  v-infinite-scroll="load"
-			  infinite-scroll-disabled="disabled"
-			  >
-				<li v-for="i in count" class="list-item" :key="i">
-					<goods-item/>
-				</li>
-			</ul>
-			<p v-if="loading">加载中...</p>
-			<p v-if="noMore">没有更多了</p>
+		<div id="class-goods">
+        <div id="lost-goods">
+            <span>最新寻物启事:
+                <a href="" class="el-icon-right">查看更多</a>
+            </span>
+            <div id="goods-list">
+                <li v-for="i in count" class="list-item" :key="i">
+                    <goods-item/>
+                </li>
+            </div>
+        </div>
+        <div id="find-goods">
+            <span>最新失物招领: <a href="" class="el-icon-right">查看更多</a></span>
+            <div id="goods-list">
+                <li v-for="i in count" class="list-item" :key="i">
+                    <goods-item/>
+                </li>
+            </div>
+        </div>
 		</div>
+      <div id="footer"></div>
 	</div>
 </template>
 
 <script>
 import goodsItem from '../../components/mainsite/goodsItem.vue'
+import FindGoods from "@/views/mainsite/FindGoods";
 export default {
-	components: { goodsItem },
+	components: {FindGoods, goodsItem },
 	data () {
 		return {
 		    timeRange:'',
@@ -80,20 +89,11 @@ export default {
         }, {
             value: '选项2',
             label: '双皮奶'
-        }, {
-            value: '选项3',
-            label: '蚵仔煎'
-        }, {
-            value: '选项4',
-            label: '龙须面'
-        }, {
-            value: '选项5',
-            label: '北京烤鸭'
         }],
         value: '',
-			// 无限滚动展示
-			count: 3,
-			loading: false,
+
+        count: 2,
+
 			// 轮播图
 			imgFolder: '',
 			imgList:[
@@ -136,14 +136,13 @@ export default {
     #mainsite-body{
         padding: 0 6%;
         background: #74ebd5;
-        border-top: 1px solid;
         background: -webkit-linear-gradient(to top, #ACB6E5, #74ebd5);
         background: linear-gradient(to top, #0a3442,#ACB6E5);
-
+        overflow: auto;
         #menu-class{
             margin: 20px 0px;
             width: 100%;
-            height: 170px;
+            height: 10px;
             /deep/ .el-card.is-hover-shadow{
                 height: 100%;
                 background-color: rgba(255,255,255,0.3);
@@ -155,60 +154,80 @@ export default {
                 width: 400px;
             }
         }
-		#carousel-and-filter{
-			height: 300px;
-			display: flex;
-			
-			#carousel-wrap{
-				flex: 0.7;
-			
-				.el-carousel__item h3 {
-					color: #475669;
-					font-size: 18px;
-					opacity: 0.75;
-					line-height: 100%;
-				}
-				.el-carousel__item {
-					img{
-						width: 100%;
-						height: 100%;
-					}
-				}
-			}
-			#filter-menu{
-				margin-left: 30px;
-				flex: 1;
-				li{
-					height: 50%;
-					width: 100%;
-					text-align: center;
-					display: flex;
-					div{
-						flex: 1;
-						margin-right: 3%;
-						margin-top: 1.5%;
-						img{
-							width: 100%;
-							height: 80%;
-						}
-					}
-				}
-			}
-		}
-	.infinite-list-wrapper{
-		margin-top: 3%;
-		li{
-			margin-bottom: 2%;
-		}
-		p{
-			text-align: center;
-			font-size: 18px;
-			font-weight: 600;
-			color: #475669;
-			margin-bottom: 5%;
-			border-bottom: 2px solid #475669;
-			opacity: 0.7;
-		}
-	}
-}
+		    #carousel-and-filter {
+            height: 300px;
+            display: flex;
+
+            #carousel-wrap {
+                flex: 0.7;
+
+                .el-carousel__item h3 {
+                    color: #475669;
+                    font-size: 18px;
+                    opacity: 0.75;
+                    line-height: 100%;
+                }
+
+                .el-carousel__item {
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+
+            #filter-menu {
+                margin-left: 30px;
+                flex: 1;
+
+                li {
+                    height: 50%;
+                    width: 100%;
+                    text-align: center;
+                    display: flex;
+
+                    div {
+                        flex: 1;
+                        margin-right: 3%;
+                        margin-top: 1.5%;
+
+                        img {
+                            width: 100%;
+                            height: 80%;
+                        }
+                    }
+                }
+            }
+        }
+        #class-goods{
+            margin-top: 30px;
+            border: #9B9B9B;
+            #lost-goods,#find-goods{
+                margin-top: 3%;
+                span{
+                    font-size: 24px;
+                    color: #ffffff;
+                    margin-bottom: 1%;
+                    display: block;
+                    padding-right: 70px;
+                    a{
+                        float: right;
+                        font-size: 18px;
+                        color: #cccccc;
+                        line-height: 33px;
+                    }
+                }
+                #goods-list{
+                    li{
+                        margin-bottom: 2%;
+                    }
+                }
+            }
+        }
+        #footer{
+            margin-top: 7%;
+            height: 100px;
+            border: 1px solid red;
+        }
+    }
 </style>
