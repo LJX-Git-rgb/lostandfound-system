@@ -22,6 +22,7 @@ Vue.use(VueRouter)
 const routes = [
 // mainsite路由
   {
+  	// 默认网站 就是 Mainsite - MainsiteBody
 	path: '/',
 	name: 'mainSite',
 	component: MainSite,
@@ -32,11 +33,13 @@ const routes = [
 			component: MainSiteBody
 		},
 
+		// /accountInfo 个人信息部分
 		{
 			path: 'accountInfo',
 			name: 'accountInfo',
 			component:AccountInfo
 		},
+		// /find or lost goods 失物招领/寻物启事部分
 		{
 			path: 'findgoods',
 			component: FindGoods,
@@ -45,12 +48,16 @@ const routes = [
 			path: 'lostgoods',
 			component: LostGoods,
 		},
+
+		// /upload 我要发布部分
 		{
 			path: 'upload',
 			component: Upload,
 		},
+
+		// /find or lost good?id= * 每个失物招领/寻物启事对详细信息 id为编号
 		{
-		path:'lostgood/:id',
+		path:'lostgood/',
 			component: LostGoodsInfo,
 		},
 
@@ -58,6 +65,8 @@ const routes = [
 		path:'findgood/:id',
 			component: FindGoodsInfo
 		},
+
+		// /mypost 我的发布部分
 		{
 			path:'mypost',
 			component: MyPost

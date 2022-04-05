@@ -3,14 +3,14 @@
         <div id="header-bar">
             <ul id="left-menu">
                 <li>
-                    <a href="/" id="home">
+                    <a @click="$router.push({path:'/'})" id="home">
                         <!-- logo -->
                         <img src="../../assets/image/logo.png" alt="">
                         <span>首页</span>
                     </a>
                 </li>
-                <li><a href="/findgoods"><span>失物招领</span></a></li>
-                <li><a href="/lostgoods"><span>寻物启事</span></a></li>
+                <li><a @click="$router.push({path:'/findgoods'})"><span>失物招领</span></a></li>
+                <li><a @click="$router.push({path:'/lostgoods'})"><span>寻物启事</span></a></li>
             </ul>
             <div id="header-search">
                 <div id="search-bar">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <ul id="right-menu">
-                <li class="upload"><a href="/upload"><span>我要发布</span></a></li>
+                <li class="upload"><a @click="$router.push({path:'/upload'})"><span>我要发布</span></a></li>
                 <li>
                     <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
@@ -140,7 +140,9 @@ export default {
             }
         },
         changeCity(){
-            this.location = this.searchLocation;
+            if (this.searchLocation != '') {
+                this.location = this.searchLocation;
+            }
         }
     },
     mounted() {

@@ -1,4 +1,4 @@
-package team.system.lostandfoundserver.controller.account;
+package team.system.lostandfoundserver.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
