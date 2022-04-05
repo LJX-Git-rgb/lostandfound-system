@@ -20,7 +20,7 @@
                 </div>
             </div>
             <ul id="right-menu">
-                <li class="upload"><a href="/upload" @click="changeCity"><span>我要发布</span></a></li>
+                <li class="upload"><a href="/upload"><span>我要发布</span></a></li>
                 <li>
                     <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
@@ -32,7 +32,7 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </li>
-                <li class="el-icon-location-information location">
+                <li class="location">
                     <el-popover
                         width="100"
                         trigger="click"
@@ -40,13 +40,10 @@
                         <div id="changeCity">
                             <el-select
                                 v-model="searchLocation"
-                                multiple
                                 filterable
                                 remote
-                                reserve-keyword
                                 placeholder="请输入市区名"
-                                :remote-method="remoteMethod"
-                                :loading="loading">
+                                :remote-method="remoteMethod">
                                 <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -56,7 +53,7 @@
                             </el-select>
                             <el-button @click="changeCity">更改</el-button>
                         </div>
-                        <a slot="reference">
+                        <a class="el-icon-location-information " slot="reference">
                             <span>{{location}}</span>
                         </a>
                     </el-popover>
@@ -96,16 +93,13 @@
 export default {
     data() {
         return {
-            searchInput:"",
-            searchLocation:"",
-            location:"我的位置",
-            map:[],
-
-            options: [],
-            value: [],
-            list: [],
-            loading: false,
-            states: []
+            searchInput:"",     //查询框的输入
+            location:"我的位置", //地址
+            isdis:false,
+            searchLocation:"",  //搜索地址框的输入
+            states: [],
+            list: [],           //所有市级地址
+            options: [],        //查询地址框匹配的地址
         }
     },
     methods: {
@@ -146,13 +140,8 @@ export default {
             }
         },
         changeCity(){
+            this.location = this.searchLocation;
         }
-    },
-    created() {
-
-    },
-    beforeMount() {
-
     },
     mounted() {
         // 获取当前位置
@@ -161,7 +150,6 @@ export default {
             output:'jsonp'
         }).then(res => {
             if(res.message == 'Success' || res.state == 0){
-                console.log(res.result.ad_info);
                 if (this.location == "我的位置") {
                     this.location = res.result.ad_info.city
                 }
@@ -169,16 +157,20 @@ export default {
         }).catch(err => {
             console.log("catch： ", err);
         });
+
         // 获取全国地区
+        //当local里面有记录时，读取到vuex中
         if (window.localStorage.getItem("area") != null){
-            this.states = JSON.parse(localStorage.getItem("area"))
+            this.list = JSON.parse(localStorage.getItem("area"))
         }
+        //否则请求获取全国地区
         else {
             this.$jsonp("https://apis.map.qq.com/ws/district/v1/list", {
                 key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
                 output: 'jsonp'
             }).then(res => {
                 if (res.message == 'query ok') {
+                    //将全国地区里面的 *市 *地区一类行政区保存到states中
                     var k = 0;
                     for (var i = 0; i < 3; i++) {
                         for (var j = 0; j < res.result[i].length; j++) {
@@ -187,43 +179,17 @@ export default {
                             }
                         }
                     }
+                    //将states数组保存为有value和label的对象
                     this.list = this.states.map(item => {
                         return { value: `${item}`, label: `${item}` };
                     });
-                    window.localStorage.setItem("area", JSON.stringify(this.states));
+                    //将数据写入local
+                    window.localStorage.setItem("area", JSON.stringify(this.list));
                 }
             }).catch(err => {
                 console.log("catch", err);
             });
         }
-        this.list = this.states.map(item => {
-            console.log("list")
-            return { value: `${item}`, label: `${item}` };
-        });
-
-        // //根据行政区号匹配 子地区
-        // this.$jsonp("https://apis.map.qq.com/ws/district/v1/getchildren?id=" + "110000", {
-        //     key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
-        //     output:'jsonp',
-        // }).then(res => {
-        //     if(res.message == 'query ok'){
-        //         console.log("getchildren", res.result);
-        //     }
-        // }).catch(err => {
-        //     console.log("catch", err);
-        // });
-        //
-        // //  关键字搜索
-        // this.$jsonp("https://apis.map.qq.com/ws/district/v1/search?keyword=" + "郑州", {
-        //     key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
-        //     output:'jsonp',
-        // }).then(res => {
-        //     if(res.message == 'query ok'){
-        //         console.log(res.result);
-        //     }
-        // }).catch(err => {
-        //     console.log("catch", err);
-        // });
     },
 }
 </script>
