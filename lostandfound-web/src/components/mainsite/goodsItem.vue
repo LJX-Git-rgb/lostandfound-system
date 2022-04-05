@@ -19,49 +19,49 @@
 export default {
     data() {
         return {
-            id:1,
+            id: 1,
         }
     },
 }
 </script>
 
 <style lang="less" scoped>
-    #goods-row{
-        padding: 0 5%;
+#goods-row {
+    padding: 0 5%;
 
-        #card-text{
-            padding: 10px;
-        }
+    #card-text {
+        padding: 10px;
     }
-   
-    /* element ui */
-    .time {
+}
+
+/* element ui */
+.time {
     font-size: 13px;
-        color: #999;
-    }
+    color: #999;
+}
 
-    .bottom {
-        margin-top: 13px;
-        line-height: 12px;
-    }
+.bottom {
+    margin-top: 13px;
+    line-height: 12px;
+}
 
-    .button {
-        padding: 0;
-        float: right;
-    }
+.button {
+    padding: 0;
+    float: right;
+}
 
-    .image {
-        width: 100%;
-        display: block;
-    }
+.image {
+    width: 100%;
+    display: block;
+}
 
-    .clearfix:before,
-    .clearfix:after {
-        display: table;
-        content: "";
-    }
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
 
-    .clearfix:after {
-        clear: both
-    }
+.clearfix:after {
+    clear: both
+}
 </style>

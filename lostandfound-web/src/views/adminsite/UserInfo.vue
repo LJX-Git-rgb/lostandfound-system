@@ -5,15 +5,15 @@
             <el-button @click="clearFilter">清除所有过滤器</el-button>
             <el-button @click="upLoad">导入</el-button>
             <el-button @click="downLoad">导出</el-button>
-            <div id="select"> 
+            <div id="select">
                 <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
-                <el-select v-model="select" slot="prepend" placeholder="请选择">
-                    <el-option label="人名" value="1"></el-option>
-                </el-select>
-                <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-select v-model="select" slot="prepend" placeholder="请选择">
+                        <el-option label="人名" value="1"></el-option>
+                    </el-select>
+                    <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
             </div>
-           
+
         </div>
         <el-table
             :data="tableData"
@@ -26,7 +26,7 @@
             <el-table-column prop="email" label="地址" width="300"></el-table-column>
             <el-table-column prop="updatetime" label="创建时间" width="120"></el-table-column>
             <el-table-column prop="createTime" label="最后更新时间" width="120"></el-table-column>
-            
+
             <!-- <el-table-column prop="createtime" label="标签" width="100"
                 :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
                 filter-placement="bottom-end">
@@ -43,7 +43,8 @@
                         @click.native.prevent="deleteUser(scope.row)"
                         type="text"
                         size="small">
-                    移除</el-button>
+                        移除
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -59,32 +60,32 @@
         </el-pagination>
 
     </div>
-  
+
 </template>
 
 <script>
-  export default {
+export default {
     data() {
-      return {
-        input: '',
-        select: '',
-        
-        // table
-        tableData:[],
-        
-        // page
-        page: {
-            total:0,
-            currentPage: 0,
-            pageSizes: [5, 10, 20, 50],
-            pageSize: 5,
-        },
+        return {
+            input: '',
+            select: '',
 
-        // dialog Form
-        dialogFormVisible: false,
-        form: {},
-        formLabelWidth: '80px'
-      }
+            // table
+            tableData: [],
+
+            // page
+            page: {
+                total: 0,
+                currentPage: 0,
+                pageSizes: [5, 10, 20, 50],
+                pageSize: 5,
+            },
+
+            // dialog Form
+            dialogFormVisible: false,
+            form: {},
+            formLabelWidth: '80px'
+        }
     },
     methods: {
         handleSizeChange(val) {
@@ -97,63 +98,64 @@
             this.page.currentPage = val;
             this.showUserInfo()
         },
-        resetDateFilter(){
-            
-        },
-        clearFilter(){
+        resetDateFilter() {
 
         },
-        downLoad(){
+        clearFilter() {
 
         },
-        upLoad(){
-            
+        downLoad() {
+
+        },
+        upLoad() {
+
         },
 
         // axios function
-        showUserInfo(){
-            if(this.page.total == 0){
+        showUserInfo() {
+            if (this.page.total == 0) {
                 this.countUserTotal();
             }
             this.$axios({
                 method: 'get',
                 url: '/account/findAll',
-                params:{
-                    currentPage:this.page.currentPage,
-                    pageSize:this.page.pageSize
+                params: {
+                    currentPage: this.page.currentPage,
+                    pageSize: this.page.pageSize
                 }
             }).then(res => {
                 this.tableData = res.data;
             })
-            .catch(function (error) {
-                console.log(error);
-            });
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
-        countUserTotal(){
+        countUserTotal() {
             this.$axios({
                 method: 'get',
                 url: '/account/countUser',
-            }).then(res =>{
+            }).then(res => {
                 this.page.total = res.data;
             })
         },
     },
 
-    created(){
+    created() {
         this.showUserInfo();
     }
-  }
+}
 </script>
 <style lang="less" scoped>
-    #userInfo {
-      margin: 10px;
+#userInfo {
+    margin: 10px;
 
-      #userButton {
+    #userButton {
         margin-bottom: 10px;
-      }
     }
-    //#select{
-    //    width: 600px;
-    //    margin-top: 15px;
-    //}
+}
+
+//#select{
+//    width: 600px;
+//    margin-top: 15px;
+//}
 </style>

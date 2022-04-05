@@ -36,7 +36,7 @@
                     <el-popover
                         width="100"
                         trigger="click"
-                        >
+                    >
                         <div id="changeCity">
                             <el-select
                                 v-model="searchLocation"
@@ -54,7 +54,7 @@
                             <el-button @click="changeCity">更改</el-button>
                         </div>
                         <a class="el-icon-location-information " slot="reference">
-                            <span>{{location}}</span>
+                            <span>{{ location }}</span>
                         </a>
                     </el-popover>
                 </li>
@@ -65,7 +65,8 @@
                             <div>
                                 <el-dropdown @command="handleCommand">
                                     <span class="el-dropdown-link">
-                                        {{ $store.state.user.userName }}<i class="el-icon-arrow-down el-icon--right"></i>
+                                        {{ $store.state.user.userName }}<i
+                                        class="el-icon-arrow-down el-icon--right"></i>
                                     </span>
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item command="personInfo">个人中心</el-dropdown-item>
@@ -77,7 +78,8 @@
                         </div>
 
                         <div id="unLogin" v-if="!this.$store.state.user.isLogin">
-                            <el-button type="primary" @click="$router.push({path:'/login'})" size = "small">点我登录</el-button>
+                            <el-button type="primary" @click="$router.push({path:'/login'})" size="small">点我登录
+                            </el-button>
                         </div>
                     </div>
                 </li>
@@ -93,10 +95,10 @@
 export default {
     data() {
         return {
-            searchInput:"",     //查询框的输入
-            location:"我的位置", //地址
-            isdis:false,
-            searchLocation:"",  //搜索地址框的输入
+            searchInput: "",     //查询框的输入
+            location: "我的位置", //地址
+            isdis: false,
+            searchLocation: "",  //搜索地址框的输入
             states: [],
             list: [],           //所有市级地址
             options: [],        //查询地址框匹配的地址
@@ -119,27 +121,27 @@ export default {
         },
 
         handleCommand(command) {
-            if(command == "personInfo"){
+            if (command == "personInfo") {
                 this.$router.push('/accountInfo');
-            }else if(command == 'setting'){
+            } else if (command == 'setting') {
                 console.log("setting")
-            }else if(command == 'quit'){
+            } else if (command == 'quit') {
                 console.log("quit")
-                this.$store.dispatch('quitLogin',"user");
-            }else if(command == 'lostGoods'){
-                this.$router.push({path:'/mypost'})
+                this.$store.dispatch('quitLogin', "user");
+            } else if (command == 'lostGoods') {
+                this.$router.push({path: '/mypost'})
                 console.log("lost")
-            }else if(command == 'findGoods'){
-                this.$router.push({path:'/mypost'})
+            } else if (command == 'findGoods') {
+                this.$router.push({path: '/mypost'})
                 console.log("find")
-            }else{
+            } else {
                 this.$message({
                     message: command + ' is success',
                     type: 'success'
                 });
             }
         },
-        changeCity(){
+        changeCity() {
             if (this.searchLocation != '') {
                 this.location = this.searchLocation;
             }
@@ -149,9 +151,9 @@ export default {
         // 获取当前位置
         this.$jsonp("https://apis.map.qq.com/ws/location/v1/ip", {
             key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
-            output:'jsonp'
+            output: 'jsonp'
         }).then(res => {
-            if(res.message == 'Success' || res.state == 0){
+            if (res.message == 'Success' || res.state == 0) {
                 if (this.location == "我的位置") {
                     this.location = res.result.ad_info.city
                 }
@@ -162,7 +164,7 @@ export default {
 
         // 获取全国地区
         //当local里面有记录时，读取到vuex中
-        if (window.localStorage.getItem("area") != null){
+        if (window.localStorage.getItem("area") != null) {
             this.list = JSON.parse(localStorage.getItem("area"))
         }
         //否则请求获取全国地区
@@ -183,7 +185,7 @@ export default {
                     }
                     //将states数组保存为有value和label的对象
                     this.list = this.states.map(item => {
-                        return { value: `${item}`, label: `${item}` };
+                        return {value: `${item}`, label: `${item}`};
                     });
                     //将数据写入local
                     window.localStorage.setItem("area", JSON.stringify(this.list));
@@ -197,150 +199,160 @@ export default {
 </script>
 
 <style lang="less" scoped>
-    #header{
-        min-height: 64px;
-        position: relative;
-        margin: 0 auto;
+#header {
+    min-height: 64px;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    background-color: grey;
+
+    #header-bar {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        z-index: 1;
         width: 100%;
-        background-color: grey;
-        
-        #header-bar{
-            position: absolute;
+        height: 64px;
+        margin-top: 24px;
+
+        /* left menu */
+
+        #left-menu {
+            margin-right: 2%;
+            //margin-left: 5%;
             display: flex;
             align-items: center;
-            z-index: 1;
-            width: 100%;
-            height: 64px;
-            margin-top: 24px;
-    
-            /* left menu */
-            #left-menu{
-                margin-right: 2%;
-                //margin-left: 5%;
+            flex-shrink: 0;
+            padding-left: 5%;
+
+            #home {
                 display: flex;
                 align-items: center;
-                flex-shrink: 0;
-                padding-left: 5%;
-
-                #home{
-                    display: flex;
-                    align-items: center;
-                    font-size: 14px;
-                    cursor: pointer;
-                    margin-right: 30px;
-
-                    img{
-                        height: 50px;
-                        width: 50px;
-                    }
-                }
-
-                li{
-                    a{
-                        height: 64px;
-                        line-height: 64px;
-                        font-size: 14px;
-                        cursor: pointer;
-                        margin-right: 15px;
-                    }
-                }
-            }
-            /* search */
-            #header-search{
-                flex: 1 auto;
-                height: 38px;
-                
-                #search-bar{
-                    position: relative;
-                    margin: 0 auto;
-                    min-width: 181px;
-                    max-width: 600px;
-                }
-            }
-            /* right menu */
-            #right-menu{
-                display: flex;
-                align-items: center;
-                margin-left: 2%;
-                padding-right: 4%;
-
-                li{
-                    margin: 0 15px;
-                    min-width: 25px;
-                    display: block;
-                    flex-shrink: 0;
-                    margin-right: 4px;
-                    text-align: center;
-                    cursor: pointer;
-                }
-                .location{
-                    width: 100px;
-                }
-                .el-icon-location-information a span{
-                    font-weight: 500;
-                }
-            }
-            
-            span{
-                font-weight: normal;
-                font-size: 18px;
-                color: white;
-            }
-        }
-
-        /* banner */
-        #header-banner{
-            // position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            overflow: hidden;
-            opacity: 0.81;
-            height: 160px;
-        
-            img{
-                width: 100%;
-            }
-        }
-
-        /* login button */
-        #loginInfo{
-            #userImg {
-                display: flex;
-                flex-direction: column;
-                width: 100px;
+                font-size: 14px;
+                cursor: pointer;
+                margin-right: 30px;
 
                 img {
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
-                    margin: auto;
-                    cursor: pointer;
+                    height: 50px;
+                    width: 50px;
                 }
+            }
 
-                div {
-                    line-height: 0px;
-                    margin: auto;
-                    margin-top: 1px;
+            li {
+                a {
+                    height: 64px;
+                    line-height: 64px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    margin-right: 15px;
                 }
             }
         }
-        #unLogin button{
-            border-radius: 10px;
+
+        /* search */
+
+        #header-search {
+            flex: 1 auto;
+            height: 38px;
+
+            #search-bar {
+                position: relative;
+                margin: 0 auto;
+                min-width: 181px;
+                max-width: 600px;
+            }
         }
 
-        .el-icon-location-information:before{
-            color: white;
+        /* right menu */
+
+        #right-menu {
+            display: flex;
+            align-items: center;
+            margin-left: 2%;
+            padding-right: 4%;
+
+            li {
+                margin: 0 15px;
+                min-width: 25px;
+                display: block;
+                flex-shrink: 0;
+                margin-right: 4px;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .location {
+                width: 100px;
+            }
+
+            .el-icon-location-information a span {
+                font-weight: 500;
+            }
+        }
+
+        span {
+            font-weight: normal;
             font-size: 18px;
-            font-weight: 600;
+            color: white;
         }
     }
 
-    #changeCity .el-button.el-button--default{
-        width: 100%;
-        background-color: #409eff;
-        color: #ffffff;
-        margin-top: 5px;
+    /* banner */
+
+    #header-banner {
+        // position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        opacity: 0.81;
+        height: 160px;
+
+        img {
+            width: 100%;
+        }
     }
+
+    /* login button */
+
+    #loginInfo {
+        #userImg {
+            display: flex;
+            flex-direction: column;
+            width: 100px;
+
+            img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                margin: auto;
+                cursor: pointer;
+            }
+
+            div {
+                line-height: 0px;
+                margin: auto;
+                margin-top: 1px;
+            }
+        }
+    }
+
+    #unLogin button {
+        border-radius: 10px;
+    }
+
+    .el-icon-location-information:before {
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+    }
+}
+
+#changeCity .el-button.el-button--default {
+    width: 100%;
+    background-color: #409eff;
+    color: #ffffff;
+    margin-top: 5px;
+}
 </style>

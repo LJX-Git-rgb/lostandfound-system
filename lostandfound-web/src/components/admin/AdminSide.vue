@@ -17,7 +17,7 @@
             </el-submenu>
         </el-submenu>
 
-       <el-submenu index="findGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        <el-submenu index="findGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-message-solid"></i>寻物启事管理</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
@@ -36,10 +36,10 @@
             <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
         <el-submenu index="rightsManege" :disabled="this.adminLogin == false  || this.adminLogin == null">
-          <template slot="title"><i class="el-icon-s-cooperation"></i>管理员权限管理</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-          <el-menu-item index="2-3">选项3</el-menu-item>
+            <template slot="title"><i class="el-icon-s-cooperation"></i>管理员权限管理</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
         </el-submenu>
         <el-submenu index="myInfo" :disabled="this.adminLogin == false || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-cooperation"></i>我的信息</template>
@@ -53,26 +53,25 @@
 <script>
 export default {
     computed: {
-        adminLogin(){
+        adminLogin() {
             return this.$store.state.admin.adminIsLogin;
         }
     },
-    data(){
-        return{
-            adminIsLogin:this.$store.getters.adminIsLogin,
+    data() {
+        return {
+            adminIsLogin: this.$store.getters.adminIsLogin,
         }
     },
-    methods: {
-    }
+    methods: {}
 }
 </script>
 
 <style lang="less" scoped>
 
 /* element-ui css */
- .el-menu-vertical-demo:not(.el-menu--collapse) {
+.el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     /* 高度为整个页面 */
-    min-height: calc(100vh - 50px); 
-  }
+    min-height: calc(100vh - 50px);
+}
 </style>

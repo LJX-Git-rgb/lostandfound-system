@@ -15,105 +15,105 @@ import LostGoodsInfo from '../views/mainsite/LostGoodsInfo.vue';
 import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
 import AdminLogin from '../views/login/AdminLogin.vue';
 import Upload from "../views/mainsite/upload";
-import MyPost  from "../views/mainsite/MyPost";
+import MyPost from "../views/mainsite/MyPost";
 
 Vue.use(VueRouter)
 
 const routes = [
 // mainsite路由
-  {
-  	// 默认网站 就是 Mainsite - MainsiteBody
-	path: '/',
-	name: 'mainSite',
-	component: MainSite,
-	children:[
-      
-		{
-			path: '/',
-			component: MainSiteBody
-		},
+    {
+        // 默认网站 就是 Mainsite - MainsiteBody
+        path: '/',
+        name: 'mainSite',
+        component: MainSite,
+        children: [
 
-		// /accountInfo 个人信息部分
-		{
-			path: 'accountInfo',
-			name: 'accountInfo',
-			component:AccountInfo
-		},
-		// /find or lost goods 失物招领/寻物启事部分
-		{
-			path: 'findgoods',
-			component: FindGoods,
-		},
-		{
-			path: 'lostgoods',
-			component: LostGoods,
-		},
+            {
+                path: '/',
+                component: MainSiteBody
+            },
 
-		// /upload 我要发布部分
-		{
-			path: 'upload',
-			component: Upload,
-		},
+            // /accountInfo 个人信息部分
+            {
+                path: 'accountInfo',
+                name: 'accountInfo',
+                component: AccountInfo
+            },
+            // /find or lost goods 失物招领/寻物启事部分
+            {
+                path: 'findgoods',
+                component: FindGoods,
+            },
+            {
+                path: 'lostgoods',
+                component: LostGoods,
+            },
 
-		// /find or lost good?id= * 每个失物招领/寻物启事对详细信息 id为编号
-		{
-		path:'lostgood/',
-			component: LostGoodsInfo,
-		},
+            // /upload 我要发布部分
+            {
+                path: 'upload',
+                component: Upload,
+            },
 
-		{
-		path:'findgood/:id',
-			component: FindGoodsInfo
-		},
+            // /find or lost good?id= * 每个失物招领/寻物启事对详细信息 id为编号
+            {
+                path: 'lostgood/',
+                component: LostGoodsInfo,
+            },
 
-		// /mypost 我的发布部分
-		{
-			path:'mypost',
-			component: MyPost
-		}
-    ]
-  },
-  
+            {
+                path: 'findgood/:id',
+                component: FindGoodsInfo
+            },
+
+            // /mypost 我的发布部分
+            {
+                path: 'mypost',
+                component: MyPost
+            }
+        ]
+    },
+
 //  login路由
-  {
-	path: '/login',
-	name: 'login',
-	component: Login,
-	children:[
-		{
-			path: '/',
-			component: NormalLogin
-		},
-		{
-			path: 'wechat',
-			component: WechatLogin
-		}
-	]
-  },
-  
+    {
+        path: '/login',
+        name: 'login',
+        component: Login,
+        children: [
+            {
+                path: '/',
+                component: NormalLogin
+            },
+            {
+                path: 'wechat',
+                component: WechatLogin
+            }
+        ]
+    },
+
 //   admin路由
-  {
-    path: '/admin',
-    name: 'adminSite',
-    component: AdminSite,
-    children:[
-		{
-			path: 'login',
-			name: 'login',
-			component: AdminLogin
-		},
-		{
-			path: 'allUser',
-			component: AllUser
-		}
-    ]
-  },
+    {
+        path: '/admin',
+        name: 'adminSite',
+        component: AdminSite,
+        children: [
+            {
+                path: 'login',
+                name: 'login',
+                component: AdminLogin
+            },
+            {
+                path: 'allUser',
+                component: AllUser
+            }
+        ]
+    },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router

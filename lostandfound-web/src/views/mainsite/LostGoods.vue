@@ -46,25 +46,26 @@
 
 <script>
 import GoodsItem from "@/components/mainsite/goodsItem";
+
 export default {
     components: {GoodsItem},
-    data(){
-        return{
+    data() {
+        return {
             // 无限滚动展示
             count: 3,
             loading: false,
         }
     },
     computed: {
-        noMore () {
+        noMore() {
             return this.count >= 4
         },
-        disabled () {
+        disabled() {
             return this.loading || this.noMore
         }
     },
     methods: {
-        load () {
+        load() {
             this.loading = true
             setTimeout(() => {
                 this.count += 2
@@ -79,9 +80,10 @@ export default {
 <style lang="less" scoped>
 #body {
     background: -webkit-linear-gradient(to top, #ACB6E5, #74ebd5);
-    background: linear-gradient(to top, #0a3442,#ACB6E5);
+    background: linear-gradient(to top, #0a3442, #ACB6E5);
     overflow: auto;
     padding: 0px 5%;
+
     #menu-class {
         margin: 20px 70px;
         height: 170px;
@@ -119,7 +121,7 @@ export default {
         }
     }
 
-    #footer{
+    #footer {
         height: 180px;
     }
 }
