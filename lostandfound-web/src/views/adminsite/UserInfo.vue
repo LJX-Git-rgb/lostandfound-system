@@ -144,15 +144,16 @@
     }
   }
 </script>
-<style scoped>
-    #userInfo{
-        margin: 10px;
-    }
-    #userButton{
+<style lang="less" scoped>
+    #userInfo {
+      margin: 10px;
+
+      #userButton {
         margin-bottom: 10px;
+      }
     }
-    #select{
-        width: 600px;
-        margin-top: 15px;
-    }
+    //#select{
+    //    width: 600px;
+    //    margin-top: 15px;
+    //}
 </style>
