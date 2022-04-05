@@ -1,6 +1,7 @@
 package team.system.lostandfoundserver.service.impl;
 
 import team.system.lostandfoundserver.domain.User;
+import team.system.lostandfoundserver.domain.Admin;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ public interface UserServiceImpl {
     User add(String userName, String pwd);
 
     User login(String userName);
+
+    Admin adminlogin(String name, String pwd);
 
     Boolean delete(Integer userId);
 

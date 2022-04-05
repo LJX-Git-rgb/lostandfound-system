@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import team.system.lostandfoundserver.domain.User;
+import team.system.lostandfoundserver.domain.Admin;
 import team.system.lostandfoundserver.mapper.UserMapper;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 import team.system.lostandfoundserver.utils.SMTPClient;
 
-import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Random;
@@ -80,6 +80,11 @@ public class UserService implements UserServiceImpl {
     @Override
     public User login(String userName) {
         return userMapper.findByUserName(userName);
+    }
+
+    @Override
+    public Admin adminlogin(String name, String pwd) {
+        return userMapper.adminlogin(name, pwd);
     }
 
     @Override

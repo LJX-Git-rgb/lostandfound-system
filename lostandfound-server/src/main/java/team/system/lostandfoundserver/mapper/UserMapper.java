@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import team.system.lostandfoundserver.domain.User;
+import team.system.lostandfoundserver.domain.Admin;
 
 import java.util.List;
 
@@ -41,6 +42,9 @@ public interface UserMapper {
 
     @Select("select * from user_base where email = #{email}")
     User findUserByEmail(String email);
+
+    @Select("select * from admin_user where name = #{name} and pwd =#{pwd}")
+    Admin adminlogin(String name, String pwd);
 
     @Select("select count(*) from user_base")
     Integer countUser();

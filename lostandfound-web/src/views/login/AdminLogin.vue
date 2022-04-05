@@ -5,10 +5,10 @@
 				<h1>管理员登录</h1>
 			</el-form-item>
 			<el-form-item label="用户名" :label-width="formLabelWidth">
-				<el-input v-model="form.name" autocomplete="off"></el-input>
+				<el-input v-model="name" autocomplete="off"></el-input>
 			</el-form-item>
 			<el-form-item label="密码" :label-width="formLabelWidth">
-				<el-input v-model="form.password" autocomplete="off"></el-input>
+				<el-input v-model="pwd" autocomplete="off" type="password"></el-input>
 			</el-form-item>
 			<el-form-item :label-width="formLabelWidth">
 				<el-button type="primary" @click="adminLogin">登录</el-button>
@@ -21,25 +21,37 @@
 export default {
 	data() {
 		return {
+      name:'',
+      pwd:'',
 			form:{},
 			formLabelWidth: '120px'
 		}
 	},
 	methods:{
 		adminLogin(){
-		    console.log("adminLogin");
-          //登录功能
-          // this.$axios({
-          //   url: ""
-          // }).then({
-          //
-          // }).catch({
-          //
-          // })
-            this.$router.push({
-                path : "allUser"
-            })
-            this.$store.dispatch('setAdmin', {});
+      this.$axios({
+        method: "post",
+        url: "/adminUser/login",
+        data: {
+          name: this.name,
+          pwd: this.pwd
+        }
+      }).then(res => {
+        if(res.data.code == 200){
+          console.log(res.data)
+          this.$store.dispatch('setAdmin',res.data.data[0])
+          //这个是否登录可能需要存在cookie里
+          //路由转换
+          this.$router.push({
+            path : "allUser"
+          })
+        }else{
+          this.$message.error(res.data.msg);
+        }
+      }).catch(res => {
+        this.$message.error("服务器错误，稍等会再登录")
+        console.log(res);
+      });
 		}
 	},
 }
