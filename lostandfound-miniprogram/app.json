@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "失物招领",
+    "navigationBarBackgroundColor": "#eb4450"
+  },
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#090",
+    "position": "bottom",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "./icons/home.png",
+        "selectedIconPath": "./icons/home-o.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "分类",
+        "iconPath": "./icons/category.png",
+        "selectedIconPath": "./icons/category-o.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "购物车",
+        "iconPath": "./icons/cart.png",
+        "selectedIconPath": "./icons/cart-o.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "我的",
+        "iconPath": "./icons/my.png",
+        "selectedIconPath": "./icons/my-o.png"
+      }
+   ]
+  }
+}
