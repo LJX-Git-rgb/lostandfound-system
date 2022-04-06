@@ -35,7 +35,7 @@
         <el-dialog
             :visible.sync="foundPwdDialogFormVisible"
             center
-            width="30%"
+            width="35%"
             top="30vh">
 
             <template slot="title"><h2>找回密码</h2></template>
@@ -47,14 +47,15 @@
                     <el-input placeholder="请输入验证码" v-model="inputCheckCode" id="inputCheckCode"/>
                     <vue-get-code
                         :getCode="getCode"
-                        :interval="30"
-                        :disable="false">
-                        <template v-slot:default="child">{{ child.count <= 0}}"+"{{ child }}</template>
-                        <template v-slot:countdown="child">请等待{{ child.data.interval - child.data.seconds }}秒</template>
+                        :interval="60">
+                        <template v-slot:default>获取验证码</template>
+                        <template v-slot:countdown="child">
+                            请等待{{ child.data.interval - child.data.seconds }}秒
+                        </template>
                     </vue-get-code>
                 </el-form-item>
             </el-form>
-            <div class="dialog-footer1">
+            <div class="reg-dialog-footer">
                 <el-button type="primary" @click="foundPwd">确 定</el-button>
             </div>
         </el-dialog>
@@ -71,12 +72,15 @@
             <div id="reg-body" style="display:flex">
                 <div id="left">
                     <el-form ref="form" :model="form" :label-width="formLabelWidth">
-                        <el-form-item label="昵称">
-                            <el-input v-model="form.name" placeholder="起个昵称吧"></el-input>
+                        <el-form-item label="邮箱">
+                            <el-input v-model="form.email" placeholder="输入注册用邮箱"></el-input>
                         </el-form-item>
 
                         <el-form-item label="密码">
                             <el-input v-model="form.password" placeholder="设置您的密码"></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码">
+                            <el-input v-model="form.confirmPwd" placeholder="确认您的密码"></el-input>
                         </el-form-item>
 
                         <el-form-item label="验证码" id="identifyCode">
@@ -151,16 +155,6 @@ export default {
 
         //found pwd checkCode & foundPwd methods
         getCode() {
-            if (this.phone.length < 7) {
-                alert('请填写正确的手机号码')
-                throw '请填写正确的手机号码' // 抛出错误，中断 Promise chain
-            }
-
-            let mockApi = 'https://cdn.jsdelivr.net/npm/vue@2/package.json'
-            return fetch(mockApi)
-        },
-        log() {
-            console.log(JSON.stringify(arguments))
         },
         foundPwd() {
             this.$axios({
@@ -321,12 +315,8 @@ export default {
 
 /deep/ #identifyCode .el-form-item__content {
     display: flex;
-
-    #get-code {
-    }
-
     .vue-get-code {
-        width: 100px;
+        width: 150px;
         margin-left: 20px;
         line-height: 50px;
     }
@@ -338,22 +328,7 @@ export default {
 }
 
 /deep/ .el-dialog--center .el-dialog__body {
-    padding: 25px 30px 20px 0px;
-}
-
-#reg-body1 #left1 {
-    flex: 1;
-}
-
-#reg-body1 #mid {
-    background: grey;
-    opacity: 0.5;
-    flex: 0.005;
-    margin: 0 6%;
-}
-
-#reg-body1 #right {
-    flex: 1;
+    padding: 25px 30px 30px 20px;
 }
 
 /* dialog body */
@@ -377,9 +352,11 @@ export default {
     height: 250px;
 }
 
-.dialog-footer1 {
-    display: flex;
-    margin-left: 49%;
+.reg-dialog-footer {
+    margin-left: 10%;
+    button{
+        width: 100%;
+    }
 }
 
 /* dialog footer */
