@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "we-searchbar": "weui-miniprogram/searchbar/searchbar",
+    "we-gallery": "weui-miniprogram/gallery/gallery"
+  }
 }

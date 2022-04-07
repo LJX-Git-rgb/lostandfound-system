@@ -1,3 +1,23 @@
-<text>
-  Hello World
-</text>
+<view class="" hover-class="none" hover-stop-propagation="false">
+    <we-searchbar bind:search="search"></we-searchbar>
+    <swiper 
+    indicator-dots="{{indicatorDots}}" 
+    autoplay="{{autoplay}}" 
+    interval="{{interval}}" 
+    duration="{{duration}}"
+    circular="{{circular}}">
+        <block wx:for="{{galleryImgUrls}}">
+            <swiper-item>
+                <image src="{{item}}" class="slide-image" />
+            </swiper-item>
+        </block>
+    </swiper>
+
+    <button bindtap="search">
+        按钮文本
+    </button>
+    <text class="" selectable="false" space="false" decode="false">
+        {{goodsInfo}}
+    </text>
+      
+</view>

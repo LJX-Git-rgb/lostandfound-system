@@ -1,6 +1,7 @@
 {
     "pages": [
-        "pages/index/index"
+        "pages/index/index",
+        "pages/myInfo/myInfo"
     ],
     "window": {
         "navigationBarTitleText": "失物招领",
@@ -20,18 +21,12 @@
             },
             {
                 "pagePath": "pages/index/index",
-                "text": "分类",
+                "text": "我要发布",
                 "iconPath": "./icons/category.png",
                 "selectedIconPath": "./icons/category-o.png"
             },
             {
-                "pagePath": "pages/index/index",
-                "text": "购物车",
-                "iconPath": "./icons/cart.png",
-                "selectedIconPath": "./icons/cart-o.png"
-            },
-            {
-                "pagePath": "pages/index/index",
+                "pagePath": "pages/myInfo/myInfo",
                 "text": "我的",
                 "iconPath": "./icons/my.png",
                 "selectedIconPath": "./icons/my-o.png"

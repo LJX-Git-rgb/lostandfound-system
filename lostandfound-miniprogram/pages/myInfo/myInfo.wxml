@@ -1,0 +1,7 @@
+<text class="" selectable="false" space="false" decode="false">
+    {{name}}
+</text>
+  
+<button bindtap="changeName">
+        按钮文本
+</button>
