@@ -101,8 +101,8 @@ export default {
 
     #login-content {
         position: absolute;
-        right: 139px;
-        top: 50%;
+        right: 130px;
+        top: 45%;
         margin-top: -190px;
         width: 380px;
         height: 480px;
@@ -143,8 +143,8 @@ export default {
 
             span {
                 width: 100%;
-                font-size: 20px;
-                margin-left: 27%;
+                font-size: 19px;
+                margin-left: 20%;
             }
         }
     }
