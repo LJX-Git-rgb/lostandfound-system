@@ -19,7 +19,7 @@ div span {
 }
 
 div img {
-    margin-left: 67px;
+    margin-left: 45px;
     width: 300px;
     height: 250px;
 }
