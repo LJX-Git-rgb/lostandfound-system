@@ -31,24 +31,23 @@
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
-		<uni-card :cover="cover" @click="onClick">
-				<!-- <image slot='cover' style="width: 100%;" :src="cover"></image> -->
-				<text class="uni-body">这是一个带封面和操作栏的卡片示例，此示例展示了封面插槽和操作栏插槽的用法。</text>
-				<view slot="actions" class="card-actions">
-					<view class="card-actions-item" @click="actionsClick('分享')">
-						<uni-icons type="pengyouquan" size="18" color="#999"></uni-icons>
-						<text class="card-actions-item-text">分享</text>
+		<uni-card title="失物招领" sub-title="我丢了东西" extra="查看更多" :thumbnail="avatar" @click="onClick">
+		</uni-card>
+		<uni-card title="寻物启事" sub-title="我捡到了东西" extra="查看更多" :thumbnail="avatar" @click="onClick">
+		</uni-card>
+
+		<uni-popup ref="popup" type="dialog" :animation="false" :mask-click = "false" background-color="#ccc" >
+			<view class="dialog">
+				<view class='content'>
+					<view class="face-img">
+						<open-data type="userAvatarUrl"></open-data>
 					</view>
-					<view class="card-actions-item" @click="actionsClick('点赞')">
-						<uni-icons type="heart" size="18" color="#999"></uni-icons>
-						<text class="card-actions-item-text">点赞</text>
-					</view>
-					<view class="card-actions-item" @click="actionsClick('评论')">
-						<uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
-						<text class="card-actions-item-text">评论</text>
-					</view>
+					<view>申请获取以下权限</view>
+					<text>获得你的公开信息(昵称，头像等)</text>
+					<button type="primary" @click="login">授权登录</button>
 				</view>
-			</uni-card>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -59,6 +58,7 @@
 				location:'地址',
 				searchValue: '',
 
+				//轮播图
 				info: [{
 						colorClass: 'uni-bg-red',
 						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
@@ -102,7 +102,16 @@
 				current: 0,
 				mode: 'default',
 				dotsStyles: {},
-				swiperDotIndex: 0
+				swiperDotIndex: 0,	
+
+				//卡片
+				cover: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
+				avatar: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png',
+				extraIcon:{
+					color: '#4cd964',
+					size: '22',
+					type: 'gear-filled'
+				}
 			}
 		},
 		methods: {
@@ -151,12 +160,39 @@
 			},
 			onBanner(index) {
 				console.log(22222, index);
+			},
+
+			//卡片事件
+			onClick(e){
+				console.log(e)
+			},
+
+			//登录
+			login(){
+				wx.getUserProfile({
+					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					success: (res) => {
+						console.log("获取用户信息成功", res)
+						this.$store.dispatch('setUser',res.userInfo);
+						this.$refs.popup.close();
+						wx.showTabBar();
+					},
+					fail: res => {
+						console.log("获取用户信息失败", res)
+					}
+				})
 			}
 		},
-		onBackPress() {
-			// #ifdef APP-PLUS
-			plus.key.hideSoftKeybord();
-			// #endif
+		mounted(){
+        	// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
+			this.$refs.popup.open('bottom')
+			wx.hideTabBar();
+			uni.getLocation({
+				type: 'wgs84',
+				success: function (res) {
+					console.log(res);
+				}
+			});
 		}
 	}
 </script>
@@ -183,5 +219,45 @@
 	swiper-item image{
 		width: 100%;
 		height: 100%;
+	}
+
+	/* 弹出框 */
+	.dialog{
+		width: 100%;
+		height: 500rpx;
+		background-color: #ccc;
+		border: 1px solid #ccc;
+		padding-bottom: 50rpx;
+	}
+	.dialog .face-img{
+        width: 150rpx;  
+        height: 150rpx;  
+        border-radius: 50%;  
+        overflow:hidden;
+		margin-left: 50%;
+		margin-bottom: 50rpx !important;
+		margin-top: 100rpx !important;
+		position: relative;
+		left: -75rpx;
+	}
+	.dialog .content{
+		padding: 0 100rpx;
+	}
+	.dialog .content view{
+		font-size: 34rpx;
+		font-weight: bold;
+		margin-bottom: 10rpx;
+	}
+	.dialog .content text{
+		font-size: 24rpx;
+		margin-left: 30rpx;
+		margin-bottom: 20rpx;
+		display: inline-block;
+	}
+	.dialog .content button{
+		border-radius: 24rpx;
+		height: 80rpx;
+		font-size: 28rpx;
+		line-height: 80rpx;
 	}
 </style>

@@ -1,17 +1,24 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/myinfo/myinfo",
-			"style": {
-				"navigationBarTitleText": "我的信息"
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "失物招领"
 			}
+		},
+		{
+			"path": "pages/upload/upload",
+			"style": {
+				"navigationBarTitleText": "我要发布"
+			}
+		},
+		{
+			"path": "pages/myinfo/myinfo",
+			"style": {
+				"navigationBarTitleText": "我的信息"
+			}
 		}
+		
 		
 	],
 	"globalStyle": {
@@ -31,7 +38,7 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/upload/upload",
 				"text": "我要发布"
 			},
 			{
