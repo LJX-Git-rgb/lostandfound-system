@@ -23,7 +23,7 @@
         </div>
         <div id="login-footer">
       <span id="login-help">
-        <a id="login-help-text" href="">我需要帮助</a>
+        <a id="login-help-text" href="" @click="$router.push({path:'/help'})">我需要帮助</a>
         <span id="login-help-line"></span>
         <a id="login-helper-service" href="" class="el-icon-headset"></a>
       </span>
