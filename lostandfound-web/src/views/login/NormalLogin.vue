@@ -71,20 +71,20 @@
             </template>
             <div id="reg-body" style="display:flex">
                 <div id="left">
-                    <el-form ref="form" :model="form" :label-width="formLabelWidth">
-                        <el-form-item label="邮箱">
+                    <el-form :model="form" :rules="rules" :label-width="formLabelWidth">
+                        <el-form-item label="邮箱" prop="email" >
                             <el-input v-model="form.email" placeholder="输入注册用邮箱"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="密码">
+                        <el-form-item label="密码" prop="password">
                             <el-input v-model="form.password" placeholder="设置您的密码"></el-input>
                         </el-form-item>
-                        <el-form-item label="确认密码">
-                            <el-input v-model="form.confirmPwd" placeholder="确认您的密码"></el-input>
+                        <el-form-item label="确认密码" prop="checkPwd">
+                            <el-input v-model="form.checkPwd" placeholder="确认您的密码"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="验证码" id="identifyCode">
-                            <el-input v-model="checkCode" placeholder="请输入验证码"></el-input>
+                        <el-form-item label="验证码" prop="checkCode" id="identifyCode">
+                            <el-input v-model="form.checkCode" placeholder="请输入验证码"></el-input>
                             <div id="get-code" @click="refreshCode">
                                 <SIdentify :identifyCode="identifyCode"></SIdentify>
                             </div>
@@ -116,6 +116,21 @@ import SIdentify from "@/components/utils/SIdentify";
 export default {
     components: {SIdentify, VueGetCode},
     data() {
+        // 校验密码
+        var validatePass = (rule, value, callback) => {
+            if (this.form.password === '') {
+                callback(new Error('请输入密码'));
+            }
+        };
+        var validatePass2 = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请再次输入密码'));
+            } else if (value !== this.form.password) {
+                callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback();
+            }
+        };
         return {
             // login data
             userName: '',
@@ -125,8 +140,28 @@ export default {
             foundPwdDialogFormVisible: false,
             formLabelWidth: '80px',
             forgetPwdEmail: '',
-            form: {},
+            form: {
+                password:"",
+                checkPwd:"",
+            },
             inputCheckCode:'',
+            //reg dialog rules
+            rules:{
+                email: [
+                    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+                    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+                ],
+                password: [
+                    { validator: validatePass, trigger: 'blur' }
+                ],
+                checkPwd: [
+                    { validator: validatePass2, trigger: 'blur' }
+                ],
+                checkCode:[
+                    { required: true, message: '请输入验证码', trigger: 'blur' },
+                ]
+            },
+            confirmPwd:"",
             //show pwd & autoLogin rememberPwd flag
             pwdShow: true,
             autoLogin: false,
