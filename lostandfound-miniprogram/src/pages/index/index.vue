@@ -1,3 +1,5 @@
+// 1. 商品信息页
+// 3. 首页布局
 <template>
 	<view>
 		<ui-row class="bar">
@@ -25,23 +27,22 @@
 			:mode="mode"
 			:dots-styles="dotsStyles" field="content">
 
-			<swiper class="swiper-box" @change="change" :current="swiperDotIndex">
+			<swiper class="swiper-box" @change="change" :current="swiperDotIndex" :autoplay="true" :circular="true">
 				<swiper-item v-for="(item, index) in info" :key="index">
 					<image :src="item.url" alt="">
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
-		<uni-card title="失物招领" sub-title="我丢了东西" extra="查看更多" :thumbnail="avatar" @click="onClick">
+		<uni-card title="失物招领" sub-title="我丢了东西" extra="查看更多" :thumbnail="avatar" @click="toLostList">
 		</uni-card>
-		<uni-card title="寻物启事" sub-title="我捡到了东西" extra="查看更多" :thumbnail="avatar" @click="onClick">
+		<uni-card title="寻物启事" sub-title="我捡到了东西" extra="查看更多" :thumbnail="avatar" @click="toFindList">
 		</uni-card>
 
 		<uni-popup ref="popup" type="dialog" :animation="false" :mask-click = "false" background-color="#ccc" >
 			<view class="dialog">
 				<view class='content'>
-					<view class="face-img">
-						<open-data type="userAvatarUrl"></open-data>
-					</view>
+					<view class="face-img"></view>
+					<span>失物招领网</span>
 					<view>申请获取以下权限</view>
 					<text>获得你的公开信息(昵称，头像等)</text>
 					<button type="primary" @click="login">授权登录</button>
@@ -163,8 +164,12 @@
 			},
 
 			//卡片事件
-			onClick(e){
-				console.log(e)
+			toLostList(){
+				uni.navigateTo({url:'../lost/lostList'})
+			},
+			toFindList(){
+				console.log("find")
+				uni.navigateTo({url:'../find/findList'})
 			},
 
 			//登录
@@ -183,17 +188,17 @@
 				})
 			}
 		},
-		mounted(){
-        	// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
-			this.$refs.popup.open('bottom')
-			wx.hideTabBar();
-			uni.getLocation({
-				type: 'wgs84',
-				success: function (res) {
-					console.log(res);
-				}
-			});
-		}
+		// mounted(){
+        // 	// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
+		// 	this.$refs.popup.open('bottom')
+		// 	wx.hideTabBar();
+		// 	uni.getLocation({
+		// 		type: 'wgs84',
+		// 		success: function (res) {
+		// 			console.log(res);
+		// 		}
+		// 	});
+		// }
 	}
 </script>
 
@@ -235,10 +240,22 @@
         border-radius: 50%;  
         overflow:hidden;
 		margin-left: 50%;
-		margin-bottom: 50rpx !important;
-		margin-top: 100rpx !important;
+		margin-bottom: -30rpx !important;
+		margin-top: 90rpx !important;
 		position: relative;
 		left: -75rpx;
+
+		background-image: url("../../static/img/logo.jpg");
+		background-size: contain;
+
+	}
+	.dialog span{
+		margin-bottom: 40rpx;
+		font-size: 38rpx;
+		display: inline-block;
+		margin-left: 50%;
+		position: relative;
+		left: -105rpx;
 	}
 	.dialog .content{
 		padding: 0 100rpx;
