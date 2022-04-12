@@ -14,14 +14,11 @@ import lombok.Data;
 public class User {
     private Integer id;
     private String uid;
-    private String userName;
+    private String email;
     private String password;
     private String gender;
-    private String email;
     private Integer userRole;
     private String face;
     private Integer createTime;
     private Integer updateTime;
-    private String studentId;
-    private String universityId;
 }

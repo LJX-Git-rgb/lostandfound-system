@@ -35,23 +35,22 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
-    public User add(String userName, String pwd) {
+    public User add(String email, String pwd) {
         User user = new User();
-        user.setUserName(userName);
+        user.setEmail(email);
         user.setPassword(pwd);
-        UUID uuid = UUID.randomUUID();
-        user.setUid(uuid.toString());
+        user.setUid(UUID.randomUUID().toString());
         try {
             userMapper.addUser(user);
         }catch (Exception exception){
             if (exception instanceof SQLIntegrityConstraintViolationException || exception instanceof DuplicateKeyException) {
-                System.out.println("用户名冲突");
+//                用户名冲突
                 return null;
             }else{
                 exception.printStackTrace();
             }
         }
-        return userMapper.findByUserName(userName);
+        return userMapper.findUserByEmail(email);
     }
 
     @Override
@@ -79,7 +78,7 @@ public class UserService implements UserServiceImpl {
 
     @Override
     public User login(String userName) {
-        return userMapper.findByUserName(userName);
+        return userMapper.findUserByEmail(userName);
     }
 
     @Override

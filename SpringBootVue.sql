@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 30/03/2022 16:45:01
+ Date: 12/04/2022 16:37:39
 */
 
 SET NAMES utf8mb4;
@@ -131,23 +131,11 @@ CREATE TABLE `found_goods` (
 -- Records of found_goods
 -- ----------------------------
 BEGIN;
-COMMIT;
-
--- ----------------------------
--- Table structure for lost_found
--- ----------------------------
-DROP TABLE IF EXISTS `lost_found`;
-CREATE TABLE `lost_found` (
-  `lid` bigint DEFAULT NULL,
-  `fid` int DEFAULT NULL,
-  `id` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- ----------------------------
--- Records of lost_found
--- ----------------------------
-BEGIN;
+INSERT INTO `found_goods` VALUES (1, '01.jpg', '白色蓝牙耳机,亚太楼', '耳机', '否', '电子产品', '2022-01-01 21:55:45', '亚太楼', '2022-01-01 21:00:00', NULL, NULL);
+INSERT INTO `found_goods` VALUES (2, '02.jpg', '椭圆形眼镜片', '镜片', '否', '生活用品', '2022-01-02 22:18:58', '操场', '2022-01-02 12:00:00', NULL, NULL);
+INSERT INTO `found_goods` VALUES (3, '03.jpg', '圆领白色T恤', '衣服', '是', '生活用品', '2022-01-03 22:00:00', '亚太楼', '2022-01-03 21:00:00', NULL, NULL);
+INSERT INTO `found_goods` VALUES (4, '04.jpg', '运动跑步手环', '手环', '是', '电子产品', '2022-02-02 12:00:00', '亚太楼', '2022-02-03 17:00:00', NULL, NULL);
+INSERT INTO `found_goods` VALUES (5, '05.jpg', '特百惠黑色水杯', '水杯', '是', '生活用品', '2022-03-05 16:00:00', '餐厅', '2022-03-06 18:00:00', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -173,6 +161,11 @@ CREATE TABLE `lost_goods` (
 -- Records of lost_goods
 -- ----------------------------
 BEGIN;
+INSERT INTO `lost_goods` VALUES (1, '01.jpg', '白色蓝牙耳机,亚太楼', '耳机', '否', '电子产品', '2022-01-01 21:55:45', '亚太楼', '2022-01-01 21:00:00', NULL, NULL);
+INSERT INTO `lost_goods` VALUES (2, '02.jpg', '椭圆形眼镜片', '镜片', '否', '生活用品', '2022-01-02 22:18:58', '操场', '2022-01-02 12:00:00', NULL, NULL);
+INSERT INTO `lost_goods` VALUES (3, '03.jpg', '圆领白色T恤', '衣服', '是', '生活用品', '2022-01-03 22:00:00', '亚太楼', '2022-01-03 21:00:00', NULL, NULL);
+INSERT INTO `lost_goods` VALUES (4, '04.jpg', '运动跑步手环', '手环', '是', '电子产品', '2022-02-02 12:00:00', '亚太楼', '2022-02-03 17:00:00', NULL, NULL);
+INSERT INTO `lost_goods` VALUES (5, '05.jpg', '特百惠黑色水杯', '水杯', '是', '生活用品', '2022-03-05 16:00:00', '餐厅', '2022-03-06 18:00:00', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -199,27 +192,22 @@ DROP TABLE IF EXISTS `user_base`;
 CREATE TABLE `user_base` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `uid` varchar(255) NOT NULL COMMENT '用户ID',
-  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名，唯一',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户邮箱，唯一',
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
   `gender` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '用户性别 0-female 1-male',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户绑定的邮箱',
   `user_role` tinyint unsigned NOT NULL DEFAULT '1' COMMENT '1正常用户 2身份认证用户 3学生认证用户 4禁言用户 5注销用户 6管理员',
   `face` varchar(255) NOT NULL DEFAULT '' COMMENT '头像',
   `create_time` int unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
-  `student_id` int NOT NULL DEFAULT '0' COMMENT '学生用户的学号',
-  `university_id` bigint NOT NULL DEFAULT '0' COMMENT '学生用户绑定的学校',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `user_name` (`user_name`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of user_base
 -- ----------------------------
 BEGIN;
-INSERT INTO `user_base` VALUES (1, '661a3d12-2581-467d-92e3-c6d3221c5d09', 'Jason', 'haha', 0, '', 1, '', 0, 0, 0, 0);
-INSERT INTO `user_base` VALUES (17, '5947a12f-123e-4e07-a452-1cd8a728f8d3', 'nick', 'nick', 0, '', 1, '', 0, 0, 0, 0);
+INSERT INTO `user_base` VALUES (21, 'b518aa93-faec-4b65-bfe3-87a1ef55d2cf', '1612253221@qq.com', '1111', 0, 1, '', 0, 0);
 COMMIT;
 
 -- ----------------------------

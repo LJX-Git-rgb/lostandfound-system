@@ -14,9 +14,9 @@ import LostGoods from "@/views/mainsite/LostGoods";
 import LostGoodsInfo from '../views/mainsite/LostGoodsInfo.vue';
 import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
 import AdminLogin from '../views/login/AdminLogin.vue';
-import Upload from "../views/mainsite/upload";
+import Upload from "../views/mainsite/Upload";
 import MyPost from "../views/mainsite/MyPost";
-
+import Help from "@/views/mainsite/Help";
 Vue.use(VueRouter)
 
 const routes = [
@@ -70,6 +70,10 @@ const routes = [
             {
                 path: 'mypost',
                 component: MyPost
+            },
+            {
+                path: 'help',
+                component: Help
             }
         ]
     },

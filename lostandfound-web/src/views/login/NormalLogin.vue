@@ -6,15 +6,17 @@
                 没有账号？去<span id="register" @click="regist">注册</span>
             </p>
         </div>
+
         <!-- login form -->
         <el-form :label-width="formLabelWidth" class="login-form">
             <el-form-item label="账号">
-                <el-input v-model="userName" placeholder="请输入用户名 / 邮箱 / 账号" prefix-icon="el-icon-user"></el-input>
+                <el-input v-model="loginForm.account" placeholder="请输入用户名 / 邮箱" prefix-icon="el-icon-user"></el-input>
             </el-form-item>
+
             <el-form-item label="密码">
                 <el-input
                     :type='pwdShow ? "password" : "text"'
-                    v-model="password"
+                    v-model="loginForm.password"
                     placeholder="请输入密码"
                     prefix-icon="el-icon-lock"
                 >
@@ -23,6 +25,7 @@
                 </el-input>
                 <span id="forgetpwd" @click="foundPwdDialogFormVisible = true;">忘记密码?点击找回</span>
             </el-form-item>
+
             <el-form-item id="loginbutton">
                 <el-button type="primary" id="loginButton" @click="login">登录</el-button>
                 <div style="display:flex">
@@ -31,6 +34,7 @@
                 </div>
             </el-form-item>
         </el-form>
+
         <!--find pssword-->
         <el-dialog
             :visible.sync="foundPwdDialogFormVisible"
@@ -59,6 +63,7 @@
                 <el-button type="primary" @click="foundPwd">确 定</el-button>
             </div>
         </el-dialog>
+
         <!-- reg message box -->
         <el-dialog
             :visible.sync="regDialogFormVisible"
@@ -69,27 +74,25 @@
             <template slot="title">
                 <h2>我要注册</h2>
             </template>
+
             <div id="reg-body" style="display:flex">
                 <div id="left">
-                    <el-form :model="form" :rules="rules" :label-width="formLabelWidth">
+                    <el-form :model="regForm" :rules="rules" :label-width="formLabelWidth">
                         <el-form-item label="邮箱" prop="email" >
-                            <el-input v-model="form.email" placeholder="输入注册用邮箱"></el-input>
+                            <el-input v-model="regForm.email" placeholder="输入注册用邮箱"></el-input>
                         </el-form-item>
-
                         <el-form-item label="密码" prop="password">
-                            <el-input v-model="form.password" placeholder="设置您的密码"></el-input>
+                            <el-input v-model="regForm.password" placeholder="设置您的密码"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="checkPwd">
-                            <el-input v-model="form.checkPwd" placeholder="确认您的密码"></el-input>
+                            <el-input v-model="regForm.checkPwd" placeholder="确认您的密码"></el-input>
                         </el-form-item>
-
-                        <el-form-item label="验证码" prop="checkCode" id="identifyCode">
-                            <el-input v-model="form.checkCode" placeholder="请输入验证码"></el-input>
+                        <el-form-item label="验证码" prop="identifyCode" id="identifyCode">
+                            <el-input v-model="regForm.identifyCode" placeholder="请输入验证码"></el-input>
                             <div id="get-code" @click="refreshCode">
-                                <SIdentify :identifyCode="identifyCode"></SIdentify>
+                                <SIdentify :identifyCode="createdIdentifyCode"></SIdentify>
                             </div>
                         </el-form-item>
-
                     </el-form>
 
                     <div class="dialog-footer">
@@ -97,14 +100,15 @@
                         <el-button type="primary" @click="createUser">确 定</el-button>
                     </div>
                 </div>
+
                 <div id="mid"></div>
+
                 <div id="right">
-                    <center>
                         <img src="../../assets/image/login_backImg.jpeg" alt="">
                         <h4>微信扫二维码直接登录</h4>
-                    </center>
                 </div>
             </div>
+
         </el-dialog>
     </div>
 </template>
@@ -116,40 +120,67 @@ import SIdentify from "@/components/utils/SIdentify";
 export default {
     components: {SIdentify, VueGetCode},
     data() {
-        // 校验密码
+        // 注册密码和验证码的校验
         var validatePass = (rule, value, callback) => {
-            if (this.form.password === '') {
+            if (this.regForm.password === '') {
                 callback(new Error('请输入密码'));
             }
         };
         var validatePass2 = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('请再次输入密码'));
-            } else if (value !== this.form.password) {
+            } else if (value !== this.regForm.password) {
                 callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback();
+            }
+        };
+        var validateIdentifyCode = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入验证码'));
+            } else if (value.toUpperCase() !== this.createdIdentifyCode.toUpperCase()) {
+                callback(new Error('验证码与图片不符!'));
             } else {
                 callback();
             }
         };
         return {
             // login data
-            userName: '',
-            password: '',
-            //dialog form data
-            regDialogFormVisible: false,
-            foundPwdDialogFormVisible: false,
+            loginForm:{
+                account: '', // 能是用户名/邮箱
+                password: '',
+            },
+
+            //IdentifyCode
+            createdIdentifyCode: "",
+            identifyCodes: "0123456789abcdwerwshdjeJKDHRJHKOOPLMKQ",//绘制的随机数
+
+            //dialog setting
             formLabelWidth: '80px',
-            forgetPwdEmail: '',
-            form: {
+
+            //reg dialog data
+            regDialogFormVisible: false,
+            regForm: {
+                email:"",
                 password:"",
                 checkPwd:"",
+                identifyCode:"",
             },
+
+            // =================
+            foundPwdDialogFormVisible: false,
+            forgetPwdEmail: '',
+
             inputCheckCode:'',
-            //reg dialog rules
+
+            //form rules
             rules:{
                 email: [
                     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                     { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+                ],
+                account: [
+                    { required: true, message: '请输入账号', trigger: 'blur' },
                 ],
                 password: [
                     { validator: validatePass, trigger: 'blur' }
@@ -157,19 +188,16 @@ export default {
                 checkPwd: [
                     { validator: validatePass2, trigger: 'blur' }
                 ],
-                checkCode:[
-                    { required: true, message: '请输入验证码', trigger: 'blur' },
-                ]
+                identifyCode:[
+                    {validator: validateIdentifyCode, trigger: 'blur' },
+                ],
             },
-            confirmPwd:"",
+
             //show pwd & autoLogin rememberPwd flag
             pwdShow: true,
             autoLogin: false,
             rememberPwd: false,
-            //reg checkCode
-            checkCode: '',
-            identifyCode: "",
-            identifyCodes: "0123456789abcdwerwshdjeJKDHRJHKOOPLMKQ",//绘制的随机数
+
         };
     },
     methods: {
@@ -180,11 +208,11 @@ export default {
         },
         makeCode(data, len) {
             for (let i = 0; i < len; i++) {
-                this.identifyCode += data[this.randomNum(0, data.length - 1)]
+                this.createdIdentifyCode += data[this.randomNum(0, data.length - 1)]
             }
         },
         refreshCode() {
-            this.identifyCode = "";
+            this.createdIdentifyCode = "";
             this.makeCode(this.identifyCodes, 4);
         },
 
@@ -220,16 +248,20 @@ export default {
             this.refreshCode()
         },
         createUser() {
-            this.regDialogFormVisible = false;
-            this.addUser(this.form);
+            if (this.regForm.identifyCode != this.createdIdentifyCode){
+                this.$message.error("验证码不匹配");
+            }else {
+                this.regDialogFormVisible = false;
+                this.addUser();
+            }
         },
-        addUser(user) {
+        addUser() {
             this.$axios({
-                method: "get",
+                method: "post",
                 url: "/user/add",
-                params: {
-                    userName: user.name,
-                    pwd: user.password,
+                data: {
+                    email : this.regForm.email,
+                    password : this.regForm.password
                 }
             }).then(res => {
                 this.form = {}
@@ -243,7 +275,6 @@ export default {
                 }
             }).catch(err => {
                 this.$message.error("服务器错误，稍等会再注册")
-                console.log(res);
             });
         },
 
@@ -253,8 +284,8 @@ export default {
                 method: "post",
                 url: "/user/login",
                 data: {
-                    userName: this.userName,
-                    password: this.password
+                    account: this.loginForm.account,
+                    password: this.loginForm.password
                 }
             }).then(res => {
                 if (res.data.code == 200) {
@@ -380,6 +411,7 @@ export default {
 
 #reg-body #right {
     flex: 1;
+    text-align: center;
 }
 
 #reg-body #right img {
