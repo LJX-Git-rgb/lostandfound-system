@@ -14,9 +14,8 @@ import LostGoods from "@/views/mainsite/LostGoods";
 import LostGoodsInfo from '../views/mainsite/LostGoodsInfo.vue';
 import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
 import AdminLogin from '../views/login/AdminLogin.vue';
-import Upload from "../views/mainsite/Upload";
+import Upload from "../views/mainsite/upload";
 import MyPost from "../views/mainsite/MyPost";
-import Help from "../views/mainsite/Help"
 
 Vue.use(VueRouter)
 
@@ -52,7 +51,7 @@ const routes = [
 
             // /upload 我要发布部分
             {
-                path: 'Upload',
+                path: 'upload',
                 component: Upload,
             },
 
@@ -74,11 +73,7 @@ const routes = [
             }
         ]
     },
-    // help路由
-    {
-        path:'/help',
-        component: Help
-    },
+
 //  login路由
     {
         path: '/login',
