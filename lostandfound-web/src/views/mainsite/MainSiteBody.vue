@@ -1,32 +1,6 @@
 <template>
     <div id="mainsite-body">
         <div id="menu-class">
-            <!--        <el-card shadow="hover">-->
-            <!--            <h3>筛选条件 :</h3>-->
-            <!--            <el-form>-->
-            <!--                <el-form-item>-->
-            <!--                    <span>日期： </span>-->
-            <!--                    <el-date-picker-->
-            <!--                        v-model="timeRange"-->
-            <!--                        type="daterange"-->
-            <!--                        range-separator="至"-->
-            <!--                        start-placeholder="开始日期"-->
-            <!--                        end-placeholder="结束日期">-->
-            <!--                    </el-date-picker>-->
-            <!--                </el-form-item>-->
-            <!--                <el-form-item>-->
-            <!--                    <span>类别： </span>-->
-            <!--                    <el-select v-model="value" placeholder="请选择" id="type">-->
-            <!--                        <el-option-->
-            <!--                            v-for="item in options"-->
-            <!--                            :key="item.value"-->
-            <!--                            :label="item.label"-->
-            <!--                            :value="item.value">-->
-            <!--                        </el-option>-->
-            <!--                    </el-select>-->
-            <!--                </el-form-item>-->
-            <!--            </el-form>-->
-            <!--        </el-card>-->
         </div>
         <div id="carousel-and-filter">
             <div id="carousel-wrap">
@@ -54,7 +28,7 @@
         <div id="class-goods">
             <div id="lost-goods">
             <span>最新寻物启事:
-                <a href="" class="el-icon-right">查看更多</a>
+                <a href="" @click="$router.push({path:'/lostgoods'})" class="el-icon-right">查看更多</a>
             </span>
                 <div id="goods-list">
                     <li v-for="i in count" class="list-item" :key="i">
@@ -63,7 +37,7 @@
                 </div>
             </div>
             <div id="find-goods">
-                <span>最新失物招领: <a href="" class="el-icon-right">查看更多</a></span>
+                <span>最新失物招领: <a href="" class="el-icon-right" @click="$router.push({path:'/findgoods'})">查看更多</a></span>
                 <div id="goods-list">
                     <li v-for="i in count" class="list-item" :key="i">
                         <goods-item/>
@@ -110,27 +84,32 @@ export default {
         }
     },
     computed: {
-        noMore() {
-            return this.count >= 20
-        },
-        disabled() {
-            return this.loading || this.noMore
-        }
     },
     methods: {
-        searchGoods() {
-            console.log("search")
-        },
-        load() {
-            this.loading = true
-            // setTimeout(() => {
-            // 	this.count += 2
-            // 	this.loading = false
-            // }, 2000)
-        },
-        haha() {
-        }
     },
+    mounted() {
+        //调用axios请求最新的物品数据
+        // this.$axios({
+        //     method: "post",
+        //     url: "/user/add",
+        //     data: {
+        //         email : this.regForm.email,
+        //         password : this.regForm.password
+        //     }
+        // }).then(res => {
+        //     this.form = {}
+        //     if (res.data.code == 200) {
+        //         this.$message({
+        //             type: 'success',
+        //             message: res.data.msg
+        //         })
+        //     } else {
+        //         this.$message.error(res.data.msg);
+        //     }
+        // }).catch(err => {
+        //     this.$message.error("服务器错误，稍等会再注册")
+        // });
+    }
 }
 </script>
 
