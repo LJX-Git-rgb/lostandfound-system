@@ -35,14 +35,14 @@ public class UserController {
      * @return: team.system.lostandfoundserver.domain.Result<team.system.lostandfoundserver.domain.User>
      **/
     @RequestMapping("/add")
-    public Result add(String userName,String pwd){
-        User user = userService.add(userName, pwd);
+    public Result add(@RequestBody  User user){
+        User regUser = userService.add(user.getEmail(), user.getPassword());
         ArrayList data = new ArrayList();
         data.add(user);
         Result regResult = Result.success(data);
         regResult.setMsg("恭喜您注册成功");
-        if (user == null){
-            regResult = Result.error("500","用户名已存在，请更换用户名");
+        if (regUser == null){
+            regResult = Result.error("500","邮箱已存在，请更换邮箱");
         }
         return regResult;
     }
@@ -56,7 +56,7 @@ public class UserController {
      **/
     @RequestMapping("/login")
     public Result login(@RequestBody HashMap<String,String> map){
-        User user = userService.login(map.get("userName"));
+        User user = userService.login(map.get("account"));
         if (user == null){
             return Result.error("500", "抱歉，未查询到该用户，请检查您的用户名");
         }

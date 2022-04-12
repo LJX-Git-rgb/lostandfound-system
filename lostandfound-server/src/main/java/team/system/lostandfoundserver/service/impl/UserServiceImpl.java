@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserServiceImpl {
     List<User> findUserByPage(Integer currentPage, Integer pageSize);
 
-    User add(String userName, String pwd);
+    User add(String email, String pwd);
 
     User login(String userName);
 

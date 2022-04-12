@@ -22,7 +22,7 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Insert("insert into user_base (uid,user_name,password)  values(#{uid},#{userName},#{password}) ")
+    @Insert("insert into user_base (uid,email,password)  values(#{uid},#{email},#{password}) ")
     boolean addUser(User user);
 
     @Select("select * from user_base")
@@ -36,9 +36,6 @@ public interface UserMapper {
 
     @Delete("delete from user_base where id = #{id}")
     Boolean delete(Integer id);
-
-    @Select("select * from user_base where user_name = #{userName}")
-    User findByUserName(String userName);
 
     @Select("select * from user_base where email = #{email}")
     User findUserByEmail(String email);
