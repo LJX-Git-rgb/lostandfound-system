@@ -37,9 +37,14 @@
                 <el-form-item>
                     <el-upload
                         class="upload-demo"
+                        ref="upload"
                         drag
-                        action="http://localhost:8081/finds/add"
-                        multiple>
+                        action="http://localhost:8081/finds/addImg"
+                        multiple
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :on-success="imgSuccess"
+                        :auto-upload="false">
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                         <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -52,53 +57,53 @@
             </el-form>
         </div>
 
-<!--        <div id="lostUpload" v-if="!findOrLost">-->
-<!--            <span>失物招领 : </span>-->
-<!--            <el-form ref="form" :model="form" label-width="80px">-->
-<!--                <el-form-item label="标题">-->
-<!--                    <el-input v-model="form.name"></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="丢失区域">-->
-<!--                    <el-select v-model="form.region" placeholder="请选择活动区域">-->
-<!--                        <el-option label="区域一" value="shanghai"></el-option>-->
-<!--                        <el-option label="区域二" value="beijing"></el-option>-->
-<!--                    </el-select>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="丢失时间">-->
-<!--                    <el-col :span="11">-->
-<!--                        <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"-->
-<!--                                        style="width: 100%;"></el-date-picker>-->
-<!--                    </el-col>-->
-<!--                    <el-col class="line" :span="2">————</el-col>-->
-<!--                    <el-col :span="11">-->
-<!--                        <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>-->
-<!--                    </el-col>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="失物类别">-->
-<!--                    <el-checkbox-group v-model="form.type">-->
-<!--                        <el-checkbox label="食品" name="type"></el-checkbox>-->
-<!--                        <el-checkbox label="生活用品" name="type"></el-checkbox>-->
-<!--                        <el-checkbox label="电子设备" name="type"></el-checkbox>-->
-<!--                    </el-checkbox-group>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item label="失物详情描述">-->
-<!--                    <el-input type="textarea" v-model="form.desc"></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-upload-->
-<!--                    class="upload-demo"-->
-<!--                    drag-->
-<!--                    action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--                    multiple>-->
-<!--                    <i class="el-icon-upload"></i>-->
-<!--                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
-<!--                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
-<!--                </el-upload>-->
+       <!-- <div id="lostUpload" v-if="!findOrLost">
+            <span>失物招领 : </span>
+            <el-form ref="form" :model="form" label-width="80px">
+                <el-form-item label="标题">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="丢失区域">
+                    <el-select v-model="form.region" placeholder="请选择活动区域">
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="丢失时间">
+                    <el-col :span="11">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"
+                                        style="width: 100%;"></el-date-picker>
+                    </el-col>
+                    <el-col class="line" :span="2">————</el-col>
+                    <el-col :span="11">
+                        <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="失物类别">
+                    <el-checkbox-group v-model="form.type">
+                        <el-checkbox label="食品" name="type"></el-checkbox>
+                        <el-checkbox label="生活用品" name="type"></el-checkbox>
+                        <el-checkbox label="电子设备" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="失物详情描述">
+                    <el-input type="textarea" v-model="form.desc"></el-input>
+                </el-form-item>
+                <el-upload
+                    class="upload-demo"
+                    drag
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    multiple>
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload>
 
-<!--                <el-form-item>-->
-<!--                    <el-button type="primary" @click="onSubmit">立即创建</el-button>-->
-<!--                </el-form-item>-->
-<!--            </el-form>-->
-<!--        </div>-->
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                </el-form-item>
+            </el-form>
+        </div>-->
 
     </div>
 
@@ -119,23 +124,42 @@ export default {
                 area: '',
                 date: '',
                 selectedType: [],
+                imgList:[],
             }
         }
     },
     methods: {
+        imgSuccess(res,file,fileList){
+
+            console.log(res)
+        },
+        submitUpload() {
+            this.$refs.upload.submit();
+        },
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
         onSubmit() {
-            console.log(this.form)
-            // this.$axios({
-            //     method:"post",
-            //     url:"/",
-            //     data:{
-            //
-            //     }
-            // }).then(res => {
-            //
-            // }).catch(err => {
-            //
-            // })
+            this.submitUpload();
+            this.$axios({
+                method:"post",
+                url:"/finds/add",
+                data:{
+                    uid: this.$store.state.user.id,
+                    title: this.form.title,
+                    desc: this.form.desc,
+                    foundArea: this.form.area,
+                    foundTime: this.form.date,
+                    tag: JSON.stringify(this.form.selectedType)
+                }
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
         }
     }
 }

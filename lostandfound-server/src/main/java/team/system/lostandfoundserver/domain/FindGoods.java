@@ -15,6 +15,6 @@ public class FindGoods {
   private String state;
   private Date createTime;
   private Date foundTime;
-  private Date foundArea;
+  private String foundArea;
   private Integer uid;
 }
