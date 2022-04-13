@@ -2,6 +2,7 @@
     <div id="mainsite-body">
         <div id="menu-class">
         </div>
+<!--        轮播图和分类展示-->
         <div id="carousel-and-filter">
             <div id="carousel-wrap">
                 <el-carousel :interval="5000">
@@ -25,26 +26,18 @@
                 </li>
             </ul>
         </div>
+<!--        分类展示-->
         <div id="class-goods">
             <div id="lost-goods">
-            <span>最新寻物启事:
-                <a href="" @click="$router.push({path:'/lostgoods'})" class="el-icon-right">查看更多</a>
-            </span>
-                <div id="goods-list">
-                    <li v-for="i in count" class="list-item" :key="i">
-                        <goods-item/>
-                    </li>
-                </div>
+                <span>最新寻物启事:<a @click="$router.push({path:'/lostgoods'})" class="el-icon-right">查看更多</a></span>
+                <goods-item/>
             </div>
             <div id="find-goods">
-                <span>最新失物招领: <a href="" class="el-icon-right" @click="$router.push({path:'/findgoods'})">查看更多</a></span>
-                <div id="goods-list">
-                    <li v-for="i in count" class="list-item" :key="i">
-                        <goods-item/>
-                    </li>
-                </div>
+                <span>最新失物招领: <a class="el-icon-right" @click="$router.push({path:'/findgoods'})">查看更多</a></span>
+                <goods-item/>
             </div>
         </div>
+<!--        底部-->
         <div id="footer"></div>
     </div>
 </template>
@@ -67,7 +60,6 @@ export default {
             }],
             value: '',
 
-            count: 2,
 
             // 轮播图
             imgFolder: '',
@@ -205,6 +197,7 @@ export default {
                     font-size: 18px;
                     color: #cccccc;
                     line-height: 33px;
+                    cursor: pointer;
                 }
             }
 
