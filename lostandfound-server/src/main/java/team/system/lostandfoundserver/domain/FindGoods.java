@@ -9,7 +9,7 @@ public class FindGoods {
 
   private Integer id;
   private String title;
-  private String desc;
+  private String description;
   private String image;
   private String tag;
   private Integer state;

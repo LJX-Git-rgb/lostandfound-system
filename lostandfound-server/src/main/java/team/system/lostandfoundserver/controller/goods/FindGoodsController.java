@@ -38,8 +38,9 @@ public class FindGoodsController {
   @Autowired
   FindGoodsService service;
 
-  public Result findLimitNew(){
-    return null;
+  @RequestMapping("/findLimit")
+  public List<FindGoods> findLimit(Integer begin,Integer end){
+    return service.findByLimit(begin,end);
   }
 
   @RequestMapping("/addImg")

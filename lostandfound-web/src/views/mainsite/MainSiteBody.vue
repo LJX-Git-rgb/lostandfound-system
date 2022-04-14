@@ -13,16 +13,14 @@
             </div>
             <ul id="filter-menu">
                 <li>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+                    <div v-for="item in foundGoods" :key="item.id">
+                        <a @click="$router.push({path:'/'})"><img :src= "require('../../../../image/foundgoods/' + item.image)" alt=""><span>{{ item.title }}</span></a>
+                    </div>
                 </li>
                 <li>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
-                    <div><a href=""><img src="../../assets/image/haha.jpeg" alt=""><span>haha</span></a></div>
+                    <div v-for="item in lostGoods" :key="item.id">
+                        <a @click="$router.push({path:'/'})"><img :src= "require('../../../../image/lostgoods/' + item.image)" alt=""><span>{{ item.title }}</span></a>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -50,6 +48,14 @@ export default {
     components: {FindGoods, goodsItem},
     data() {
         return {
+            //分页获取数据
+            begin:0,
+            end:10,
+
+            //数据集
+            foundGoods:[],
+            lostGoods:[],
+
             timeRange: '',
             options: [{
                 value: '选项1',
@@ -80,27 +86,37 @@ export default {
     methods: {
     },
     mounted() {
-        //调用axios请求最新的物品数据
+        // 调用axios请求最新的物品数据
+        this.$axios({
+            method: "get",
+            url: "/finds/findLimit",
+            params: {
+                begin : this.begin,
+                end : this.end
+            }
+        }).then(res => {
+            if (res.status == 200 || res.statusText == "OK"){
+                this.foundGoods = res.data;
+            }
+        }).catch(err => {
+        });
+
+//上面那个是读取失物招领，这个是读取寻物启事，写寻物启事的话直接解开写后台就行
         // this.$axios({
-        //     method: "post",
-        //     url: "/user/add",
-        //     data: {
-        //         email : this.regForm.email,
-        //         password : this.regForm.password
+        //     method: "get",
+        //     url: "/losts/lostLimit",
+        //     params: {
+        //         begin : this.begin,
+        //         end : this.end
         //     }
         // }).then(res => {
-        //     this.form = {}
-        //     if (res.data.code == 200) {
-        //         this.$message({
-        //             type: 'success',
-        //             message: res.data.msg
-        //         })
-        //     } else {
-        //         this.$message.error(res.data.msg);
+        //     if (res.status == 200 || res.statusText == "OK"){
+        //         this.lostGoods = res.data;
         //     }
         // }).catch(err => {
-        //     this.$message.error("服务器错误，稍等会再注册")
         // });
+
+
     }
 }
 </script>

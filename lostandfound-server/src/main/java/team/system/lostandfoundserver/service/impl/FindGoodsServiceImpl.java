@@ -1,11 +1,13 @@
 package team.system.lostandfoundserver.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.system.lostandfoundserver.domain.FindGoods;
-import team.system.lostandfoundserver.mapper.FindGoodsMapper;
+
+import java.util.List;
 
 @Repository
 public interface FindGoodsServiceImpl {
     boolean addGoods(FindGoods goods);
+
+    List<FindGoods> findByLimit(Integer begin,Integer end);
 }
