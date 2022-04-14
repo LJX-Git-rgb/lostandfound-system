@@ -63,7 +63,26 @@
                 <el-button type="primary" @click="foundPwd">确 定</el-button>
             </div>
         </el-dialog>
+        <!--change password-->
+        <el-dialog
+            :visible.sync="changePwdDialogFormVisible"
+            center
+            width="35%"
+            top="30vh">
 
+            <template slot="title"><h2>修改密码</h2></template>
+            <el-form ref="form" :label-width="formLabelWidth">
+                <el-form-item label="新密码：">
+                    <el-input v-model="newpwd" placeholder="请输入新密码"></el-input>
+                </el-form-item>
+                <el-form-item label="确认新密码：">
+                    <el-input v-model="checkpwd" placeholder="请确认新密码"></el-input>
+                </el-form-item>
+            </el-form>
+            <div class="reg-dialog-footer">
+                <el-button type="primary" @click="login">确 定</el-button>
+            </div>
+        </el-dialog>
         <!-- reg message box -->
         <el-dialog
             :visible.sync="regDialogFormVisible"
@@ -167,11 +186,13 @@ export default {
                 identifyCode:"",
             },
 
-            // =================
+            //findPwd data
             foundPwdDialogFormVisible: false,
-            forgetPwdEmail: '',
-
+            changePwdDialogFormVisible: false,
             inputCheckCode:'',
+            newpwd:'',
+            checkpwd: '',
+            forgetPwdEmail: '',
 
             //form rules
             rules:{
@@ -218,13 +239,15 @@ export default {
 
         //found pwd checkCode & foundPwd methods
         getCode() {
+            this.sendEmail();
         },
-        foundPwd() {
+        sendEmail() {
             this.$axios({
                 method: "post",
                 url: "/user/retrive",
                 data: {
                     email: this.forgetPwdEmail,
+                    identifyCode: this.createdIdentifyCode
                 }
             }).then(res => {
                 if (res.data.code == 200) {
@@ -241,11 +264,36 @@ export default {
                 console.log(res);
             });
         },
-
+        foundPwd() {
+            if (this.createdIdentifyCode == this.inputCheckCode) {
+                //    tiao zhuan到更改密码的弹窗
+                this.foundPwdDialogFormVisible = false;
+                this.changePwdDialogFormVisible = true;
+            } else {
+                this.$message.error("验证码错误");
+            }
+        },
+                //
+                // this.$axios({
+                //     method: "post",
+                //     url: "/user/changepwd",
+                //     data:{
+                //         newpwd: this.newpwd,
+                //         checkpwd: this.checkpwd
+                //     }
+                // }).then(res => {
+                //     if(res.data.code ==200){
+                //         this.$message({
+                //             type:'success',
+                //             message:res.data.msg
+                //         })
+                //     }else{
+                //         this.$message.error(res.data.msg);
+                //     }
+                // })
         //reg methods
         regist() {
             this.regDialogFormVisible = true;
-            this.refreshCode()
         },
         createUser() {
             if (this.regForm.identifyCode != this.createdIdentifyCode){
@@ -306,6 +354,9 @@ export default {
                 console.log(res);
             });
         },
+    },
+    mounted() {
+      this.refreshCode();
     }
 }
 </script>

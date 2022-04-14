@@ -20,5 +20,7 @@ public interface UserServiceImpl {
 
     Integer countUser();
 
-    User retrive(String email);
+    User retrive(String email, String identifyCode);
+
+    User changepwd(String newpwd,String checkpwd);
 }

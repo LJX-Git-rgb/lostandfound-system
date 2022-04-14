@@ -77,11 +77,22 @@ public class UserController {
      **/
     @RequestMapping("/retrive")
     public Result retrive(@RequestBody HashMap<String,String> map) {
-        User user = userService.retrive(map.get("email"));
+        User user = userService.retrive(map.get("email"), map.get("identifyCode"));
         ArrayList data = new ArrayList();
         data.add(user);
         if (user == null){
             return Result.error("500", "抱歉，未查询到该用户，请检查您的邮箱");
+        }
+        return Result.success(data);
+    }
+
+    @RequestMapping("/changepwd")
+    public Result changepwd(@RequestBody HashMap<String, String> map){
+        User user = userService.changepwd(map.get("newpwd"),map.get("checkpwd"));
+        ArrayList data = new ArrayList();
+        data.add(user);
+        if (user == null){
+            return Result.error("500", "抱歉，确认密码输入错误，请重新确认");
         }
         return Result.success(data);
     }

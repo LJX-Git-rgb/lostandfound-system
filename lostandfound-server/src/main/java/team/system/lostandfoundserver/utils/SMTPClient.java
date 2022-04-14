@@ -15,7 +15,7 @@ import java.util.Base64;
  */
 public class SMTPClient {
 
-    private String msg = "\r\n ";
+    private String msg = "\r\n  【失物招领网】这是你的验证码，请查收：";
     private String  endmsg = "\r\n.\r\n";
     private String mailServer = "smtp.qq.com";
     private Socket socket = new Socket(mailServer,25);

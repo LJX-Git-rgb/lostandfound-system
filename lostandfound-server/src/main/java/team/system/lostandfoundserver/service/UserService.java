@@ -54,16 +54,10 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
-    public User retrive(String email) {
+    public User retrive(String email, String identifyCode) {
         User userByEmail = userMapper.findUserByEmail(email);
+
         try {
-            String identifyCode = "";
-            //生成4/6位数的随机验证码(改成字母数字组合)
-            Random random = new Random();
-            for (int i = 0; i < 6; i++) {
-                int code = random.nextInt(10);
-                identifyCode += code;
-            }
             SMTPClient smtpClient = new SMTPClient();
             boolean b = smtpClient.sendMessage(email,identifyCode);
             if (!b){
@@ -71,6 +65,20 @@ public class UserService implements UserServiceImpl {
                 return null;
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userByEmail;
+    }
+    @Override
+    public User changepwd(String newpwd,String checkpwd){
+        User userByEmail = userMapper.findUserByEmail(newpwd);
+        try {
+            SMTPClient smtpClient = new SMTPClient();
+            boolean b = smtpClient.sendMessage(newpwd, checkpwd);
+            if(!b){
+                return null;
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
         return userByEmail;
