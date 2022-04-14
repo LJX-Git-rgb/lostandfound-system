@@ -70,17 +70,17 @@
             width="35%"
             top="30vh">
 
-            <template slot="title"><h2>修改密码</h2></template>
-            <el-form ref="form" :label-width="formLabelWidth">
-                <el-form-item label="新密码：">
-                    <el-input v-model="newpwd" placeholder="请输入新密码"></el-input>
+            <template slot="title"><h2>找回密码</h2></template>
+            <el-form :model="regForm" :rules="rules" label-width="100px">
+                <el-form-item label="新密码：" prop="password">
+                    <el-input v-model="regForm.password" placeholder="请输入新密码"></el-input>
                 </el-form-item>
-                <el-form-item label="确认新密码：">
-                    <el-input v-model="checkpwd" placeholder="请确认新密码"></el-input>
+                <el-form-item label="确认新密码：" prop="checkPwd">
+                    <el-input v-model="regForm.checkPwd" placeholder="请确认新密码"></el-input>
                 </el-form-item>
             </el-form>
             <div class="reg-dialog-footer">
-                <el-button type="primary" @click="login">确 定</el-button>
+                <el-button type="primary" @click="updatePwd">更新我的密码</el-button>
             </div>
         </el-dialog>
         <!-- reg message box -->
@@ -186,12 +186,10 @@ export default {
                 identifyCode:"",
             },
 
-            //findPwd data
+            //findPwd data,找回密码和确认密码使用regForm内的变量
             foundPwdDialogFormVisible: false,
             changePwdDialogFormVisible: false,
             inputCheckCode:'',
-            newpwd:'',
-            checkpwd: '',
             forgetPwdEmail: '',
 
             //form rules
@@ -265,32 +263,35 @@ export default {
             });
         },
         foundPwd() {
-            if (this.createdIdentifyCode == this.inputCheckCode) {
+            if (this.createdIdentifyCode.toLowerCase() == this.inputCheckCode.toLowerCase()) {
                 //    tiao zhuan到更改密码的弹窗
                 this.foundPwdDialogFormVisible = false;
+                setTimeout(() => {}, 3000)
                 this.changePwdDialogFormVisible = true;
             } else {
                 this.$message.error("验证码错误");
             }
         },
-                //
-                // this.$axios({
-                //     method: "post",
-                //     url: "/user/changepwd",
-                //     data:{
-                //         newpwd: this.newpwd,
-                //         checkpwd: this.checkpwd
-                //     }
-                // }).then(res => {
-                //     if(res.data.code ==200){
-                //         this.$message({
-                //             type:'success',
-                //             message:res.data.msg
-                //         })
-                //     }else{
-                //         this.$message.error(res.data.msg);
-                //     }
-                // })
+        updatePwd(){
+            this.$axios({
+                method: "post",
+                url: "/user/changepwd",
+                data:{
+                    email:this.forgetPwdEmail,
+                    newPwd: this.regForm.password,
+                }
+            }).then(res => {
+                if(res.data.code ==200){
+                    this.$message({
+                        type:'success',
+                        message:"密码更新成功"
+                    })
+                    this.changePwdDialogFormVisible = false;
+                }else{
+                    this.$message.error(res.data.msg);
+                }
+            })
+        },
         //reg methods
         regist() {
             this.regDialogFormVisible = true;

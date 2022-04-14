@@ -22,5 +22,5 @@ public interface UserServiceImpl {
 
     User retrive(String email, String identifyCode);
 
-    User changepwd(String newpwd,String checkpwd);
+    User changepwd(String email ,String newPwd);
 }

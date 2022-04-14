@@ -69,19 +69,14 @@ public class UserService implements UserServiceImpl {
         }
         return userByEmail;
     }
-    @Override
-    public User changepwd(String newpwd,String checkpwd){
-        User userByEmail = userMapper.findUserByEmail(newpwd);
-        try {
-            SMTPClient smtpClient = new SMTPClient();
-            boolean b = smtpClient.sendMessage(newpwd, checkpwd);
-            if(!b){
-                return null;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+
+    @Override public User changepwd(String email, String newPwd) {
+        User userByEmail = userMapper.findUserByEmail(email);
+        userByEmail.setPassword(newPwd);
+        if (userMapper.update(userByEmail)){
+            return userByEmail;
         }
-        return userByEmail;
+        return null;
     }
 
     @Override

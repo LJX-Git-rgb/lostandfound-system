@@ -88,7 +88,7 @@ public class UserController {
 
     @RequestMapping("/changepwd")
     public Result changepwd(@RequestBody HashMap<String, String> map){
-        User user = userService.changepwd(map.get("newpwd"),map.get("checkpwd"));
+        User user = userService.changepwd(map.get("email"),map.get("newPwd"));
         ArrayList data = new ArrayList();
         data.add(user);
         if (user == null){
