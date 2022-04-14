@@ -11,12 +11,13 @@
                             type="daterange"
                             range-separator="至"
                             start-placeholder="开始日期"
-                            end-placeholder="结束日期">
+                            end-placeholder="结束日期"
+                            @blur="limitGoods">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
                         <span>类别： </span>
-                        <el-select v-model="value" placeholder="请选择" id="type">
+                        <el-select v-model="value" placeholder="请选择" id="type" @blur="limitGoods">
                             <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -51,9 +52,38 @@ export default {
     components: {GoodsItem},
     data() {
         return {
+            //筛选
+            timeRange: '',
+            options: [
+                {
+                    value: '食品',
+                    label: '食品'
+                }, {
+                    value: '电子产品',
+                    label: '电子产品'
+                },
+                {
+                    value: '卡',
+                    label: '卡'
+                },
+                {
+                    value: '生活用品',
+                    label: '生活用品'
+                },
+                {
+                    value: '现金',
+                    label: '现金'
+                },],
+            value: '',
+
             // 无限滚动展示
             count: 3,
             loading: false,
+
+            //展示
+            begin:0,
+            end:15,
+            goodsList:[],
         }
     },
     computed: {
@@ -65,14 +95,57 @@ export default {
         }
     },
     methods: {
+        limitGoods(){
+            this.$axios({
+                method: "post",
+                url:"/finds/limitByTimeAndType",
+                data:{
+                    foundTimeRange: JSON.stringify(this.timeRange),
+                    tag: this.value
+                }
+            }).then(res => {
+                if(res.data.code == 200){
+                    this.goodsList = res.data;
+                }
+            }).catch(err => {
+                this.$message.error("服务器错误,请稍后再操作");
+            })
+        },
         load() {
-            this.loading = true
-            setTimeout(() => {
-                this.count += 2
-                this.loading = false
-            }, 2000)
+            // this.loading = true
+            // setTimeout(() => {
+            //     this.begin = this.end;
+            //     this.end += 10;
+            //     this.$axios({
+            //         method: "get",
+            //         url: "/finds/findLimit",
+            //         params: {
+            //             begin : this.begin,
+            //             end : this.end
+            //         }
+            //     }).then(res => {
+            //         if (res.status == 200 || res.statusText == "OK"){
+            //             this.goodsList.push(res.data);
+            //         }
+            //     })
+            // }, 2000)
+            // this.loading = false
         },
     },
+    mounted() {
+        this.$axios({
+            method: "get",
+            url: "/finds/findLimit",
+            params: {
+                begin : this.begin,
+                end : this.end
+            }
+        }).then(res => {
+            if (res.status == 200 || res.statusText == "OK"){
+                this.goodsList = res.data;
+            }
+        })
+    }
 }
 
 </script>

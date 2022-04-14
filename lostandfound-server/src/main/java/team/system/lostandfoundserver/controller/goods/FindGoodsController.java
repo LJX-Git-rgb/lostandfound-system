@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.controller.goods;
 
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +44,11 @@ public class FindGoodsController {
   public List<FindGoods> findLimit(Integer begin,Integer end){
     return service.findByLimit(begin,end);
   }
-
+  @RequestMapping("/limitByTimeAndType")
+  public List<FindGoods> limitByTimeAndType(@RequestBody HashMap<String,String> map){
+    service.limitByTimeAndType(map.get("foundTimeRange"),map.get("tag"));
+    return null;
+  }
   @RequestMapping("/addImg")
   public Result addFindGoodImgs(HttpServletRequest request) throws IOException {
     List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file") ;
@@ -64,7 +70,7 @@ public class FindGoodsController {
     return Result.success(pathList);
   }
   @RequestMapping("/add")
-  public Result addFindGood(@RequestBody  FindGoods goods) throws IOException {
+  public Result addFindGood(@RequestBody  FindGoods goods) {
     goods.setCreateTime(new Date());
     goods.setState(0);
 

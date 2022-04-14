@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import team.system.lostandfoundserver.domain.FindGoods;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -14,4 +15,7 @@ public interface FindGoodsMapper {
 
     @Select("select * from found_goods limit #{begin},#{end}")
     List<FindGoods> findByLimit(Integer begin, Integer end);
+
+    @Select("select * from found_goods where create_time > #{beginTime} and create_time < #{endTime} and tag = #{tag}")
+    List<FindGoods> limitTimeAndType(Date beginTime, Date endTime, String tag);
 }
