@@ -52,7 +52,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">立即发布</el-button>
+                    <el-button type="primary" @click="submitUpload">立即发布</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -124,43 +124,56 @@ export default {
                 area: '',
                 date: '',
                 selectedType: [],
-                imgList:[],
+                imgList:{},
             }
         }
     },
     methods: {
-        imgSuccess(res,file,fileList){
-
-            console.log(res)
-        },
+        //发布按钮的点击事件,上传图片
         submitUpload() {
             this.$refs.upload.submit();
         },
+        //上传成功事件
+        imgSuccess(res,file,fileList){
+            //判断上传是否成功，成功返回一个img的地址然后请求后台添加其他数据
+            if (res.code == "200" || res.msg == "success"){
+                let tag = "", image = "";
+                for (let i = 0; i < this.form.selectedType.length; i++) {
+                    tag += this.form.selectedType[i] + '&';
+                }
+                for (let i = 0; i < res.data.length; i++) {
+                    image += res.data[i] + '&';
+                }
+
+                this.$axios({
+                    method:"post",
+                    url:"/finds/add",
+                    data:{
+                        uid: this.$store.state.user.id,
+                        title: this.form.title,
+                        desc: this.form.desc,
+                        foundArea: this.form.area,
+                        foundTime: this.form.date,
+                        tag: tag,
+                        image:image
+                    }
+                }).then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                })
+            }else{
+                this.$message.error(res.data.msg);
+            }
+        },
+
+        //上传组件的一些其他事件
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
         handlePreview(file) {
             console.log(file);
         },
-        onSubmit() {
-            this.submitUpload();
-            this.$axios({
-                method:"post",
-                url:"/finds/add",
-                data:{
-                    uid: this.$store.state.user.id,
-                    title: this.form.title,
-                    desc: this.form.desc,
-                    foundArea: this.form.area,
-                    foundTime: this.form.date,
-                    tag: JSON.stringify(this.form.selectedType)
-                }
-            }).then(res => {
-                console.log(res);
-            }).catch(err => {
-                console.log(err);
-            })
-        }
     }
 }
 </script>

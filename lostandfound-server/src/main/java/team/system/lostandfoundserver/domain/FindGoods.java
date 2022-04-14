@@ -12,7 +12,7 @@ public class FindGoods {
   private String desc;
   private String image;
   private String tag;
-  private String state;
+  private Integer state;
   private Date createTime;
   private Date foundTime;
   private String foundArea;
