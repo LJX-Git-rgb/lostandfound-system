@@ -46,8 +46,7 @@ public class FindGoodsController {
   }
   @RequestMapping("/limitByTimeAndType")
   public List<FindGoods> limitByTimeAndType(@RequestBody HashMap<String,String> map){
-    service.limitByTimeAndType(map.get("foundTimeRange"),map.get("tag"));
-    return null;
+    return service.limitByTimeAndType(map.get("foundTimeRange"), map.get("tag"));
   }
   @RequestMapping("/addImg")
   public Result addFindGoodImgs(HttpServletRequest request) throws IOException {

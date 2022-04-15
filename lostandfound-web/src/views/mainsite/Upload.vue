@@ -151,7 +151,7 @@ export default {
                     data:{
                         uid: this.$store.state.user.id,
                         title: this.form.title,
-                        desc: this.form.desc,
+                        description: this.form.desc,
                         foundArea: this.form.area,
                         foundTime: this.form.date,
                         tag: tag,

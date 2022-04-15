@@ -1,17 +1,15 @@
 package team.system.lostandfoundserver.service;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.system.lostandfoundserver.domain.FindGoods;
 import team.system.lostandfoundserver.mapper.FindGoodsMapper;
 import team.system.lostandfoundserver.service.impl.FindGoodsServiceImpl;
-
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class FindGoodsService implements FindGoodsServiceImpl {
@@ -32,18 +30,27 @@ public class FindGoodsService implements FindGoodsServiceImpl {
 
     @Override public List<FindGoods> limitByTimeAndType(String foundTimeRange,
         String tag) {
-        List<String> parse = (List<String>) JSON.parse(foundTimeRange);
-        Date beginTime = null,endTime = null;
-        try {
-            beginTime = DateUtils
-                .parseDate(parse.get(0), Locale.CHINA,"yyyy-MM-dd");
-            endTime = DateUtils
-                .parseDate(parse.get(1), Locale.CHINA);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (foundTimeRange.length() == 2) {
+            if (tag == "") {
+                return null;
+            }else{
+                return mapper.limitType(tag);
+            }
+        }else {
+            List<String> parse = (List<String>) JSON.parse(foundTimeRange);
+            Date beginTime = null, endTime = null;
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+            try {
+                beginTime = format.parse(parse.get(0).replace("Z", " UTC"));
+                endTime = format.parse(parse.get(1).replace("Z", " UTC"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (tag == "") {
+                return mapper.limitTime(beginTime, endTime);
+            }else{
+                return mapper.limitTimeAndType(beginTime,endTime,tag);
+            }
         }
-        System.out.println(new Date());
-        mapper.limitTimeAndType(beginTime,endTime,tag);
-        return null;
     }
 }

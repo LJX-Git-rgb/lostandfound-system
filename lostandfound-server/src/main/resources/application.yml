@@ -11,3 +11,4 @@ mybatis:
   type-aliases-package: team.system.lostandfoundserver.mapper #mybatis扫描包
   configuration:
     map-underscore-to-camel-case: true #开启mybatis命名转换
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启mybatis打印sql
