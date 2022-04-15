@@ -2,14 +2,15 @@
     <div id="timeBlock">
         <span>我的发布 : </span>
         <el-timeline>
-            <el-timeline-item v-for="(o,index) in tableData" :key="index" :timestamp="o.timestamp" placement="top">
+            <el-timeline-item v-for="item in tableData" :key="item.id" :timestamp="item.createTime" placement="top">
                 <a href="#">
                     <el-card>
-                        <img :src=o.imgUrl alt="" id="cardImg">
+                        <img :src="item.image" alt="" id="cardImg">
                         <div id="content">
-                            <h3>更新 Github 模板</h3>
+                            <span>{{item.title}}</span>
+                            <h3>{{item.description}}</h3>
                             <br>
-                            <p>王小虎 提交于 2018/4/12 20:46</p>
+                            <p>提交于 {{item.createTime}}</p>
                         </div>
                     </el-card>
                 </a>
@@ -17,7 +18,7 @@
             </el-timeline-item>
         </el-timeline>
         <a id="archor">
-            哈哈
+            广告位招租
         </a>
     </div>
 </template>
@@ -27,45 +28,19 @@ export default {
     name: "MyPost",
     data() {
         return {
-            tableData: [
-                {
-                    timestamp: "2018/4/12",
-                    description: "这是第一条提交记录",
-                    imgUrl: require("../../assets/image/login_backImg.jpeg")
-                },
-                {
-                    timestamp: "2018/4/13",
-                    description: "这是第二条提交记录",
-                    imgUrl: require("../../assets/image/login_backImg.jpeg")
-                },
-                {
-                    timestamp: "2018/4/14",
-                    description: "这是第三条提交记录",
-                    imgUrl: require("../../assets/image/login_backImg.jpeg")
-                },
-                {
-                    timestamp: "2018/4/15",
-                    description: "这是第四条提交记录",
-                    imgUrl: require("../../assets/image/login_backImg.jpeg")
-                },
-                {
-                    timestamp: "2018/4/12",
-                    description: "这是第一条提交记录"
-                },
-                {
-                    timestamp: "2018/4/13",
-                    description: "这是第二条提交记录"
-                },
-                {
-                    timestamp: "2018/4/14",
-                    description: "这是第三条提交记录"
-                },
-                {
-                    timestamp: "2018/4/15",
-                    description: "这是第四条提交记录"
-                },
-            ],
+            tableData: [],
         }
+    },
+    mounted() {
+        this.$axios({
+            method:"get",
+            url:"/finds/byUser",
+            params:{
+                uid:this.$store.state.user.id
+            }
+        }).then(res => {
+            this.tableData = res.data;
+        })
     }
 }
 </script>

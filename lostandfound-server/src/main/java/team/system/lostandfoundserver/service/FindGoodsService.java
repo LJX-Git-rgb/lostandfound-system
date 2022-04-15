@@ -53,4 +53,9 @@ public class FindGoodsService implements FindGoodsServiceImpl {
             }
         }
     }
+
+    @Override
+    public List<FindGoods> findByUser(Integer uid) {
+        return mapper.findByUser(uid);
+    }
 }

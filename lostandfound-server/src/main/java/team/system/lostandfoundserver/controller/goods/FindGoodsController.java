@@ -1,20 +1,15 @@
 package team.system.lostandfoundserver.controller.goods;
 
-import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import team.system.lostandfoundserver.domain.FindGoods;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.service.FindGoodsService;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -77,5 +72,10 @@ public class FindGoodsController {
       return Result.success(null);
     }
     return Result.error("500","发布失败，服务器错误");
+  }
+
+  @RequestMapping("/byUser")
+  public List<FindGoods> findByUser(Integer uid){
+    return service.findByUser(uid);
   }
 }

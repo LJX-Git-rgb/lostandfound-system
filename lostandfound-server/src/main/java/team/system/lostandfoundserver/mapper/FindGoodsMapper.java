@@ -4,12 +4,12 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import team.system.lostandfoundserver.domain.FindGoods;
-
 import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface FindGoodsMapper {
+
     @Insert("insert into found_goods (image,description,title,state,tag,create_time,found_area,found_time,uid) values(#{image},#{description},#{title},#{state},#{tag},#{createTime},#{foundArea},#{foundTime},#{uid}) ")
     boolean addFoundGoods(FindGoods goods);
 
@@ -22,4 +22,7 @@ public interface FindGoodsMapper {
     List<FindGoods> limitType(String tag);
     @Select("select * from found_goods where (create_time between #{beginTime} and #{endTime}) and tag=#{tag}")
     List<FindGoods> limitTimeAndType(Date beginTime, Date endTime, String tag);
+
+    @Select("select * from found_goods where uid = #{uid}")
+    List<FindGoods> findByUser(Integer uid);
 }
