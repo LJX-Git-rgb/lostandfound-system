@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 12/04/2022 16:37:39
+ Date: 15/04/2022 16:44:51
 */
 
 SET NAMES utf8mb4;
@@ -113,29 +113,29 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `found_goods`;
 CREATE TABLE `found_goods` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `image` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片，URL地址，用&进行分割',
-  `desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '详情描述',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '详情描述',
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '失物招领标题',
-  `state` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '认领状态',
+  `state` int DEFAULT NULL COMMENT '认领状态',
   `tag` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '标签',
   `create_time` datetime DEFAULT NULL COMMENT '发布日期',
   `found_area` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '找到区域',
-  `found_time` datetime DEFAULT NULL COMMENT '找到日期',
+  `found_time` timestamp NULL DEFAULT NULL COMMENT '找到日期',
   `uid` int DEFAULT NULL COMMENT '发布者',
-  `lost_id` bigint DEFAULT NULL COMMENT '匹配到的寻物启事id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of found_goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `found_goods` VALUES (1, '01.jpg', '白色蓝牙耳机,亚太楼', '耳机', '否', '电子产品', '2022-01-01 21:55:45', '亚太楼', '2022-01-01 21:00:00', NULL, NULL);
-INSERT INTO `found_goods` VALUES (2, '02.jpg', '椭圆形眼镜片', '镜片', '否', '生活用品', '2022-01-02 22:18:58', '操场', '2022-01-02 12:00:00', NULL, NULL);
-INSERT INTO `found_goods` VALUES (3, '03.jpg', '圆领白色T恤', '衣服', '是', '生活用品', '2022-01-03 22:00:00', '亚太楼', '2022-01-03 21:00:00', NULL, NULL);
-INSERT INTO `found_goods` VALUES (4, '04.jpg', '运动跑步手环', '手环', '是', '电子产品', '2022-02-02 12:00:00', '亚太楼', '2022-02-03 17:00:00', NULL, NULL);
-INSERT INTO `found_goods` VALUES (5, '05.jpg', '特百惠黑色水杯', '水杯', '是', '生活用品', '2022-03-05 16:00:00', '餐厅', '2022-03-06 18:00:00', NULL, NULL);
+INSERT INTO `found_goods` VALUES (1, '01.jpg', '白色蓝牙耳机,亚太楼', '耳机', 0, '电子产品', '2022-01-01 21:55:45', '亚太楼', '2022-01-01 21:00:00', NULL);
+INSERT INTO `found_goods` VALUES (2, '02.jpg', '椭圆形眼镜片', '镜片', 0, '生活用品', '2022-01-02 22:18:58', '操场', '2022-01-02 12:00:00', NULL);
+INSERT INTO `found_goods` VALUES (3, '03.jpg', '圆领白色T恤', '衣服', 1, '生活用品', '2022-01-03 22:00:00', '亚太楼', '2022-01-03 21:00:00', NULL);
+INSERT INTO `found_goods` VALUES (4, '04.jpg', '运动跑步手环', '手环', 1, '电子产品', '2022-02-02 12:00:00', '亚太楼', '2022-02-03 17:00:00', NULL);
+INSERT INTO `found_goods` VALUES (5, '05.jpg', '特百惠黑色水杯', '水杯', 1, '生活用品', '2022-03-05 16:00:00', '餐厅', '2022-03-06 18:00:00', NULL);
+INSERT INTO `found_goods` VALUES (12, '/foundgoods/a4d6cfd8-5950-484b-a901-c55d58b62a71.jpeg&', 'airpods右耳', '我丢了一个耳机', 0, '电子产品&', '2022-04-15 15:20:10', '亚太楼', '2022-04-22 15:17:45', 21);
 COMMIT;
 
 -- ----------------------------
@@ -145,7 +145,7 @@ DROP TABLE IF EXISTS `lost_goods`;
 CREATE TABLE `lost_goods` (
   `id` bigint NOT NULL,
   `image` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片，URL地址，用&进行分割',
-  `desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '详情描述',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '详情描述',
   `title` varchar(255) DEFAULT NULL COMMENT '寻物启事标题',
   `state` varchar(255) DEFAULT NULL COMMENT '认领状态',
   `tag` varchar(255) DEFAULT NULL COMMENT '标签',
