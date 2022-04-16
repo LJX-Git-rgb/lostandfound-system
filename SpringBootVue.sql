@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 15/04/2022 16:44:51
+ Date: 16/04/2022 16:43:23
 */
 
 SET NAMES utf8mb4;
@@ -88,7 +88,6 @@ CREATE TABLE `admin_user` (
 -- Records of admin_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `admin_user` VALUES (1, 111, 'Jason', 'admin', '15237283531');
 COMMIT;
 
 -- ----------------------------
@@ -119,23 +118,18 @@ CREATE TABLE `found_goods` (
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '失物招领标题',
   `state` int DEFAULT NULL COMMENT '认领状态',
   `tag` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '标签',
-  `create_time` datetime DEFAULT NULL COMMENT '发布日期',
-  `found_area` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '找到区域',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '发布日期',
+  `found_area` varchar(255) DEFAULT NULL COMMENT '找到区域',
   `found_time` timestamp NULL DEFAULT NULL COMMENT '找到日期',
   `uid` int DEFAULT NULL COMMENT '发布者',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of found_goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `found_goods` VALUES (1, '01.jpg', '白色蓝牙耳机,亚太楼', '耳机', 0, '电子产品', '2022-01-01 21:55:45', '亚太楼', '2022-01-01 21:00:00', NULL);
-INSERT INTO `found_goods` VALUES (2, '02.jpg', '椭圆形眼镜片', '镜片', 0, '生活用品', '2022-01-02 22:18:58', '操场', '2022-01-02 12:00:00', NULL);
-INSERT INTO `found_goods` VALUES (3, '03.jpg', '圆领白色T恤', '衣服', 1, '生活用品', '2022-01-03 22:00:00', '亚太楼', '2022-01-03 21:00:00', NULL);
-INSERT INTO `found_goods` VALUES (4, '04.jpg', '运动跑步手环', '手环', 1, '电子产品', '2022-02-02 12:00:00', '亚太楼', '2022-02-03 17:00:00', NULL);
-INSERT INTO `found_goods` VALUES (5, '05.jpg', '特百惠黑色水杯', '水杯', 1, '生活用品', '2022-03-05 16:00:00', '餐厅', '2022-03-06 18:00:00', NULL);
-INSERT INTO `found_goods` VALUES (12, '/foundgoods/a4d6cfd8-5950-484b-a901-c55d58b62a71.jpeg&', 'airpods右耳', '我丢了一个耳机', 0, '电子产品&', '2022-04-15 15:20:10', '亚太楼', '2022-04-22 15:17:45', 21);
+INSERT INTO `found_goods` VALUES (13, '/foundgoods/93748c94-3911-46ba-a9a5-ccb860b66ee0.jpg&', '黑色的华为mate30', '我在万达金街捡到一部手机', 0, '电子产品&手机&', '2022-04-16 16:42:25', '万达金街蜜雪冰城&郑州市', '2022-04-12 00:00:00', 22);
 COMMIT;
 
 -- ----------------------------
@@ -143,29 +137,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `lost_goods`;
 CREATE TABLE `lost_goods` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `image` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '图片，URL地址，用&进行分割',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '详情描述',
   `title` varchar(255) DEFAULT NULL COMMENT '寻物启事标题',
-  `state` varchar(255) DEFAULT NULL COMMENT '认领状态',
+  `state` int DEFAULT NULL COMMENT '认领状态',
   `tag` varchar(255) DEFAULT NULL COMMENT '标签',
-  `create_time` datetime DEFAULT NULL COMMENT '发布日期',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '发布日期',
   `lost_area` varchar(255) DEFAULT NULL COMMENT '丢失区域',
-  `lost_time` datetime DEFAULT NULL COMMENT '丢失日期',
+  `lost_time` timestamp NULL DEFAULT NULL COMMENT '丢失日期',
   `uid` int DEFAULT NULL COMMENT '发布者',
-  `found_id` bigint DEFAULT NULL COMMENT '匹配到的失物招领id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of lost_goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `lost_goods` VALUES (1, '01.jpg', '白色蓝牙耳机,亚太楼', '耳机', '否', '电子产品', '2022-01-01 21:55:45', '亚太楼', '2022-01-01 21:00:00', NULL, NULL);
-INSERT INTO `lost_goods` VALUES (2, '02.jpg', '椭圆形眼镜片', '镜片', '否', '生活用品', '2022-01-02 22:18:58', '操场', '2022-01-02 12:00:00', NULL, NULL);
-INSERT INTO `lost_goods` VALUES (3, '03.jpg', '圆领白色T恤', '衣服', '是', '生活用品', '2022-01-03 22:00:00', '亚太楼', '2022-01-03 21:00:00', NULL, NULL);
-INSERT INTO `lost_goods` VALUES (4, '04.jpg', '运动跑步手环', '手环', '是', '电子产品', '2022-02-02 12:00:00', '亚太楼', '2022-02-03 17:00:00', NULL, NULL);
-INSERT INTO `lost_goods` VALUES (5, '05.jpg', '特百惠黑色水杯', '水杯', '是', '生活用品', '2022-03-05 16:00:00', '餐厅', '2022-03-06 18:00:00', NULL, NULL);
+INSERT INTO `lost_goods` VALUES (1, '/lostgoods/bb52eb4a-d288-4c4f-9813-d85aa54bcc6c.jpg&', '黑色的华为mate30', '我在中原万达丢了一部手机', 0, '电子产品&手机&', '2022-04-16 16:29:36', '中原万达万达金街蜜雪冰城&郑州市', '2022-04-12 00:00:00', 22);
 COMMIT;
 
 -- ----------------------------
@@ -191,23 +180,26 @@ COMMIT;
 DROP TABLE IF EXISTS `user_base`;
 CREATE TABLE `user_base` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `uid` varchar(255) NOT NULL COMMENT '用户ID',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '用户邮箱，唯一',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `gender` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '用户性别 0-female 1-male',
-  `user_role` tinyint unsigned NOT NULL DEFAULT '1' COMMENT '1正常用户 2身份认证用户 3学生认证用户 4禁言用户 5注销用户 6管理员',
-  `face` varchar(255) NOT NULL DEFAULT '' COMMENT '头像',
-  `create_time` int unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
+  `uid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户ID',
+  `nick_name` varchar(255) DEFAULT NULL COMMENT '用户名，可重复',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '用户邮箱，唯一',
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
+  `gender` varchar(255) DEFAULT NULL,
+  `user_role` tinyint unsigned DEFAULT '1' COMMENT '1正常用户 2身份认证用户 3学生认证用户 4禁言用户 5注销用户 6管理员',
+  `face` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '头像',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of user_base
 -- ----------------------------
 BEGIN;
-INSERT INTO `user_base` VALUES (21, 'b518aa93-faec-4b65-bfe3-87a1ef55d2cf', '1612253221@qq.com', '1111', 0, 1, '', 0, 0);
+INSERT INTO `user_base` VALUES (22, '8e36a7e9-16cd-4d3e-acbc-a036b89a4714', '于我', '1612253221@qq.com', 'haha', NULL, 1, '', '2022-04-16 14:51:42', NULL);
+INSERT INTO `user_base` VALUES (23, '174de058-3877-41d1-9a30-fa48ce7a2ed0', '沙雕王', '1853053252@qq.com', 'yyqx', NULL, 1, '', '2022-04-16 14:58:36', NULL);
+INSERT INTO `user_base` VALUES (24, 'e4bbf5eb-ee3e-43d2-afa6-e350f45d6658', '韩先生', '645693789@qq.com', 'hyy', NULL, 1, '', '2022-04-16 14:58:50', NULL);
 COMMIT;
 
 -- ----------------------------
