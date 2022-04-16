@@ -1,8 +1,6 @@
 <template>
     <div id="userInfo">
         <div id="userButton">
-            <el-button @click="resetDateFilter">清除日期过滤器</el-button>
-            <el-button @click="clearFilter">清除所有过滤器</el-button>
             <el-button @click="upLoad">导入</el-button>
             <el-button @click="downLoad">导出</el-button>
             <div id="select">
@@ -18,33 +16,24 @@
         <el-table
             :data="tableData"
             border
-            style="width: 100%">
-
-            <el-table-column prop="id" label="ID" width="150" sortable=""></el-table-column>
-            <el-table-column prop="userName" label="姓名" width="120"></el-table-column>
-            <el-table-column :prop="gender == '1'  ? '男' : '女'" label="性别" width="120"></el-table-column>
-            <el-table-column prop="email" label="地址" width="300"></el-table-column>
-            <el-table-column prop="updatetime" label="创建时间" width="120"></el-table-column>
-            <el-table-column prop="createTime" label="最后更新时间" width="120"></el-table-column>
-
-            <!-- <el-table-column prop="createtime" label="标签" width="100"
-                :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-                filter-placement="bottom-end">
+            :fit="true"
+            :highlight-current-row="true"
+            style="width: 100%"
+        >
+            <el-table-column prop="id" label="ID" width="90" sortable=""></el-table-column>
+            <el-table-column prop="nickName" label="姓名" width="80"></el-table-column>
+            <el-table-column prop="gender" label="性别" width="50"></el-table-column>
+            <el-table-column prop='userRole' label="身份(0~6)" width="100"></el-table-column>
+            <el-table-column prop="email" label="注册邮箱" width="180"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
+            <el-table-column prop="updateTime" label="最后更新时间"width="180"></el-table-column>
+            <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
-                    <el-tag
-                    :type="scope.row.tag === '家' ? 'primary' : 'success'"
-                    disable-transitions>{{scope.row.tag}}</el-tag>
-                </template>
-            </el-table-column> -->
-            <el-table-column fixed="right" label="操作" width="150">
-                <template slot-scope="scope">
-                    <el-button @click="updateUser(scope.row)" type="text" size="small">编辑</el-button>
-                    <el-button
-                        @click.native.prevent="deleteUser(scope.row)"
-                        type="text"
-                        size="small">
-                        移除
-                    </el-button>
+                    <div style="display: flex">
+                        <el-button @click="updateUser(scope.row)" size="small">认证</el-button>
+                        <el-button @click="updateUser(scope.row)" size="small">登录</el-button>
+                        <el-button @click.native.prevent="deleteUser(scope.row)" size="small">禁言</el-button>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -90,12 +79,6 @@ export default {
             this.page.currentPage = val;
             this.showUserInfo()
         },
-        resetDateFilter() {
-
-        },
-        clearFilter() {
-
-        },
         downLoad() {
 
         },
@@ -117,10 +100,10 @@ export default {
                 }
             }).then(res => {
                 this.tableData = res.data;
+            }).catch(err => {
+                console.log(err);
+                this.$message.error("服务器错误")
             })
-                .catch(function (error) {
-                    console.log(error);
-                });
         },
         countUserTotal() {
             this.$axios({
@@ -131,8 +114,7 @@ export default {
             })
         },
     },
-
-    created() {
+    mounted() {
         this.showUserInfo();
     }
 }
@@ -141,14 +123,13 @@ export default {
 <style lang="less" scoped>
 #userInfo {
     margin: 10px;
-
+    flex: 1;
     #userButton {
         margin-bottom: 10px;
+        #select{
+            margin-top: 10px;
+            width: 600px;
+        }
     }
 }
-
-//#select{
-//    width: 600px;
-//    margin-top: 15px;
-//}
 </style>
