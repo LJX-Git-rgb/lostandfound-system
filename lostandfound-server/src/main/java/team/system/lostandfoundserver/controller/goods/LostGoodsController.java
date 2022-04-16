@@ -47,7 +47,7 @@ public class LostGoodsController {
         return service.limitByTimeAndType(map.get("lostTimeRange"), map.get("tag"));
     }
     @RequestMapping("/addImg")
-    public Result addFindGoodImgs(HttpServletRequest request) throws IOException {
+    public Result addLostGoodsImgs(HttpServletRequest request) throws IOException {
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file") ;
         ArrayList<Object> pathList = new ArrayList<>();
         BufferedOutputStream stream = null;
@@ -61,13 +61,13 @@ public class LostGoodsController {
                 stream.write(bytes);
                 stream.close();
 
-                pathList.add("/lost/" + fileName);
+                pathList.add("/lostgoods/" + fileName);
             }
         }
         return Result.success(pathList);
     }
     @RequestMapping("/add")
-    public Result addFindGood(@RequestBody LostGoods goods) {
+    public Result addLostGoods(@RequestBody LostGoods goods) {
         goods.setCreateTime(new Date());
         goods.setState(0);
 

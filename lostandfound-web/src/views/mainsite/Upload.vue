@@ -40,7 +40,7 @@
                         class="upload-demo"
                         ref="upload"
                         drag
-                        action="http://localhost:8081/finds/addImg"
+                        action="http://localhost:8081/losts/addImg"
                         multiple
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
@@ -92,7 +92,7 @@
                         class="upload-demo"
                         ref="upload"
                         drag
-                        :action="lostOrFind ? 'http://localhost:8081/finds/addImg' : 'http://localhost:8081/losts/addImg'"
+                        action="http://localhost:8081/finds/addImg"
                         multiple
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
