@@ -6,12 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import team.system.lostandfoundserver.domain.FindGoods;
 import team.system.lostandfoundserver.domain.LostGoods;
 import team.system.lostandfoundserver.domain.Result;
-import team.system.lostandfoundserver.service.FindGoodsService;
 import team.system.lostandfoundserver.service.LostGoodsService;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -39,7 +36,7 @@ public class LostGoodsController {
     LostGoodsService service;
 
     @RequestMapping("/lostLimit")
-    public List<LostGoods> findLimit(Integer begin,Integer end){
+    public List<LostGoods> lostLimit(Integer begin,Integer end){
         return service.findByLimit(begin,end);
     }
     @RequestMapping("/limitByTimeAndType")
@@ -80,5 +77,10 @@ public class LostGoodsController {
     @RequestMapping("/byUser")
     public List<LostGoods> findByUser(Integer uid){
         return service.findByUser(uid);
+    }
+
+    @RequestMapping("/search")
+    public List<LostGoods> searchByText(String text){
+        return service.searchText(text);
     }
 }

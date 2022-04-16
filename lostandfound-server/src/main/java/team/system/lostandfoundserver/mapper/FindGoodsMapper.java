@@ -25,4 +25,8 @@ public interface FindGoodsMapper {
 
     @Select("select * from found_goods where uid = #{uid}")
     List<FindGoods> findByUser(Integer uid);
+
+    @Select("select * from found_goods where " +
+            "title like #{text} or description like #{text} or tag like #{text} or found_area like #{text}")
+    List<FindGoods> searchByText(String text);
 }

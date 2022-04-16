@@ -15,7 +15,7 @@
             <div id="header-search">
                 <div id="search-bar">
                     <el-input placeholder="请输入查找关键字：物品名，姓名或证件号后四位" v-model="searchInput" class="input-with-select">
-                        <el-button slot="append" icon="el-icon-search"></el-button>
+                        <el-button slot="append" icon="el-icon-search"  @click="searchByText"></el-button>
                     </el-input>
                 </div>
             </div>
@@ -146,7 +146,22 @@ export default {
                 this.location = this.searchLocation;
                 this.$store.dispatch('setLocation',this.location);
             }
-        }
+        },
+
+        // searchByText(){
+        //     var url= '/finds/search'
+        //     this.$axios({
+        //         method:'get',
+        //         url:url,
+        //         params:{
+        //             searchInput: this.searchInput
+        //         }
+        //     }).then(res => {
+        //
+        //     }).catch(err => {
+        //
+        //     })
+        // }
     },
     mounted() {
         // 获取当前位置

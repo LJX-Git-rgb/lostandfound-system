@@ -73,9 +73,12 @@ public class FindGoodsController {
     }
     return Result.error("500","发布失败，服务器错误");
   }
-
   @RequestMapping("/byUser")
   public List<FindGoods> findByUser(Integer uid){
     return service.findByUser(uid);
+  }
+  @RequestMapping("/search")
+  public List<FindGoods> searchByText(String text){
+    return service.searchText(text);
   }
 }

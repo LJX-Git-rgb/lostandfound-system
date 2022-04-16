@@ -14,4 +14,6 @@ public interface FindGoodsServiceImpl {
     List<FindGoods> limitByTimeAndType(String foundTimeRange, String tag);
 
     List<FindGoods> findByUser(Integer uid);
+
+    List<FindGoods> searchText(String text);
 }
