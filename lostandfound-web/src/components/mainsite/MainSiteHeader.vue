@@ -148,7 +148,7 @@ export default {
             }
         },
 
-        // searchByText(){
+        searchByText(){
         //     var url= '/finds/search'
         //     this.$axios({
         //         method:'get',
@@ -161,7 +161,7 @@ export default {
         //     }).catch(err => {
         //
         //     })
-        // }
+        }
     },
     mounted() {
         // 获取当前位置
