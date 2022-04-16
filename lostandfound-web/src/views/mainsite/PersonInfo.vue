@@ -19,95 +19,55 @@
                 <template slot="label">
                     <i class="el-icon-user"></i>用户名
                 </template>
-                kooriookami
+                {{user.nickName}}
             </el-descriptions-item>
 
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-mobile-phone"></i>
-                    手机号
+                    邮箱
                 </template>
-                18100000000
-            </el-descriptions-item>
-
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-location-outline"></i>
-                    真实姓名
-                </template>
-                haha
-            </el-descriptions-item>
-
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-tickets"></i>
-                    电话
-                </template>
-                <el-tag size="small">学校</el-tag>
+                {{user.email}}
             </el-descriptions-item>
 
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-office-building"></i>
-                    联系地址
+                    性别
                 </template>
-                江苏省苏州市吴中区吴中大道 1188 号
+                {{user.gender}}
             </el-descriptions-item>
 
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-office-building"></i>
-                    联系地址
+                    用户权限
                 </template>
-                江苏省苏州市吴中区吴中大道 1188 号
+                {{user.userRole == 1 ?'正常用户' : '被禁言用户'}}
             </el-descriptions-item>
 
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-office-building"></i>
-                    联系地址
+                    创建时间
                 </template>
-                江苏省苏州市吴中区吴中大道 1188 号
+                {{user.createTime}}
             </el-descriptions-item>
 
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-office-building"></i>
-                    联系地址
+                    上次更新时间
                 </template>
-                江苏省苏州市吴中区吴中大道 1188 号
+                {{user.updateTime}}
             </el-descriptions-item>
 
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-office-building"></i>
-                    联系地址
+                    我的头像
                 </template>
-                江苏省苏州市吴中区吴中大道 1188 号
-            </el-descriptions-item>
-
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-office-building"></i>
-                    联系地址
-                </template>
-                江苏省苏州市吴中区吴中大道 1188 号
-            </el-descriptions-item>
-
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-office-building"></i>
-                    联系地址
-                </template>
-                江苏省苏州市吴中区吴中大道 1188 号
-            </el-descriptions-item>
-
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-office-building"></i>
-                    联系地址
-                </template>
-                江苏省苏州市吴中区吴中大道 1188 号
+                <el-image :src="user.face"></el-image>
             </el-descriptions-item>
         </el-descriptions>
 
@@ -199,7 +159,14 @@
 
 <script>
 export default {
-    methods: {}
+    data(){
+        return{
+            user:this.$store.state.user,
+        }
+    },
+    mounted() {
+
+    }
 };
 </script>
 

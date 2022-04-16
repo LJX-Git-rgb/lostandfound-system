@@ -1,6 +1,9 @@
 package team.system.lostandfoundserver.domain;
 
 import lombok.Data;
+
+import java.util.Date;
+
 /**
  * @ClassName: User
  * @Description:
@@ -14,11 +17,12 @@ import lombok.Data;
 public class User {
     private Integer id;
     private String uid;
+    private String nickName;
     private String email;
     private String password;
     private String gender;
     private Integer userRole;
     private String face;
-    private Integer createTime;
-    private Integer updateTime;
+    private Date createTime;
+    private Date updateTime;
 }

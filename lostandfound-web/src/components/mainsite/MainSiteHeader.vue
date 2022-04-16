@@ -65,7 +65,7 @@
                             <div>
                                 <el-dropdown @command="handleCommand">
                                     <span class="el-dropdown-link">
-                                        {{ $store.state.user.userName }}<i
+                                        {{ $store.state.user.nickName }}<i
                                         class="el-icon-arrow-down el-icon--right"></i>
                                     </span>
                                     <el-dropdown-menu slot="dropdown">
@@ -144,6 +144,7 @@ export default {
         changeCity() {
             if (this.searchLocation != '') {
                 this.location = this.searchLocation;
+                this.$store.dispatch('setLocation',this.location);
             }
         }
     },
@@ -156,6 +157,7 @@ export default {
             if (res.message == 'Success' || res.state == 0) {
                 if (this.location == "我的位置") {
                     this.location = res.result.ad_info.city
+                    this.$store.dispatch('setLocation',this.location);
                 }
             }
         }).catch(err => {

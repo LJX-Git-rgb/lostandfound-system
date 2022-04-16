@@ -23,4 +23,6 @@ public interface UserServiceImpl {
     User retrive(String email, String identifyCode);
 
     User changepwd(String email ,String newPwd);
+
+    User findUserByEmail(String email);
 }

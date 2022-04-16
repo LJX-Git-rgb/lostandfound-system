@@ -34,8 +34,8 @@
                 class="goodslist"
                 v-infinite-scroll="load"
                 infinite-scroll-disabled="disabled">
-                <li v-for="i in count" class="list-item" :key="i">
-                    <goods-item/>
+                <li v-for="index in rowCount" class="list-item" :key="index">
+                    <goods-item :list="goodsList.slice( (index-1)*columnCount, index * columnCount )"></goods-item>
                 </li>
             </ul>
             <p v-if="loading">加载中...</p>
@@ -84,6 +84,9 @@ export default {
             begin:0,
             end:15,
             goodsList:[],
+            //展示行数和列数
+            rowCount:2,
+            columnCount:5
         }
     },
     computed: {
@@ -147,7 +150,6 @@ export default {
         })
     }
 }
-
 </script>
 
 <style lang="less" scoped>

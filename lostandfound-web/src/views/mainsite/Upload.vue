@@ -1,36 +1,37 @@
 <template>
+    <!--    lost就是失物招领，find就是寻物启事-->
     <div id="body">
         <div id="radio">
-            <el-radio v-model="findOrLost" :label=true>失物招领</el-radio>
-            <el-radio v-model="findOrLost" :label=false>寻物启事</el-radio>
+            <el-radio v-model="lostOrFind" :label=true>失物招领</el-radio>
+            <el-radio v-model="lostOrFind" :label=false>寻物启事</el-radio>
         </div>
         <hr>
-        <div id="findUpload" v-if="!findOrLost">
+        <div id="findUpload" v-if="!lostOrFind">
             <span>寻物启事 : </span>
-            <el-form ref="form" :model="form" label-width="80px">
-                <el-form-item label="标题">
+            <el-form ref="form" :model="form" label-width="120px">
+                <el-form-item label="标题：">
                     <el-input v-model="form.title"></el-input>
                 </el-form-item>
 
-                <el-form-item label="丢失区域">
-                  <el-input v-model="form.area"></el-input>
+                <el-form-item label="丢失区域：">
+                    <el-input v-model="form.area"></el-input>
                 </el-form-item>
 
-                <el-form-item label="丢失时间">
+                <el-form-item label="丢失时间：">
                     <el-date-picker
                         v-model="form.date"
                         type="date"
-                        placeholder="选择日期">
+                        placeholder="选择日期：">
                     </el-date-picker>
                 </el-form-item>
 
-                <el-form-item label="失物类别">
+                <el-form-item label="失物类别：">
                     <el-checkbox-group v-model="form.selectedType">
-                        <el-checkbox v-for="item in type" :label="item" :key="item">{{item}}</el-checkbox>
+                        <el-checkbox v-for="item in type" :label="item" :key="item">{{ item }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
 
-                <el-form-item label="失物详情描述">
+                <el-form-item label="失物详情描述：">
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>
 
@@ -57,54 +58,57 @@
             </el-form>
         </div>
 
-       <!-- <div id="lostUpload" v-if="!findOrLost">
+        <div id="lostUpload" v-if="lostOrFind">
             <span>失物招领 : </span>
-            <el-form ref="form" :model="form" label-width="80px">
-                <el-form-item label="标题">
-                    <el-input v-model="form.name"></el-input>
+            <el-form ref="form" :model="form" label-width="120px">
+                <el-form-item label="标题：">
+                    <el-input v-model="form.title"></el-input>
                 </el-form-item>
-                <el-form-item label="丢失区域">
-                    <el-select v-model="form.region" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
+
+                <el-form-item label="发现区域：">
+                    <el-input v-model="form.area"></el-input>
                 </el-form-item>
-                <el-form-item label="丢失时间">
-                    <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"
-                                        style="width: 100%;"></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">————</el-col>
-                    <el-col :span="11">
-                        <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-                    </el-col>
+
+                <el-form-item label="发现时间：">
+                    <el-date-picker
+                        v-model="form.date"
+                        type="date"
+                        placeholder="选择日期：">
+                    </el-date-picker>
                 </el-form-item>
-                <el-form-item label="失物类别">
-                    <el-checkbox-group v-model="form.type">
-                        <el-checkbox label="食品" name="type"></el-checkbox>
-                        <el-checkbox label="生活用品" name="type"></el-checkbox>
-                        <el-checkbox label="电子设备" name="type"></el-checkbox>
+
+                <el-form-item label="拾物类别：">
+                    <el-checkbox-group v-model="form.selectedType">
+                        <el-checkbox v-for="item in type" :label="item" :key="item">{{ item }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-form-item label="失物详情描述">
+
+                <el-form-item label="物品详情描述：">
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>
-                <el-upload
-                    class="upload-demo"
-                    drag
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    multiple>
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-                </el-upload>
 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                    <el-upload
+                        class="upload-demo"
+                        ref="upload"
+                        drag
+                        :action="lostOrFind ? 'http://localhost:8081/finds/addImg' : 'http://localhost:8081/losts/addImg'"
+                        multiple
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :on-success="imgSuccess"
+                        :auto-upload="false">
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="submitUpload">立即发布</el-button>
                 </el-form-item>
             </el-form>
-        </div>-->
-
+        </div>
     </div>
 
 </template>
@@ -114,17 +118,17 @@ export default {
     name: "upload",
     data() {
         return {
-            findOrLost: false,
+            lostOrFind: false,
             //类别
-            type:["食品","电子产品","生活用品","手机","卡","现金"],
+            type: ["食品", "电子产品", "生活用品", "手机", "卡", "现金"],
 
             form: {
-                title:"",
+                title: "",
                 desc: '',
                 area: '',
                 date: '',
                 selectedType: [],
-                imgList:{},
+                imgList: {},
             }
         }
     },
@@ -134,9 +138,9 @@ export default {
             this.$refs.upload.submit();
         },
         //上传成功事件
-        imgSuccess(res,file,fileList){
+        imgSuccess(res, file, fileList) {
             //判断上传是否成功，成功返回一个img的地址然后请求后台添加其他数据
-            if (res.code == "200" || res.msg == "success"){
+            if (res.code == "200" || res.msg == "success") {
                 let tag = "", image = "";
                 for (let i = 0; i < this.form.selectedType.length; i++) {
                     tag += this.form.selectedType[i] + '&';
@@ -144,25 +148,47 @@ export default {
                 for (let i = 0; i < res.data.length; i++) {
                     image += res.data[i] + '&';
                 }
+                if (!this.lostOrFind){
+                    this.$axios({
+                        method: "post",
+                        url: "/losts/add",
+                        data: {
+                            uid: this.$store.state.user.id,
+                            title: this.form.title,
+                            description: this.form.desc,
+                            lostArea: this.form.area + '&' + this.$store.state.user.location,
+                            lostTime: this.form.date,
+                            tag: tag,
+                            image: image
+                        }
+                    }).then(res => {
+                        this.form={};
+                        this.$router.push({path:'/'})
+                    }).catch(err => {
+                        this.$message.error("服务器错误，稍后再发布吧")
+                    })
+                }else{
+                    this.$axios({
+                        method: "post",
+                        url: "/finds/add",
+                        data: {
+                            uid: this.$store.state.user.id,
+                            title: this.form.title,
+                            description: this.form.desc,
+                            foundArea: this.form.area + '&' + this.$store.state.user.location,
+                            foundTime: this.form.date,
+                            tag: tag,
+                            image: image
+                        }
+                    }).then(res => {
+                        this.form={};
+                        this.$router.push({path:'/'})
+                    }).catch(err => {
+                        this.$message.error("服务器错误，稍后再发布吧")
+                    })
+                }
 
-                this.$axios({
-                    method:"post",
-                    url:"/finds/add",
-                    data:{
-                        uid: this.$store.state.user.id,
-                        title: this.form.title,
-                        description: this.form.desc,
-                        foundArea: this.form.area,
-                        foundTime: this.form.date,
-                        tag: tag,
-                        image:image
-                    }
-                }).then(res => {
-                    console.log(res);
-                }).catch(err => {
-                    console.log(err);
-                })
-            }else{
+            } else {
                 this.$message.error(res.data.msg);
             }
         },

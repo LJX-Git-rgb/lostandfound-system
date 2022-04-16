@@ -1,17 +1,20 @@
 package team.system.lostandfoundserver.domain;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class LostGoods {
 
   private Integer id;
   private String title;
-  private String desc;
+  private String description;
   private String image;
   private String tag;
-  private String state;
+  private Integer state;
   private Date createTime;
   private Date LostTime;
-  private Date LostArea;
+  private String LostArea;
   private Integer uid;
 }

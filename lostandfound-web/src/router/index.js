@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import AllUser from '../views/adminsite/UserInfo.vue'
 import MainSite from '../views/mainsite/MainSite.vue'
 import AdminSite from "../views/adminsite/AdminSite.vue";
 import MainSiteBody from '../views/mainsite/MainSiteBody.vue'
@@ -17,6 +16,15 @@ import AdminLogin from '../views/login/AdminLogin.vue';
 import Upload from "../views/mainsite/Upload";
 import MyPost from "../views/mainsite/MyPost";
 import Help from "@/views/mainsite/Help";
+import AllUser from '../views/adminsite/UserInfo'
+import AdminInfo from '../views/adminsite/adminInfo'
+import AdminRights from '../views/adminsite/AdminRights'
+import AnnouInfo from '../views/adminsite/AnnouInfo'
+import LostInfo from '../views/adminsite/LostInfo'
+import FoundInfo from '../views/adminsite/FoundInfo'
+import adminInfo from "@/views/adminsite/adminInfo";
+import annouInfo from "@/views/adminsite/AnnouInfo";
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -109,6 +117,26 @@ const routes = [
             {
                 path: 'allUser',
                 component: AllUser
+            },
+            {
+                path: 'adminInfo',
+                component: adminInfo
+            },
+            {
+                path: 'lostGoods',
+                component: LostInfo
+            },
+            {
+                path: 'findGoods',
+                component: FoundInfo,
+            },
+            {
+                path: 'announcement',
+                component: annouInfo,
+            },
+            {
+                path: 'rightsManege',
+                component: AdminRights,
             }
         ]
     },

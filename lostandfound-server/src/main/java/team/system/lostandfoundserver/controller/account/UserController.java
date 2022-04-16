@@ -36,14 +36,15 @@ public class UserController {
      **/
     @RequestMapping("/add")
     public Result add(@RequestBody  User user){
+        if (userService.findUserByEmail(user.getEmail()) != null){
+            return Result.error("500","邮箱已存在，请更换邮箱");
+        }
+
         User regUser = userService.add(user.getEmail(), user.getPassword());
         ArrayList data = new ArrayList();
-        data.add(user);
+        data.add(regUser);
         Result regResult = Result.success(data);
         regResult.setMsg("恭喜您注册成功");
-        if (regUser == null){
-            regResult = Result.error("500","邮箱已存在，请更换邮箱");
-        }
         return regResult;
     }
 

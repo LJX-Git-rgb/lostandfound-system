@@ -9,13 +9,17 @@ export default new Vuex.Store({
     //存储属性
     state: {
         user: {
-            id: "",
-            userName: "",
-            password: "",
-            adress: "",
-            age: "",
-            sex: "",
-            tag: "",
+            id:'',
+            uid:'',
+            nickName:'',
+            email:'',
+            gender:'',
+            createTime:'',
+            updateTime:'',
+            userRole:'',
+            face:'',
+
+            location:'',
             isLogin: false,
         },
         admin: {
@@ -43,6 +47,9 @@ export default new Vuex.Store({
         },
         quitAdminLogin(state) {
             state.admin = {}
+        },
+        setLocation(state, location){
+            state.user.location = location;
         }
     },
     //调用mutation里的方法，方便先完成一部分逻辑
@@ -61,6 +68,9 @@ export default new Vuex.Store({
                 context.commit('quitAdminLogin');
             }
         },
+        setLocation(context, location){
+            context.commit('setLocation',location);
+        }
     },
 
     //vuex持久化插件配置,每次更新vuex中的数据都会更新localStorage

@@ -10,6 +10,7 @@ import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 import team.system.lostandfoundserver.utils.SMTPClient;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -40,16 +41,10 @@ public class UserService implements UserServiceImpl {
         user.setEmail(email);
         user.setPassword(pwd);
         user.setUid(UUID.randomUUID().toString());
-        try {
-            userMapper.addUser(user);
-        }catch (Exception exception){
-            if (exception instanceof SQLIntegrityConstraintViolationException || exception instanceof DuplicateKeyException) {
-//                用户名冲突
-                return null;
-            }else{
-                exception.printStackTrace();
-            }
-        }
+        user.setCreateTime(new Date());
+        user.setUserRole(1);
+
+        userMapper.addUser(user);
         return userMapper.findUserByEmail(email);
     }
 
@@ -77,6 +72,11 @@ public class UserService implements UserServiceImpl {
             return userByEmail;
         }
         return null;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userMapper.findUserByEmail(email);
     }
 
     @Override

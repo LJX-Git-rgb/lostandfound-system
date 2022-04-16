@@ -1,12 +1,12 @@
 <template>
     <div id="goods-row">
         <el-row type="flex" justify="center">
-            <el-col v-for="(o, index) in 5" :key="o" :offset="index > 0 ? 1 : 0">
-                <a :href="'lostgood?id=' + id">
+            <el-col v-for="(item, index) in list" :key="item.id" :offset="index > 0 ? 1 : 0">
+                <a :href="'lostgood?id=' + item.id">
                     <el-card :body-style="{ padding: '10px'}">
-                        <img src="../../assets/image/login_backImg.jpeg" class="image">
+                        <img :src="require('../../../../image/foundgoods/' + item.image)" class="image">
                         <div id="card-text">
-                            对图片的形容
+                            {{item.title}}
                         </div>
                     </el-card>
                 </a>
@@ -17,11 +17,7 @@
 
 <script>
 export default {
-    data() {
-        return {
-            id: 1,
-        }
-    },
+    props:['list'],
 }
 </script>
 

@@ -13,12 +13,12 @@
             </div>
             <ul id="filter-menu">
                 <li>
-                    <div v-for="item in foundGoods" :key="item.id">
+                    <div v-for="item in foundGoods.slice(0,5)" :key="item.id">
                         <a @click="$router.push({path:'/'})"><img :src= "require('../../../../image/foundgoods/' + item.image)" alt=""><span>{{ item.title }}</span></a>
                     </div>
                 </li>
                 <li>
-                    <div v-for="item in lostGoods" :key="item.id">
+                    <div v-for="item in lostGoods.slice(0,5)" :key="item.id">
                         <a @click="$router.push({path:'/'})"><img :src= "require('../../../../image/lostgoods/' + item.image)" alt=""><span>{{ item.title }}</span></a>
                     </div>
                 </li>
@@ -28,11 +28,15 @@
         <div id="class-goods">
             <div id="lost-goods">
                 <span>最新寻物启事:<a @click="$router.push({path:'/lostgoods'})" class="el-icon-right">查看更多</a></span>
-                <goods-item/>
+                <template v-for="index in rowCount">
+                    <goods-item :list="foundGoods.slice( (index-1)*columnCount, index*columnCount )"></goods-item>
+                </template>
             </div>
             <div id="find-goods">
                 <span>最新失物招领: <a class="el-icon-right" @click="$router.push({path:'/findgoods'})">查看更多</a></span>
-                <goods-item/>
+                <template v-for="index in rowCount">
+                    <goods-item :list="lostGoods.slice( (index-1)*columnCount, index*columnCount )"></goods-item>
+                </template>
             </div>
         </div>
 <!--        底部-->
@@ -52,20 +56,9 @@ export default {
             begin:0,
             end:10,
 
-            //数据集
+            //数据集--存储前10个数据
             foundGoods:[],
             lostGoods:[],
-
-            timeRange: '',
-            options: [{
-                value: '选项1',
-                label: '黄金糕'
-            }, {
-                value: '选项2',
-                label: '双皮奶'
-            }],
-            value: '',
-
 
             // 轮播图
             imgFolder: '',
@@ -78,12 +71,12 @@ export default {
                     url: require('../../assets/image/login_backImg.jpeg'),
                     alt: 'heihei'
                 },
-            ]
+            ],
+
+            //展示行数和列数
+            rowCount:2,
+            columnCount:5
         }
-    },
-    computed: {
-    },
-    methods: {
     },
     mounted() {
         // 调用axios请求最新的物品数据
@@ -101,20 +94,19 @@ export default {
         }).catch(err => {
         });
 
-//上面那个是读取失物招领，这个是读取寻物启事，写寻物启事的话直接解开写后台就行
-        // this.$axios({
-        //     method: "get",
-        //     url: "/losts/lostLimit",
-        //     params: {
-        //         begin : this.begin,
-        //         end : this.end
-        //     }
-        // }).then(res => {
-        //     if (res.status == 200 || res.statusText == "OK"){
-        //         this.lostGoods = res.data;
-        //     }
-        // }).catch(err => {
-        // });
+        this.$axios({
+            method: "get",
+            url: "/losts/lostLimit",
+            params: {
+                begin : this.begin,
+                end : this.end
+            }
+        }).then(res => {
+            if (res.status == 200 || res.statusText == "OK"){
+                this.lostGoods = res.data;
+            }
+        }).catch(err => {
+        });
 
 
     }
@@ -200,6 +192,47 @@ export default {
 
         #lost-goods, #find-goods {
             margin-top: 3%;
+
+            //数据展示
+            #goods-row {
+                padding: 0 5%;
+
+                #card-text {
+                    padding: 10px;
+                    text-align: center;
+                }
+            }
+
+            /* 数据展示 element ui */
+            .time {
+                font-size: 13px;
+                color: #999;
+            }
+
+            .bottom {
+                margin-top: 13px;
+                line-height: 12px;
+            }
+
+            .button {
+                padding: 0;
+                float: right;
+            }
+
+            .image {
+                width: 100%;
+                display: block;
+            }
+
+            .clearfix:before,
+            .clearfix:after {
+                display: table;
+                content: "";
+            }
+
+            .clearfix:after {
+                clear: both
+            }
 
             span {
                 font-size: 24px;

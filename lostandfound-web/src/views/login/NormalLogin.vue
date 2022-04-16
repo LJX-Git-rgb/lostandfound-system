@@ -10,7 +10,7 @@
         <!-- login form -->
         <el-form :label-width="formLabelWidth" class="login-form">
             <el-form-item label="账号">
-                <el-input v-model="loginForm.account" placeholder="请输入用户名 / 邮箱" prefix-icon="el-icon-user"></el-input>
+                <el-input v-model="loginForm.account" placeholder="请输入邮箱" prefix-icon="el-icon-user"></el-input>
             </el-form-item>
 
             <el-form-item label="密码">
@@ -101,10 +101,10 @@
                             <el-input v-model="regForm.email" placeholder="输入注册用邮箱"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password">
-                            <el-input v-model="regForm.password" placeholder="设置您的密码"></el-input>
+                            <el-input v-model="regForm.password" type="password" placeholder="设置您的密码"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="checkPwd">
-                            <el-input v-model="regForm.checkPwd" placeholder="确认您的密码"></el-input>
+                            <el-input v-model="regForm.checkPwd" type="password" placeholder="确认您的密码"></el-input>
                         </el-form-item>
                         <el-form-item label="验证码" prop="identifyCode" id="identifyCode">
                             <el-input v-model="regForm.identifyCode" placeholder="请输入验证码"></el-input>
@@ -292,12 +292,13 @@ export default {
                 }
             })
         },
+
         //reg methods
         regist() {
             this.regDialogFormVisible = true;
         },
         createUser() {
-            if (this.regForm.identifyCode != this.createdIdentifyCode){
+            if (this.regForm.identifyCode.toLowerCase() != this.createdIdentifyCode.toLowerCase()){
                 this.$message.error("验证码不匹配");
             }else {
                 this.regDialogFormVisible = false;

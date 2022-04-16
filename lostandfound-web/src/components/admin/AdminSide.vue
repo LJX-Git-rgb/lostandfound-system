@@ -4,49 +4,29 @@
         class="el-menu-vertical-demo"
         router>
 
-        <el-submenu index="account/" :disabled="this.adminLogin == false || this.adminLogin == null">
+        <el-menu-item index="allUser" :disabled="this.adminLogin == false || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-custom"></i>用户信息管理</template>
-            <el-menu-item index="allUser">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-submenu index="2-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="2-4-1">选项1</el-menu-item>
-                <el-menu-item index="2-4-2">选项2</el-menu-item>
-                <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
-        </el-submenu>
+        </el-menu-item>
 
-        <el-submenu index="findGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        <el-menu-item index="findGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-message-solid"></i>寻物启事管理</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-submenu>
-        <el-submenu index="lostGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        </el-menu-item>
+
+        <el-menu-item index="lostGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-message-solid"></i>失物招领管理</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-submenu>
-        <el-submenu index="announcement" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        </el-menu-item>
+
+        <el-menu-item index="announcement" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-comment"></i>公告管理</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-submenu>
-        <el-submenu index="rightsManege" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        </el-menu-item>
+
+        <el-menu-item index="rightsManege" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-cooperation"></i>管理员权限管理</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-submenu>
-        <el-submenu index="myInfo" :disabled="this.adminLogin == false || this.adminLogin == null">
+        </el-menu-item>
+
+        <el-menu-item index="adminInfo" :disabled="this.adminLogin == false || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-cooperation"></i>我的信息</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-submenu>
+        </el-menu-item>
     </el-menu>
 </template>
 
@@ -59,7 +39,6 @@ export default {
     },
     data() {
         return {
-            adminIsLogin: this.$store.getters.adminIsLogin,
         }
     },
     methods: {}
