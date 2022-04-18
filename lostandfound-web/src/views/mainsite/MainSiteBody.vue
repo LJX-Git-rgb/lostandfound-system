@@ -150,13 +150,6 @@ export default {
         #carousel-wrap {
             flex: 0.7;
 
-            .el-carousel__item h3 {
-                color: #475669;
-                font-size: 18px;
-                opacity: 0.75;
-                line-height: 100%;
-            }
-
             .el-carousel__item {
                 img {
                     width: 100%;
@@ -179,10 +172,16 @@ export default {
                     flex: 1;
                     margin-right: 3%;
                     margin-top: 1.5%;
-
-                    img {
-                        width: 100%;
-                        height: 80%;
+                    a{
+                        img {
+                            width: 100%;
+                            height: 80%;
+                        }
+                        span{
+                            overflow:hidden;//超出一行文字自动隐藏
+                            text-overflow:ellipsis;//文字隐藏后添加省略号
+                            white-space:nowrap;//强制不换行
+                        }
                     }
                 }
             }
@@ -195,47 +194,6 @@ export default {
 
         #lost-goods, #find-goods {
             margin-top: 3%;
-
-            //数据展示
-            #goods-row {
-                padding: 0 5%;
-
-                #card-text {
-                    padding: 10px;
-                    text-align: center;
-                }
-            }
-
-            /* 数据展示 element ui */
-            .time {
-                font-size: 13px;
-                color: #999;
-            }
-
-            .bottom {
-                margin-top: 13px;
-                line-height: 12px;
-            }
-
-            .button {
-                padding: 0;
-                float: right;
-            }
-
-            .image {
-                width: 100%;
-                display: block;
-            }
-
-            .clearfix:before,
-            .clearfix:after {
-                display: table;
-                content: "";
-            }
-
-            .clearfix:after {
-                clear: both
-            }
 
             span {
                 font-size: 24px;

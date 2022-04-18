@@ -1,6 +1,7 @@
 <template>
     <div id="timeBlock">
-        <span>我发布的寻物启事 : </span>
+        <span v-if="lostOrFind">我发布的寻物启事 : </span>
+        <span v-if="!lostOrFind">我发布的失物招领 : </span>
         <el-timeline>
             <el-timeline-item v-for="item in tableData" :key="item.id" :timestamp="item.createTime" placement="top">
                 <a href="#">
@@ -28,8 +29,20 @@ export default {
     name: "MyPost",
     data() {
         return {
-            tableData: [],
-            lostOrFind:this.$route.path
+            findData: [],
+            lostData: [],
+        }
+    },
+    computed: {
+        lostOrFind(){
+            return this.$route.fullPath.split('?')[1] == 'lost'
+        },
+        tableData(){
+            if (this.lostOrFind){
+                return this.lostData;
+            }else{
+                return this.findData;
+            }
         }
     },
     mounted() {
@@ -40,7 +53,16 @@ export default {
                 uid:this.$store.state.user.id
             }
         }).then(res => {
-            this.tableData = res.data;
+            this.findData = res.data;
+        })
+        this.$axios({
+            method:"get",
+            url:"/losts/byUser",
+            params:{
+                uid:this.$store.state.user.id
+            }
+        }).then(res => {
+            this.lostData = res.data;
         })
     }
 }
@@ -69,8 +91,8 @@ export default {
     }
 
     #cardImg {
-        width: 40%;
-        height: 40%;
+        width: 20%;
+        height: 20%;
     }
 
     #archor {

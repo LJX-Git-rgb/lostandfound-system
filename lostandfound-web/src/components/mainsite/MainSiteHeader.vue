@@ -129,10 +129,10 @@ export default {
                 console.log("quit")
                 this.$store.dispatch('quitLogin', "user");
             } else if (command == 'lostGoods') {
-                this.$router.push({path: '/mypost'})
+                this.$router.push({path: '/mypost?lost'})
                 console.log("lost")
             } else if (command == 'findGoods') {
-                this.$router.push({path: '/mypost'})
+                this.$router.push({path: '/mypost?find'})
                 console.log("find")
             } else {
                 this.$message({
