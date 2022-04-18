@@ -7,7 +7,7 @@
 			}
 		},
 		{
-			"path": "pages/upload/upload",
+			"path": "pages/upload/Upload",
 			"style": {
 				"navigationBarTitleText": "我要发布"
 			}
@@ -19,7 +19,7 @@
 			}
 		},
 		{
-			"path": "pages/lost/lostList",
+			"path": "pages/lost/LostList",
 			"style": {
 				"navigationBarTitleText": "寻物启事",
 				"enablePullDownRefresh": true,
@@ -27,10 +27,10 @@
 			}
 		},
 		{
-			"path": "pages/lost/lostInfo"
+			"path": "pages/lost/LostInfo"
 		},
 		{
-			"path": "pages/find/findList",
+			"path": "pages/find/FindList",
 			"style": {
 				"navigationBarTitleText": "失物招领",
 				"enablePullDownRefresh": true
@@ -54,7 +54,7 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/upload/upload",
+				"pagePath": "pages/upload/Upload",
 				"text": "我要发布"
 			},
 			{

@@ -165,11 +165,10 @@
 
 			//卡片事件
 			toLostList(){
-				uni.navigateTo({url:'../lost/lostList'})
+				uni.navigateTo({url:'../find/FindList'})
 			},
 			toFindList(){
-				console.log("find")
-				uni.navigateTo({url:'../find/findList'})
+				uni.navigateTo({url:'../lost/LostList'})
 			},
 
 			//登录

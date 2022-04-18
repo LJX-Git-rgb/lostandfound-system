@@ -1,16 +1,16 @@
 <template>
   <view id="content">
-        <uni-card title="基础卡片" sub-title="副标题" class="card" 
-            v-for="(item, index) in list" :key="index">
+        <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" 
+            v-for="item in lostGoodsList" :key="item.id">
             
             <!-- 轮播图 -->
             <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="500" :circular="true">
-               <swiper-item v-for="(item, index) in info" :key="index" @click="onClick(item)">
-					<image :src="item.url" alt="">
+              <swiper-item v-for="(url, index) in item.imageList" :key="index">
+					<image :src="'../../../../image'  + url " alt="">
 				</swiper-item>
             </swiper>
             <!-- desc -->
-            <text class="uni-body uni-mt-5">卡片组件通用来显示完整独立的一段信息，同时让用户理解他的作用。例如一篇文章的预览图、作者信息、时间等，卡片通常是更复杂和更详细信息的入口点。</text>
+            <text class="uni-body uni-mt-5"> {{item.description}}</text>
             
             <!-- 选项 -->
             <view slot="actions" class="card-actions">
@@ -53,7 +53,10 @@ export default {
 						content: '内容 C'
 					}
 			],
-            list:4,
+            
+            lostGoodsList:[],
+            begin:0,
+            end:5,
 
             status:'more'
         }
@@ -85,7 +88,23 @@ export default {
             this.list += 4;
         }, 5000);
         this.status = "more"
-    }
+    },
+    mounted() {
+        var url=this.$baseUrl+"losts/lostLimit?begin=" + this.begin + "&end="+this.end
+        uni.request({
+            url: url,
+            method: 'GET',
+            success: (res)=>{
+                if(res.statusCode == 200){
+                    this.lostGoodsList = res.data;
+                }
+            },
+            fail: (err)=>{
+
+            }
+        })
+
+    },
 }
 </script>
 
