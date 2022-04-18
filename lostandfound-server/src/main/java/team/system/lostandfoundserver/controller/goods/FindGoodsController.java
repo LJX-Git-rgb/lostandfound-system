@@ -14,11 +14,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @ClassName: FindGoods
@@ -37,11 +33,11 @@ public class FindGoodsController {
 
   @RequestMapping("/findLimit")
   public List<FindGoods> findLimit(Integer begin,Integer end){
-    return service.findByLimit(begin,end);
+    return getUrlList(service.findByLimit(begin, end));
   }
   @RequestMapping("/limitByTimeAndType")
   public List<FindGoods> limitByTimeAndType(@RequestBody HashMap<String,String> map){
-    return service.limitByTimeAndType(map.get("foundTimeRange"), map.get("tag"));
+    return getUrlList(service.limitByTimeAndType(map.get("foundTimeRange"), map.get("tag")));
   }
   @RequestMapping("/addImg")
   public Result addFindGoodImgs(HttpServletRequest request) throws IOException {
@@ -75,10 +71,18 @@ public class FindGoodsController {
   }
   @RequestMapping("/byUser")
   public List<FindGoods> findByUser(Integer uid){
-    return service.findByUser(uid);
+    return getUrlList(service.findByUser(uid));
   }
   @RequestMapping("/search")
   public List<FindGoods> searchByText(String text){
-    return service.searchText(text);
+    return getUrlList(service.searchText(text));
+  }
+
+
+  private List<FindGoods> getUrlList(List<FindGoods> goods){
+    for (int i = 0; i < goods.size(); i++) {
+      goods.get(i).setImageList(goods.get(i).getImage().split("&"));
+    }
+    return goods;
   }
 }

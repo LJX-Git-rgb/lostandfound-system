@@ -15,7 +15,7 @@
                 <li>
                     <div v-for="item in foundGoods.slice(0,5)" :key="item.id">
                         <a @click="$router.push({path:'/'})">
-                            <img :src= "require('../../../../image' + item.image.split('&')[0])" alt="" v-if="item.image != '' ">
+                            <img :src= "require('../../../../image' + item.imageList[0])" alt="" v-if="item.image != '' ">
                             <span>{{ item.title }}</span>
                         </a>
                     </div>
@@ -23,7 +23,7 @@
                 <li>
                     <div v-for="item in lostGoods.slice(0,5)" :key="item.id">
                         <a @click="$router.push({path:'/'})">
-                            <img :src= "require('../../../../image' + item.image.split('&')[0])" alt="">
+                            <img :src= "require('../../../../image' + item.imageList[0])" alt="">
                             <span>{{ item.title }}</span></a>
                     </div>
                 </li>

@@ -17,4 +17,5 @@ public class FindGoods {
   private Date foundTime;
   private String foundArea;
   private Integer uid;
+  private String[] imageList;
 }

@@ -37,11 +37,11 @@ public class LostGoodsController {
 
     @RequestMapping("/lostLimit")
     public List<LostGoods> lostLimit(Integer begin,Integer end){
-        return service.findByLimit(begin,end);
+        return getUrlList(service.findByLimit(begin,end));
     }
     @RequestMapping("/limitByTimeAndType")
     public List<LostGoods> limitByTimeAndType(@RequestBody HashMap<String,String> map){
-        return service.limitByTimeAndType(map.get("lostTimeRange"), map.get("tag"));
+        return getUrlList(service.limitByTimeAndType(map.get("lostTimeRange"), map.get("tag")));
     }
     @RequestMapping("/addImg")
     public Result addLostGoodsImgs(HttpServletRequest request) throws IOException {
@@ -76,11 +76,19 @@ public class LostGoodsController {
 
     @RequestMapping("/byUser")
     public List<LostGoods> findByUser(Integer uid){
-        return service.findByUser(uid);
+        return getUrlList(service.findByUser(uid));
     }
 
     @RequestMapping("/search")
     public List<LostGoods> searchByText(String text){
-        return service.searchText(text);
+        return getUrlList(service.searchText(text));
+    }
+
+
+    private List<LostGoods> getUrlList(List<LostGoods> goods){
+        for (int i = 0; i < goods.size(); i++) {
+            goods.get(i).setImageList(goods.get(i).getImage().split("&"));
+        }
+        return goods;
     }
 }

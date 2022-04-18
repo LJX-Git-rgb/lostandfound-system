@@ -4,7 +4,7 @@
             <el-col v-for="(item, index) in list" :key="item.id" :offset="index > 0 ? 1 : 0">
                 <a :href="'lostgood?id=' + item.id">
                     <el-card :body-style="{ padding: '10px'}">
-                        <img :src="require('../../../../image' + item.image.split('&')[0])" class="image">
+                        <img :src="require('../../../../image' + item.imageList[0])" class="image">
                         <div id="card-text">
                             {{item.title}}
                         </div>

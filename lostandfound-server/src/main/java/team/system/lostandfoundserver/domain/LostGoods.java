@@ -17,4 +17,5 @@ public class LostGoods {
   private Date LostTime;
   private String LostArea;
   private Integer uid;
+  private String[] imageList;
 }
