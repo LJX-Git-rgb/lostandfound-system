@@ -77,13 +77,13 @@ export default {
             value: '',
 
             // 无限滚动展示
-            count: 3,
             loading: false,
 
             //展示
             begin:0,
-            end:15,
+            end:10,
             goodsList:[],
+
             //展示行数和列数
             rowCount:2,
             columnCount:5
@@ -91,7 +91,7 @@ export default {
     },
     computed: {
         noMore() {
-            return this.count >= 4
+            return this.goodsList.length % 5 != 0;
         },
         disabled() {
             return this.loading || this.noMore
@@ -115,39 +115,37 @@ export default {
             })
         },
         load() {
-            // this.loading = true
-            // setTimeout(() => {
-            //     this.begin = this.end;
-            //     this.end += 10;
-            //     this.$axios({
-            //         method: "get",
-            //         url: "/finds/findLimit",
-            //         params: {
-            //             begin : this.begin,
-            //             end : this.end
-            //         }
-            //     }).then(res => {
-            //         if (res.status == 200 || res.statusText == "OK"){
-            //             this.goodsList.push(res.data);
-            //         }
-            //     })
-            // }, 2000)
-            // this.loading = false
+            this.loading = true
+            setTimeout(() => {
+                this.loading = false
+                this.begin = this.end;
+                this.end += 10;
+                this.findGoodsList();
+                this.rowCount+=2;
+            }, 1000)
+            this.$forceUpdate();
         },
+        findGoodsList(){
+            this.$axios({
+                method: "get",
+                url: "/finds/findLimit",
+                params: {
+                    begin : this.begin,
+                    end : this.end
+                }
+            }).then(res => {
+                if (res.status == 200 || res.statusText == "OK") {
+                    if (this.goodsList == []) {
+                        this.goodsList = res.data;
+                    }else {
+                        this.goodsList = this.goodsList.concat(res.data);
+                    }
+                }
+            })
+        }
     },
     mounted() {
-        this.$axios({
-            method: "get",
-            url: "/finds/findLimit",
-            params: {
-                begin : this.begin,
-                end : this.end
-            }
-        }).then(res => {
-            if (res.status == 200 || res.statusText == "OK"){
-                this.goodsList = res.data;
-            }
-        })
+        this.findGoodsList();
     }
 }
 </script>

@@ -14,12 +14,17 @@
             <ul id="filter-menu">
                 <li>
                     <div v-for="item in foundGoods.slice(0,5)" :key="item.id">
-                        <a @click="$router.push({path:'/'})"><img :src= "require('../../../../image/foundgoods/' + item.image)" alt=""><span>{{ item.title }}</span></a>
+                        <a @click="$router.push({path:'/'})">
+                            <img :src= "require('../../../../image' + item.image.split('&')[0])" alt="" v-if="item.image != '' ">
+                            <span>{{ item.title }}</span>
+                        </a>
                     </div>
                 </li>
                 <li>
                     <div v-for="item in lostGoods.slice(0,5)" :key="item.id">
-                        <a @click="$router.push({path:'/'})"><img :src= "require('../../../../image/lostgoods/' + item.image)" alt=""><span>{{ item.title }}</span></a>
+                        <a @click="$router.push({path:'/'})">
+                            <img :src= "require('../../../../image' + item.image.split('&')[0])" alt="">
+                            <span>{{ item.title }}</span></a>
                     </div>
                 </li>
             </ul>
@@ -27,13 +32,13 @@
 <!--        分类展示-->
         <div id="class-goods">
             <div id="lost-goods">
-                <span>最新寻物启事:<a @click="$router.push({path:'/lostgoods'})" class="el-icon-right">查看更多</a></span>
+                <span>最新失物招领:<a @click="$router.push({path:'/findgoods'})" class="el-icon-right">查看更多</a></span>
                 <template v-for="index in rowCount">
                     <goods-item :list="foundGoods.slice( (index-1)*columnCount, index*columnCount )"></goods-item>
                 </template>
             </div>
             <div id="find-goods">
-                <span>最新失物招领: <a class="el-icon-right" @click="$router.push({path:'/findgoods'})">查看更多</a></span>
+                <span>最新寻物启事: <a class="el-icon-right" @click="$router.push({path:'/lostgoods'})">查看更多</a></span>
                 <template v-for="index in rowCount">
                     <goods-item :list="lostGoods.slice( (index-1)*columnCount, index*columnCount )"></goods-item>
                 </template>
@@ -107,8 +112,6 @@ export default {
             }
         }).catch(err => {
         });
-
-
     }
 }
 </script>

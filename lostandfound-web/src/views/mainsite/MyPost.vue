@@ -1,11 +1,11 @@
 <template>
     <div id="timeBlock">
-        <span>我的发布 : </span>
+        <span>我发布的寻物启事 : </span>
         <el-timeline>
             <el-timeline-item v-for="item in tableData" :key="item.id" :timestamp="item.createTime" placement="top">
                 <a href="#">
                     <el-card>
-                        <img :src="item.image" alt="" id="cardImg">
+                        <img :src="require('../../../../image' + item.image.split('&')[0])" alt="" id="cardImg">
                         <div id="content">
                             <span>{{item.title}}</span>
                             <h3>{{item.description}}</h3>
@@ -29,6 +29,7 @@ export default {
     data() {
         return {
             tableData: [],
+            lostOrFind:this.$route.path
         }
     },
     mounted() {

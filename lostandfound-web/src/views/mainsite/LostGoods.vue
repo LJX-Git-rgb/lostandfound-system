@@ -11,12 +11,13 @@
                             type="daterange"
                             range-separator="至"
                             start-placeholder="开始日期"
-                            end-placeholder="结束日期">
+                            end-placeholder="结束日期"
+                            @blur="limitGoods">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
                         <span>类别： </span>
-                        <el-select v-model="value" placeholder="请选择" id="type">
+                        <el-select v-model="value" placeholder="请选择" id="type" @blur="limitGoods">
                             <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -33,8 +34,8 @@
                 class="goodslist"
                 v-infinite-scroll="load"
                 infinite-scroll-disabled="disabled">
-                <li v-for="i in count" class="list-item" :key="i">
-                    <goods-item/>
+                <li v-for="index in rowCount" class="list-item" :key="index">
+                    <goods-item :list="goodsList.slice( (index-1)*columnCount, index * columnCount )"></goods-item>
                 </li>
             </ul>
             <p v-if="loading">加载中...</p>
@@ -51,30 +52,102 @@ export default {
     components: {GoodsItem},
     data() {
         return {
+            //筛选
+            timeRange: '',
+            options: [
+                {
+                    value: '食品',
+                    label: '食品'
+                }, {
+                    value: '电子产品',
+                    label: '电子产品'
+                },
+                {
+                    value: '卡',
+                    label: '卡'
+                },
+                {
+                    value: '生活用品',
+                    label: '生活用品'
+                },
+                {
+                    value: '现金',
+                    label: '现金'
+                },],
+            value: '',
+
             // 无限滚动展示
-            count: 3,
             loading: false,
+
+            //展示
+            begin:0,
+            end:10,
+            goodsList:[],
+
+            //展示行数和列数
+            rowCount:2,
+            columnCount:5
         }
     },
     computed: {
         noMore() {
-            return this.count >= 4
+            return this.goodsList.length % 5 != 0;
         },
         disabled() {
             return this.loading || this.noMore
         }
     },
     methods: {
+        limitGoods(){
+            this.$axios({
+                method: "post",
+                url:"/losts/limitByTimeAndType",
+                data:{
+                    foundTimeRange: JSON.stringify(this.timeRange),
+                    tag: this.value
+                }
+            }).then(res => {
+                if(res.data.code == 200){
+                    this.goodsList = res.data;
+                }
+            }).catch(err => {
+                this.$message.error("服务器错误,请稍后再操作");
+            })
+        },
         load() {
             this.loading = true
             setTimeout(() => {
-                this.count += 2
                 this.loading = false
-            }, 2000)
+                this.begin = this.end;
+                this.end += 10;
+                this.findGoodsList();
+                this.rowCount+=2;
+            }, 1000)
+            this.$forceUpdate();
         },
+        findGoodsList(){
+            this.$axios({
+                method: "get",
+                url: "/losts/lostLimit",
+                params: {
+                    begin : this.begin,
+                    end : this.end
+                }
+            }).then(res => {
+                if (res.status == 200 || res.statusText == "OK") {
+                    if (this.goodsList == []) {
+                        this.goodsList = res.data;
+                    }else {
+                        this.goodsList = this.goodsList.concat(res.data);
+                    }
+                }
+            })
+        }
     },
+    mounted() {
+        this.findGoodsList();
+    }
 }
-
 </script>
 
 <style lang="less" scoped>
