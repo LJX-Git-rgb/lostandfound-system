@@ -1,3 +1,5 @@
+<!--后台寻物启事管理页面-->
+
 <template>
     <div id="userInfo">
         <div id="userButton">
@@ -18,14 +20,20 @@
         <el-table
             :data="tableData"
             border
-            style="width: 100%">
-
-            <el-table-column prop="id" label="ID" width="150" sortable=""></el-table-column>
-            <el-table-column prop="userName" label="姓名" width="120"></el-table-column>
-            <el-table-column :prop="gender == '1'  ? '男' : '女'" label="性别" width="120"></el-table-column>
-            <el-table-column prop="email" label="地址" width="300"></el-table-column>
-            <el-table-column prop="updatetime" label="创建时间" width="120"></el-table-column>
-            <el-table-column prop="createTime" label="最后更新时间" width="120"></el-table-column>
+            style="width: 100%"
+            :highlight-current-row="true"
+            ref="multipleTable"
+            tooltip-effect="dark"
+            @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column prop="id" label="ID" width="90" sortable=""></el-table-column>
+          <el-table-column prop="image" label="图片" width="80"></el-table-column>
+          <el-table-column prop="title" label="寻物启事标题" width="120"></el-table-column>
+          <el-table-column prop="description" label="详情描述" width="80"></el-table-column>
+          <el-table-column prop='state' label="认领状态" width="100"></el-table-column>
+          <el-table-column prop="create_time" label="发布日期" width="180"></el-table-column>
+          <el-table-column prop="lost_area" label="丢失区域" width="180"></el-table-column>
+          <el-table-column prop="lost_time" label="丢失日期"width="180"></el-table-column>
 
             <!-- <el-table-column prop="createtime" label="标签" width="100"
                 :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
@@ -38,10 +46,10 @@
             </el-table-column> -->
             <el-table-column fixed="right" label="操作" width="150">
                 <template slot-scope="scope">
-                    <el-button @click="updateUser(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button @click="updateUser(scope.row)" type="primary" size="small">编辑</el-button>
                     <el-button
                         @click.native.prevent="deleteUser(scope.row)"
-                        type="text"
+                        type="danger"
                         size="small">
                         移除
                     </el-button>
@@ -102,6 +110,9 @@ export default {
         upLoad() {
 
         },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
 
         // axios function
         showUserInfo() {

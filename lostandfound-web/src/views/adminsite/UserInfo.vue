@@ -1,3 +1,5 @@
+<!--后台用户信息管理-->
+
 <template>
     <div id="userInfo">
         <div id="userButton">
@@ -19,7 +21,10 @@
             :fit="true"
             :highlight-current-row="true"
             style="width: 100%"
-        >
+            ref="multipleTable"
+            tooltip-effect="dark"
+            @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="ID" width="90" sortable=""></el-table-column>
             <el-table-column prop="nickName" label="姓名" width="80"></el-table-column>
             <el-table-column prop="gender" label="性别" width="50"></el-table-column>
@@ -27,12 +32,13 @@
             <el-table-column prop="email" label="注册邮箱" width="180"></el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
             <el-table-column prop="updateTime" label="最后更新时间"width="180"></el-table-column>
+
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
-                        <el-button @click="updateUser(scope.row)" size="small">认证</el-button>
-                        <el-button @click="updateUser(scope.row)" size="small">登录</el-button>
-                        <el-button @click.native.prevent="deleteUser(scope.row)" size="small">禁言</el-button>
+                        <el-button @click="updateUser(scope.row)" size="small" type="primary">认证</el-button>
+                        <el-button @click="updateUser(scope.row)" size="small" type="success">登录</el-button>
+                        <el-button @click.native.prevent="deleteUser(scope.row)" type="warning" size="small">禁言</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -79,18 +85,22 @@ export default {
             this.page.currentPage = val;
             this.showUserInfo()
         },
-        resetDateFilter() {
-
-        },
-        clearFilter() {
-
-        },
         downLoad() {
 
         },
         upLoad() {
 
         },
+
+        updateUser:function (){
+
+        },
+        deleteUser:function (){
+
+        },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
 
         // axios function
         showUserInfo() {

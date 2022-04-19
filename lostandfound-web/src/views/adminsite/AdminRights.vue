@@ -1,19 +1,7 @@
+<!--后台管理员权限管理页面-->
+
 <template>
     <div id="userInfo">
-        <div id="userButton">
-            <el-button @click="resetDateFilter">清除日期过滤器</el-button>
-            <el-button @click="clearFilter">清除所有过滤器</el-button>
-            <el-button @click="upLoad">导入</el-button>
-            <el-button @click="downLoad">导出</el-button>
-            <div id="select">
-                <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
-                    <el-select v-model="select" slot="prepend" placeholder="请选择">
-                        <el-option label="人名" value="1"></el-option>
-                    </el-select>
-                    <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
-            </div>
-        </div>
 
         <el-table
             :data="tableData"

@@ -1,6 +1,10 @@
+<!--后台失物招领管理页面-->
+
 <template>
     <div id="userInfo">
         <div id="userButton">
+          <el-button @click="resetDateFilter">清除日期过滤器</el-button>
+          <el-button @click="clearFilter">清除所有过滤器</el-button>
             <el-button @click="upLoad">导入</el-button>
             <el-button @click="downLoad">导出</el-button>
             <div id="select">
@@ -19,20 +23,23 @@
             :fit="true"
             :highlight-current-row="true"
             style="width: 100%"
-        >
+            ref="multipleTable"
+            tooltip-effect="dark"
+            @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="ID" width="90" sortable=""></el-table-column>
-            <el-table-column prop="nickName" label="姓名" width="80"></el-table-column>
-            <el-table-column prop="gender" label="性别" width="50"></el-table-column>
-            <el-table-column prop='userRole' label="身份(0~6)" width="100"></el-table-column>
-            <el-table-column prop="email" label="注册邮箱" width="180"></el-table-column>
-            <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
-            <el-table-column prop="updateTime" label="最后更新时间"width="180"></el-table-column>
+            <el-table-column prop="image" label="图片" width="80"></el-table-column>
+            <el-table-column prop="title" label="失物招领标题" width="120"></el-table-column>
+            <el-table-column prop="description" label="详情描述" width="80"></el-table-column>
+            <el-table-column prop='state' label="认领状态" width="100"></el-table-column>
+            <el-table-column prop="create_time" label="发布日期" width="180"></el-table-column>
+            <el-table-column prop="found_area" label="找到区域" width="180"></el-table-column>
+            <el-table-column prop="found_time" label="找到日期"width="180"></el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
-                        <el-button @click="updateUser(scope.row)" size="small">认证</el-button>
-                        <el-button @click="updateUser(scope.row)" size="small">登录</el-button>
-                        <el-button @click.native.prevent="deleteUser(scope.row)" size="small">禁言</el-button>
+                        <el-button @click="updateUser(scope.row)" type="primary" size="small">编辑</el-button>
+                        <el-button @click="updateUser(scope.row)" type="danger" size="small">移除</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -85,6 +92,9 @@ export default {
         upLoad() {
 
         },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
 
         // axios function
         showUserInfo() {

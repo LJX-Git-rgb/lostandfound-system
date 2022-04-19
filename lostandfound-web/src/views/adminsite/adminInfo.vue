@@ -1,31 +1,25 @@
+<!--后台我的信息页面-->
+
 <template>
-    <div id="userInfo">
-        <div id="userButton">
-            <el-button @click="resetDateFilter">清除日期过滤器</el-button>
-            <el-button @click="clearFilter">清除所有过滤器</el-button>
+    <div id="adminInfo">
+        <div id="adminButton">
             <el-button @click="upLoad">导入</el-button>
             <el-button @click="downLoad">导出</el-button>
-            <div id="select">
-                <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
-                    <el-select v-model="select" slot="prepend" placeholder="请选择">
-                        <el-option label="人名" value="1"></el-option>
-                    </el-select>
-                    <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
-            </div>
         </div>
 
         <el-table
             :data="tableData"
             border
-            style="width: 100%">
-
+            :highlight-current-row="true"
+            style="width: 100%"
+            ref="multipleTable"
+            tooltip-effect="dark"
+            @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="ID" width="150" sortable=""></el-table-column>
-            <el-table-column prop="userName" label="姓名" width="120"></el-table-column>
-            <el-table-column :prop="gender == '1'  ? '男' : '女'" label="性别" width="120"></el-table-column>
-            <el-table-column prop="email" label="地址" width="300"></el-table-column>
-            <el-table-column prop="updatetime" label="创建时间" width="120"></el-table-column>
-            <el-table-column prop="createTime" label="最后更新时间" width="120"></el-table-column>
+            <el-table-column prop="name" label="管理员名" width="120"></el-table-column>
+            <el-table-column prop="pwd" label="密码" width="150"></el-table-column>
+            <el-table-column prop="phone" label="电话" width="300"></el-table-column>
 
             <!-- <el-table-column prop="createtime" label="标签" width="100"
                 :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
@@ -38,10 +32,10 @@
             </el-table-column> -->
             <el-table-column fixed="right" label="操作" width="150">
                 <template slot-scope="scope">
-                    <el-button @click="updateUser(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button @click="updateUser(scope.row)" type="primary" size="small">编辑</el-button>
                     <el-button
                         @click.native.prevent="deleteUser(scope.row)"
-                        type="text"
+                        type="danger"
                         size="small">
                         移除
                     </el-button>
@@ -90,17 +84,16 @@ export default {
             this.page.currentPage = val;
             this.showUserInfo()
         },
-        resetDateFilter() {
 
-        },
-        clearFilter() {
-
-        },
         downLoad() {
 
         },
+
         upLoad() {
 
+        },
+        handleSelectionChange(val) {
+          this.multipleSelection = val;
         },
 
         // axios function
