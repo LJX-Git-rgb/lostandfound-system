@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import team.system.lostandfoundserver.domain.FindGoods;
+import team.system.lostandfoundserver.domain.LostGoods;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.service.FindGoodsService;
 import javax.servlet.http.HttpServletRequest;
@@ -78,6 +79,12 @@ public class FindGoodsController {
     return getUrlList(service.searchText(text));
   }
 
+  @RequestMapping("findById")
+  public FindGoods findById(Integer id){
+    FindGoods byId = service.findById(id);
+    byId.setImageList(byId.getImage().split("&"));
+    return byId;
+  }
 
   private List<FindGoods> getUrlList(List<FindGoods> goods){
     for (int i = 0; i < goods.size(); i++) {

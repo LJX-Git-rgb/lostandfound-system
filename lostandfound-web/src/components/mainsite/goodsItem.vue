@@ -2,13 +2,13 @@
     <div id="goods-row">
         <el-row type="flex" justify="center">
             <el-col v-for="(item, index) in list" :key="item.id" :offset="index > 0 ? 1 : 0">
-                <a :href="'lostgood?id=' + item.id">
-                    <el-card :body-style="{ padding: '10px'}">
-                        <img :src="require('../../../../image' + item.imageList[0])" class="image">
-                        <div id="card-text">
-                            {{item.title}}
-                        </div>
-                    </el-card>
+                <a @click="$router.push({path: 'goodsInfo', query:{state:findOrLost, id:item.id}})">
+                <el-card :body-style="{ padding: '10px'}">
+                    <img :src="require('../../../../image' + item.imageList[0])" class="image">
+                    <div id="card-text">
+                        {{ item.title }}
+                    </div>
+                </el-card>
                 </a>
             </el-col>
         </el-row>
@@ -18,6 +18,15 @@
 <script>
 export default {
     props:['list'],
+    computed:{
+        findOrLost() {
+            return this.list[0].imageList[0].split('/')[1].indexOf("found") == -1 ? "lost" : "find";
+        }
+    },
+    methods:{
+        toInfo(){
+        }
+    }
 }
 </script>
 

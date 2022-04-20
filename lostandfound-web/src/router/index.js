@@ -17,13 +17,11 @@ import Upload from "../views/mainsite/Upload";
 import MyPost from "../views/mainsite/MyPost";
 import Help from "@/views/mainsite/Help";
 import AllUser from '../views/adminsite/UserInfo'
-import AdminInfo from '../views/adminsite/adminInfo'
 import AdminRights from '../views/adminsite/AdminRights'
-import AnnouInfo from '../views/adminsite/AnnouInfo'
 import LostInfo from '../views/adminsite/LostInfo'
 import FoundInfo from '../views/adminsite/FoundInfo'
 import adminInfo from "@/views/adminsite/adminInfo";
-import annouInfo from "@/views/adminsite/AnnouInfo";
+import Notice from "@/views/adminsite/Notice";
 
 Vue.use(VueRouter)
 
@@ -65,13 +63,8 @@ const routes = [
 
             // /find or lost good?id= * 每个失物招领/寻物启事对详细信息 id为编号
             {
-                path: 'lostgood/',
+                path: 'goodsInfo',
                 component: LostGoodsInfo,
-            },
-
-            {
-                path: 'findgood/:id',
-                component: FindGoodsInfo
             },
 
             // /mypost 我的发布部分
@@ -131,8 +124,8 @@ const routes = [
                 component: FoundInfo,
             },
             {
-                path: 'announcement',
-                component: annouInfo,
+                path: 'notice',
+                component: Notice,
             },
             {
                 path: 'rightsManege',

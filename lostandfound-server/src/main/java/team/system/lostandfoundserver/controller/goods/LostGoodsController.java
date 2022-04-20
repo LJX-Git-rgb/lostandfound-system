@@ -84,6 +84,12 @@ public class LostGoodsController {
         return getUrlList(service.searchText(text));
     }
 
+    @RequestMapping("findById")
+    public LostGoods findById(Integer id){
+        LostGoods byId = service.findById(id);
+        byId.setImageList(byId.getImage().split("&"));
+        return byId;
+    }
 
     private List<LostGoods> getUrlList(List<LostGoods> goods){
         for (int i = 0; i < goods.size(); i++) {

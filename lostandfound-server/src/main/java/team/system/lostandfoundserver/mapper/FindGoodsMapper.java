@@ -29,4 +29,7 @@ public interface FindGoodsMapper {
     @Select("select * from found_goods where " +
             "title like #{text} or description like #{text} or tag like #{text} or found_area like #{text}")
     List<FindGoods> searchByText(String text);
+
+    @Select("select * from found_goods where id = #{id}")
+    FindGoods findById(Integer id);
 }

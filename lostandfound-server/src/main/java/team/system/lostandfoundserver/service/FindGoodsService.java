@@ -63,4 +63,9 @@ public class FindGoodsService implements FindGoodsServiceImpl {
     public List<FindGoods> searchText(String text) {
         return mapper.searchByText(text);
     }
+
+    @Override
+    public FindGoods findById(Integer id) {
+        return mapper.findById(id);
+    }
 }

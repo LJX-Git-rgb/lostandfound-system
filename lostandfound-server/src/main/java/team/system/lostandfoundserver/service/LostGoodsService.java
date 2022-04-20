@@ -64,4 +64,9 @@ public class LostGoodsService implements LostGoodsServiceImpl {
     public List<LostGoods> searchText(String text) {
         return mapper.searchByText(text);
     }
+
+    @Override
+    public LostGoods findById(Integer id) {
+        return mapper.findById(id);
+    }
 }

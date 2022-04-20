@@ -3,6 +3,7 @@ package team.system.lostandfoundserver.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import team.system.lostandfoundserver.domain.FindGoods;
 import team.system.lostandfoundserver.domain.LostGoods;
 
 import java.util.Date;
@@ -27,7 +28,10 @@ public interface LostGoodsMapper {
     @Select("select * from lost_goods where uid = #{uid}")
     List<LostGoods> findByUser(Integer uid);
 
-    @Select("select * from found_goods where " +
+    @Select("select * from lost_goods where " +
             "title like #{text} or description like #{text} or tag like #{text} or lost_area like #{text}")
     List<LostGoods> searchByText(String text);
+
+    @Select("select * from lost_goods where id = #{id}")
+    LostGoods findById(Integer id);
 }

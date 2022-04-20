@@ -16,7 +16,7 @@
             <template slot="title"><i class="el-icon-message-solid"></i>失物招领管理</template>
         </el-menu-item>
 
-        <el-menu-item index="announcement" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        <el-menu-item index="notice" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-comment"></i>公告管理</template>
         </el-menu-item>
 

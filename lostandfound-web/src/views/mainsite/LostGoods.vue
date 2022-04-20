@@ -120,12 +120,12 @@ export default {
                 this.loading = false
                 this.begin = this.end;
                 this.end += 10;
-                this.findGoodsList();
-                this.rowCount+=2;
+                this.lostGoodsList();
+                this.rowCount += 2;
             }, 1000)
             this.$forceUpdate();
         },
-        findGoodsList(){
+        lostGoodsList(){
             this.$axios({
                 method: "get",
                 url: "/losts/lostLimit",
@@ -145,7 +145,7 @@ export default {
         }
     },
     mounted() {
-        this.findGoodsList();
+        this.lostGoodsList();
     }
 }
 </script>

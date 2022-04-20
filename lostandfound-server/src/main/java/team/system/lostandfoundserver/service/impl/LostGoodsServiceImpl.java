@@ -17,4 +17,6 @@ public interface LostGoodsServiceImpl {
     List<LostGoods> findByUser(Integer uid);
 
     List<LostGoods> searchText(String text);
+
+    LostGoods findById(Integer id);
 }

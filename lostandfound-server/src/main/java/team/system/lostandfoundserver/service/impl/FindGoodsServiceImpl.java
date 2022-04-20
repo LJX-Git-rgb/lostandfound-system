@@ -16,4 +16,6 @@ public interface FindGoodsServiceImpl {
     List<FindGoods> findByUser(Integer uid);
 
     List<FindGoods> searchText(String text);
+
+    FindGoods findById(Integer id);
 }
