@@ -10,8 +10,6 @@ import WechatLogin from '../views/login/wechatLogin.vue'
 import AccountInfo from '../views/mainsite/PersonInfo.vue'
 import FindGoods from '../views/mainsite/FindGoods.vue'
 import LostGoods from "@/views/mainsite/LostGoods";
-import LostGoodsInfo from '../views/mainsite/LostGoodsInfo.vue';
-import FindGoodsInfo from '../views/mainsite/FindGoodsInfo.vue';
 import AdminLogin from '../views/login/AdminLogin.vue';
 import Upload from "../views/mainsite/Upload";
 import MyPost from "../views/mainsite/MyPost";
@@ -22,6 +20,8 @@ import LostInfo from '../views/adminsite/LostInfo'
 import FoundInfo from '../views/adminsite/FoundInfo'
 import adminInfo from "@/views/adminsite/adminInfo";
 import Notice from "@/views/adminsite/Notice";
+import goodsInfo from "@/views/mainsite/GoodsInfo";
+
 
 Vue.use(VueRouter)
 
@@ -64,7 +64,7 @@ const routes = [
             // /find or lost good?id= * 每个失物招领/寻物启事对详细信息 id为编号
             {
                 path: 'goodsInfo',
-                component: LostGoodsInfo,
+                component: goodsInfo,
             },
 
             // /mypost 我的发布部分
