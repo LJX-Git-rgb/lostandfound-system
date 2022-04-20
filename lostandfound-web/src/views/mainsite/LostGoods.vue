@@ -91,6 +91,7 @@ export default {
     },
     computed: {
         noMore() {
+            //这样判断是不对的,万一数据库只有5的倍数的数据,就会一直加载
             return this.goodsList.length % 5 != 0;
         },
         disabled() {
