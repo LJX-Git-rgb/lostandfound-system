@@ -19,4 +19,6 @@ public interface LostGoodsServiceImpl {
     List<LostGoods> searchText(String text);
 
     LostGoods findById(Integer id);
+
+    Integer countGoods();
 }

@@ -68,4 +68,9 @@ public class FindGoodsService implements FindGoodsServiceImpl {
     public FindGoods findById(Integer id) {
         return mapper.findById(id);
     }
+
+    @Override
+    public Integer countGoods() {
+        return mapper.coountGoods();
+    }
 }

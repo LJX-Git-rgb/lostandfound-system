@@ -69,4 +69,9 @@ public class LostGoodsService implements LostGoodsServiceImpl {
     public LostGoods findById(Integer id) {
         return mapper.findById(id);
     }
+
+    @Override
+    public Integer countGoods() {
+        return mapper.countGoods();
+    }
 }

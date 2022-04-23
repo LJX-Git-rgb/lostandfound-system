@@ -32,4 +32,7 @@ public interface FindGoodsMapper {
 
     @Select("select * from found_goods where id = #{id}")
     FindGoods findById(Integer id);
+
+    @Select("select count(*) from found_goods")
+    Integer coountGoods();
 }

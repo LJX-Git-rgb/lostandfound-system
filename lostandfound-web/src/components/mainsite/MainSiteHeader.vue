@@ -61,7 +61,7 @@
                 <li>
                     <div id="loginInfo">
                         <div v-if="this.$store.state.user.isLogin" id="userImg">
-                            <img src="../../assets/image/haha.jpeg" alt="" @click="$router.push({path: 'myInfo'})">
+                            <img src="../../assets/image/haha.jpeg" alt="" @click="$router.push({path: 'accountInfo'})">
                             <div>
                                 <el-dropdown @command="handleCommand">
                                     <span class="el-dropdown-link">
@@ -169,18 +169,21 @@ export default {
             key: "DFEBZ-FC3AU-A24VQ-2ZAAZ-AAGQK-ZHBZJ",
             output: 'jsonp'
         }).then(res => {
-            if (res.message == 'Success' || res.state == 0) {
+            console.log(res)
+            if (res.message == 'Success' || res.status == 0) {
                 if (this.location == "我的位置") {
                     this.location = res.result.ad_info.city
                     this.$store.dispatch('setLocation',this.location);
                 }
+            } else{
+                this.$message.error(res.message+"，  请手动更换地址")
             }
         }).catch(err => {
             console.log("catch： ", err);
         });
 
         // 获取全国地区
-        //当local里面有记录时，读取到vuex中
+        //当local里面有记录时，读取到data中
         if (window.localStorage.getItem("area") != null) {
             this.list = JSON.parse(localStorage.getItem("area"))
         }

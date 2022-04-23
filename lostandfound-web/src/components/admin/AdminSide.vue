@@ -8,11 +8,11 @@
             <template slot="title"><i class="el-icon-s-custom"></i>用户信息管理</template>
         </el-menu-item>
 
-        <el-menu-item index="findGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        <el-menu-item index="goodsList?lost" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-message-solid"></i>寻物启事管理</template>
         </el-menu-item>
 
-        <el-menu-item index="lostGoods" :disabled="this.adminLogin == false  || this.adminLogin == null">
+        <el-menu-item index="goodsList?find" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-message-solid"></i>失物招领管理</template>
         </el-menu-item>
 
@@ -37,11 +37,6 @@ export default {
             return this.$store.state.admin.adminIsLogin;
         }
     },
-    data() {
-        return {
-        }
-    },
-    methods: {}
 }
 </script>
 

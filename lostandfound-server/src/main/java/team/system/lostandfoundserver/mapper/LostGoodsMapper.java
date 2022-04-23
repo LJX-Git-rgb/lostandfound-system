@@ -34,4 +34,7 @@ public interface LostGoodsMapper {
 
     @Select("select * from lost_goods where id = #{id}")
     LostGoods findById(Integer id);
+
+    @Select("select count(*) from lost_goods")
+    Integer countGoods();
 }

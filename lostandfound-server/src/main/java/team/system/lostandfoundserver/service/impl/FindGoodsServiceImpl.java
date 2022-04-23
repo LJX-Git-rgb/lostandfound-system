@@ -18,4 +18,6 @@ public interface FindGoodsServiceImpl {
     List<FindGoods> searchText(String text);
 
     FindGoods findById(Integer id);
+
+    Integer countGoods();
 }

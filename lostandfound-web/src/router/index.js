@@ -16,8 +16,7 @@ import MyPost from "../views/mainsite/MyPost";
 import Help from "@/views/mainsite/Help";
 import AllUser from '../views/adminsite/UserInfo'
 import AdminRights from '../views/adminsite/AdminRights'
-import LostInfo from '../views/adminsite/LostInfo'
-import FoundInfo from '../views/adminsite/FoundInfo'
+import GoodsList from '../views/adminsite/GoodsList'
 import adminInfo from "@/views/adminsite/adminInfo";
 import Notice from "@/views/adminsite/Notice";
 import goodsInfo from "@/views/mainsite/GoodsInfo";
@@ -116,12 +115,8 @@ const routes = [
                 component: adminInfo
             },
             {
-                path: 'lostGoods',
-                component: LostInfo
-            },
-            {
-                path: 'findGoods',
-                component: FoundInfo,
+                path: 'goodsList',
+                component: GoodsList,
             },
             {
                 path: 'notice',
