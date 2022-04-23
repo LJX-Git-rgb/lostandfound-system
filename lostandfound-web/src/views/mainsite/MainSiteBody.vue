@@ -100,7 +100,7 @@ export default {
         // 调用axios请求最新的物品数据
         this.$axios({
             method: "get",
-            url: "/finds/findLimit",
+            url:"/api/finds/findLimit",
             params: {
                 begin : this.begin,
                 end : this.end
@@ -114,7 +114,7 @@ export default {
 
         this.$axios({
             method: "get",
-            url: "/losts/lostLimit",
+            url:"/api/losts/lostLimit",
             params: {
                 begin : this.begin,
                 end : this.end

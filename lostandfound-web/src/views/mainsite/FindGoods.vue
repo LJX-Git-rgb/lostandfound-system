@@ -101,7 +101,7 @@ export default {
         limitGoods(){
             this.$axios({
                 method: "post",
-                url:"/finds/limitByTimeAndType",
+                url:"/api/finds/limitByTimeAndType",
                 data:{
                     foundTimeRange: JSON.stringify(this.timeRange),
                     tag: this.value
@@ -128,7 +128,7 @@ export default {
         findGoodsList(){
             this.$axios({
                 method: "get",
-                url: "/finds/findLimit",
+                url:"/api/finds/findLimit",
                 params: {
                     begin : this.begin,
                     end : this.end

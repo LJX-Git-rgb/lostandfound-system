@@ -23,7 +23,11 @@ import goodsInfo from "@/views/mainsite/GoodsInfo";
 
 
 Vue.use(VueRouter)
-
+//去掉重复路由对警告
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 const routes = [
 // mainsite路由
     {

@@ -151,7 +151,7 @@ export default {
                 if (!this.lostOrFind){
                     this.$axios({
                         method: "post",
-                        url: "/losts/add",
+                        url:"/api/losts/add",
                         data: {
                             uid: this.$store.state.user.id,
                             title: this.form.title,
@@ -170,7 +170,7 @@ export default {
                 }else{
                     this.$axios({
                         method: "post",
-                        url: "/finds/add",
+                        url:"/api/finds/add",
                         data: {
                             uid: this.$store.state.user.id,
                             title: this.form.title,

@@ -3,30 +3,14 @@ module.exports = {
         open: true,
         port: 8081,
         proxy: {
-            '/user': {
-                target: 'http://localhost:8082',// 要跨域的域名
-                changeOrigin: true, // 是否开启跨域
-            },
-            '/adminUser': {
-                target: 'http://localhost:8082',// 要跨域的域名
-                changeOrigin: true, // 是否开启跨域
-            },
-            '/account': {
-                target: 'http://localhost:8082',// 要跨域的域名
-                changeOrigin: true, // 是否开启跨域
-            },
-            '/finds': {
-                target: 'http://localhost:8082',// 要跨域的域名
-                changeOrigin: true, // 是否开启跨域
-            },
-            '/losts': {
-                target: 'http://localhost:8082',// 要跨域的域名
-                changeOrigin: true, // 是否开启跨域
-            },
-            '/generalgoods': {
-                target: 'http://localhost:8082',// 要跨域的域名
-                changeOrigin: true, // 是否开启跨域
-            },
+            '/api': {
+                target: 'http://localhost:8082',
+                ws: true,
+                changOrigin: true, //允许跨域
+                pathRewrite: {
+                    '^/api': '/' //请求的时候使用这个api就可以
+                }
+            }
         }
     }
 }

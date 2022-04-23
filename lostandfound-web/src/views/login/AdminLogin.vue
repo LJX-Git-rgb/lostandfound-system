@@ -31,7 +31,7 @@ export default {
         adminLogin() {
             this.$axios({
                 method: "post",
-                url: "/adminUser/login",
+                url:"/api/adminUser/login",
                 data: {
                     name: this.name,
                     pwd: this.pwd

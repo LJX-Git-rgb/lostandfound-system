@@ -242,7 +242,7 @@ export default {
         sendEmail() {
             this.$axios({
                 method: "post",
-                url: "/user/retrive",
+                url:"/api/user/retrive",
                 data: {
                     email: this.forgetPwdEmail,
                     identifyCode: this.createdIdentifyCode
@@ -275,7 +275,7 @@ export default {
         updatePwd(){
             this.$axios({
                 method: "post",
-                url: "/user/changepwd",
+                url:"/api/user/changepwd",
                 data:{
                     email:this.forgetPwdEmail,
                     newPwd: this.regForm.password,
@@ -308,7 +308,7 @@ export default {
         addUser() {
             this.$axios({
                 method: "post",
-                url: "/user/add",
+                url:"/api/user/add",
                 data: {
                     email : this.regForm.email,
                     password : this.regForm.password
@@ -332,7 +332,7 @@ export default {
         login() {
             this.$axios({
                 method: "post",
-                url: "/user/login",
+                url:"/api/user/login",
                 data: {
                     account: this.loginForm.account,
                     password: this.loginForm.password

@@ -48,7 +48,7 @@ export default {
     mounted() {
         this.$axios({
             method:"get",
-            url:"/finds/byUser",
+            url:"/api/finds/byUser",
             params:{
                 uid:this.$store.state.user.id
             }
@@ -57,7 +57,7 @@ export default {
         })
         this.$axios({
             method:"get",
-            url:"/losts/byUser",
+            url:"/api/losts/byUser",
             params:{
                 uid:this.$store.state.user.id
             }
