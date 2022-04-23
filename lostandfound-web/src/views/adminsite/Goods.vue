@@ -17,8 +17,8 @@
             <el-table-column prop="description" label="详情描述" width="180"></el-table-column>
             <el-table-column prop='state' label="状态" width="50"></el-table-column>
             <el-table-column prop="createTime" label="发布日期" width="180"></el-table-column>
-            <el-table-column :prop="isLostOrFind ? 'foundArea' : 'lostArea'" :label="isLostOrFind ? '捡到区域' : '丢失区域'" width="180"></el-table-column>
-            <el-table-column :prop="isLostOrFind ? 'foundTime' : 'lostTime'" :label="isLostOrFind ? '捡到日期' : '丢失日期'" width="180"></el-table-column>
+            <el-table-column :prop="isLostOrFind ? 'lostArea' : 'foundArea'" :label="isLostOrFind ? '捡到区域' : '丢失区域'" width="180"></el-table-column>
+            <el-table-column :prop="isLostOrFind ? 'lostTime' : 'foundTime'" :label="isLostOrFind ? '捡到日期' : '丢失日期'" width="180"></el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
@@ -41,6 +41,27 @@
 </template>
 
 <script>
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份
+        "d+": this.getDate(),                    //日
+        "h+": this.getHours(),                   //小时
+        "m+": this.getMinutes(),                 //分
+        "s+": this.getSeconds(),                 //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds()             //毫秒
+    };
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        }
+    }
+    return fmt;
+}
+
 export default {
     data() {
         return {
@@ -112,7 +133,7 @@ export default {
             }
             this.$axios({
                 method: 'get',
-                url: '/generalgoods/findGoodsByPage',
+                url: '/api/generalgoods/findGoodsByPage',
                 params: {
                     currentPage: this.findPage.currentPage,
                     pageSize: this.findPage.pageSize,
@@ -120,6 +141,10 @@ export default {
                 }
             }).then(res => {
                 this.findGoodsList = res.data;
+                for (let i = 0; i < this.findGoodsList.length; i++) {
+                    this.findGoodsList[i].createTime= new Date(this.findGoodsList[i].createTime).format("yyyy-MM-dd hh:mm:ss");
+                    this.findGoodsList[i].foundTime = new Date(this.findGoodsList[i].foundTime).format("yyyy-MM-dd hh:mm:ss");
+                }
             }).catch(err => {
                 this.$message.error("服务器错误")
             })
@@ -127,7 +152,7 @@ export default {
         countFoundGoodsTotal() {
             this.$axios({
                 method: 'get',
-                url: '/generalgoods/countGoods',
+                url: '/api/generalgoods/countGoods',
                 params:{
                     flag:true
                 }
@@ -142,7 +167,7 @@ export default {
             }
             this.$axios({
                 method: 'get',
-                url: '/generalgoods/findGoodsByPage',
+                url: '/api/generalgoods/findGoodsByPage',
                 params: {
                     currentPage: this.lostPage.currentPage,
                     pageSize: this.lostPage.pageSize,
@@ -150,6 +175,10 @@ export default {
                 }
             }).then(res => {
                 this.lostGoodsList = res.data;
+                for (let i = 0; i < this.lostGoodsList.length; i++) {
+                    this.lostGoodsList[i].createTime= new Date(this.lostGoodsList[i].createTime).format("yyyy-MM-dd hh:mm:ss");
+                    this.lostGoodsList[i].lostTime = new Date(this.lostGoodsList[i].lostTime).format("yyyy-MM-dd hh:mm:ss");
+                }
             }).catch(err => {
                 this.$message.error("服务器错误")
             })
@@ -157,7 +186,7 @@ export default {
         countLostGoodsTotal() {
             this.$axios({
                 method: 'get',
-                url: '/generalgoods/countGoods',
+                url: '/api/generalgoods/countGoods',
                 params:{
                     flag:false
                 }

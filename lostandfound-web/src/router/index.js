@@ -1,33 +1,41 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import MainSite from '../views/mainsite/MainSite.vue'
-import AdminSite from "../views/adminsite/AdminSite.vue";
-import MainSiteBody from '../views/mainsite/MainSiteBody.vue'
-import Login from '../views/login/Login.vue'
-import NormalLogin from '../views/login/NormalLogin.vue'
-import WechatLogin from '../views/login/wechatLogin.vue'
-import AccountInfo from '../views/mainsite/PersonInfo.vue'
-import FindGoods from '../views/mainsite/FindGoods.vue'
-import LostGoods from "@/views/mainsite/LostGoods";
-import AdminLogin from '../views/login/AdminLogin.vue';
-import Upload from "../views/mainsite/Upload";
-import MyPost from "../views/mainsite/MyPost";
-import Help from "@/views/mainsite/Help";
-import AllUser from '../views/adminsite/UserInfo'
-import AdminRights from '../views/adminsite/AdminRights'
-import GoodsList from '../views/adminsite/GoodsList'
-import adminInfo from "@/views/adminsite/adminInfo";
+//admin
+import AdminSite from "@/views/adminsite/AdminSite";
+import AdminLogin from "@/views/login/AdminLogin";
+import User from "@/views/adminsite/User";
+import Goods from "@/views/adminsite/Goods";
 import Notice from "@/views/adminsite/Notice";
-import goodsInfo from "@/views/mainsite/GoodsInfo";
+import AdminRights from "@/views/adminsite/AdminRights";
+import MyInfo from "@/views/adminsite/MyInfo";
+
+//login
+import Login from "@/views/login/Login";
+import NormalLogin from "@/views/login/NormalLogin";
+import WechatLogin from "@/views/login/WechatLogin";
+import MainSiteBody from "@/views/mainsite/MainSiteBody";
+
+//mainsite
+import MainSite from "@/views/mainsite/MainSite";
+import MyPost from "@/views/mainsite/MyPost";
+import Help from "@/views/mainsite/Help";
+import Upload from "@/views/mainsite/Upload";
+import LostGoods from "@/views/mainsite/LostGoods";
+import FindGoods from "@/views/mainsite/FindGoods";
+import PersonInfo from "@/views/mainsite/PersonInfo";
+import GoodsInfo from "@/views/mainsite/GoodsInfo";
 
 
 Vue.use(VueRouter)
-//去掉重复路由对警告
+
+//去掉重复路由的警告
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
+
+//定义路由
 const routes = [
 // mainsite路由
     {
@@ -46,7 +54,7 @@ const routes = [
             {
                 path: 'accountInfo',
                 name: 'accountInfo',
-                component: AccountInfo
+                component: PersonInfo
             },
             // /find or lost goods 失物招领/寻物启事部分
             {
@@ -67,7 +75,7 @@ const routes = [
             // /find or lost good?id= * 每个失物招领/寻物启事对详细信息 id为编号
             {
                 path: 'goodsInfo',
-                component: goodsInfo,
+                component: GoodsInfo,
             },
 
             // /mypost 我的发布部分
@@ -111,16 +119,12 @@ const routes = [
                 component: AdminLogin
             },
             {
-                path: 'allUser',
-                component: AllUser
+                path: 'user',
+                component: User
             },
             {
-                path: 'adminInfo',
-                component: adminInfo
-            },
-            {
-                path: 'goodsList',
-                component: GoodsList,
+                path: 'goods',
+                component: Goods,
             },
             {
                 path: 'notice',
@@ -129,7 +133,11 @@ const routes = [
             {
                 path: 'rightsManege',
                 component: AdminRights,
-            }
+            },
+            {
+                path: 'myInfo',
+                component: MyInfo
+            },
         ]
     },
 ]

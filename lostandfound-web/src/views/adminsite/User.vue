@@ -109,7 +109,7 @@ export default {
             }
             this.$axios({
                 method: 'get',
-                url: '/account/findAll',
+                url: '/api/account/findAll',
                 params: {
                     currentPage: this.page.currentPage,
                     pageSize: this.page.pageSize
@@ -124,7 +124,7 @@ export default {
         countUserTotal() {
             this.$axios({
                 method: 'get',
-                url: '/account/countUser',
+                url: '/api/account/countUser',
             }).then(res => {
                 this.page.total = res.data;
             })

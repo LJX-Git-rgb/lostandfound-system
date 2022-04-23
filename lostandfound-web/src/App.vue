@@ -18,3 +18,17 @@ export default {
     }
 }
 </script>
+
+<style lang="less">
+    *{
+        padding: 0px;
+        margin: 0px;
+    }
+    a{
+        color: black;
+        text-decoration: none;
+    }
+    li{
+        list-style-type: none;
+    }
+</style>

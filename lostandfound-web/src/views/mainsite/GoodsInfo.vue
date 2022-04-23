@@ -108,7 +108,7 @@ export default {
     methods: {
         changeGoodsState() {
             this.$axios({
-                url: '/goods/changestate',
+                url: '/api/goods/changestate',
                 method: "get",
                 params: {
                     isLost: this.$route.query.state == "lost"
@@ -120,7 +120,7 @@ export default {
         },
         report() {
             this.$axios({
-                url: '/goods/report',
+                url: '/api/goods/report',
                 method: "get",
                 params: {
                     isLost: this.$route.query.state == "lost",

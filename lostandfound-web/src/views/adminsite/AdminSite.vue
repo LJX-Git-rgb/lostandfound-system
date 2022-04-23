@@ -18,7 +18,7 @@ export default {
         //应该先判断管理员是否登录
         if (this.$store.state.admin.adminIsLogin == true) {
             this.$router.push({
-                path: '/admin/allUser',
+                path: '/admin/user',
             })
         } else {
             this.$router.push({
