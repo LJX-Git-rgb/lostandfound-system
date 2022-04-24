@@ -20,7 +20,7 @@
                 </div>
             </div>
             <ul id="right-menu">
-                <li class="upload"><a @click="$router.push({path:'/upload'})"><span>我要发布</span></a></li>
+                <li class="upload"><a @click="toPost"><span>我要发布</span></a></li>
                 <li>
                     <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
@@ -129,11 +129,19 @@ export default {
                 console.log("quit")
                 this.$store.dispatch('quitLogin', "user");
             } else if (command == 'lostGoods') {
-                this.$router.push({path: '/mypost?lost'})
-                console.log("lost")
+                if (this.$store.state.user.isLogin) {
+                    this.$router.push({path: '/mypost?lost'})
+                }else{
+                    this.$message.error("您需要先登录")
+                    this.$router.push({path: '/login'})
+                }
             } else if (command == 'findGoods') {
-                this.$router.push({path: '/mypost?find'})
-                console.log("find")
+                if (this.$store.state.user.isLogin) {
+                    this.$router.push({path: '/mypost?find'})
+                }else{
+                    this.$message.error("您需要先登录")
+                    this.$router.push({path: '/login'})
+                }
             } else {
                 this.$message({
                     message: command + ' is success',
@@ -161,6 +169,15 @@ export default {
         //     }).catch(err => {
         //
         //     })
+        },
+
+        toPost(){
+            if (this.$store.state.user.isLogin) {
+                this.$router.push({path: '/upload'})
+            }else{
+                this.$message.error("您需要先登录")
+                this.$router.push({path: '/login'})
+            }
         }
     },
     mounted() {
