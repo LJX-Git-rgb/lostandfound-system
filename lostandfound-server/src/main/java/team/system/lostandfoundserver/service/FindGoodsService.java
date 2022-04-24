@@ -71,6 +71,6 @@ public class FindGoodsService implements FindGoodsServiceImpl {
 
     @Override
     public Integer countGoods() {
-        return mapper.coountGoods();
+        return mapper.countGoods();
     }
 }
