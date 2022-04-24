@@ -43,7 +43,7 @@ export default {
                     //这个是否登录可能需要存在cookie里
                     //路由转换
                     this.$router.push({
-                        path: "allUser"
+                        path: "user"
                     })
                 } else {
                     this.$message.error(res.data.msg);
