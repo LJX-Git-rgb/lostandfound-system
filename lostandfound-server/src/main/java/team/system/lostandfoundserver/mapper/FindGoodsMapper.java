@@ -34,5 +34,5 @@ public interface FindGoodsMapper {
     FindGoods findById(Integer id);
 
     @Select("select count(*) from found_goods")
-    Integer countGoods();
+    Integer coountGoods();
 }
