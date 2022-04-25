@@ -86,19 +86,36 @@ export default {
 
             //展示行数和列数
             rowCount:2,
-            columnCount:5
+            columnCount:5,
+
+            //数据总数
+            countLostGoods:0,
         }
     },
     computed: {
         noMore() {
             //这样判断是不对的,万一数据库只有5的倍数的数据,就会一直加载
-            return this.goodsList.length % 5 != 0;
+            return this.goodsList.length == this.countLostGoods;
         },
         disabled() {
             return this.loading || this.noMore
         }
     },
     methods: {
+        //请求记录总数,用作判断是否无限滚动到底
+        lostGoodsTotal(){
+            this.$axios({
+                url:'/api/generalgoods/countGoods',
+                method:"get",
+                params:{
+                    flag: false
+                }
+            }).then(res=> {
+                this.countLostGoods = res.data;
+            }).catch(err=>{
+
+            })
+        },
         limitGoods(){
             this.$axios({
                 method: "post",
@@ -146,6 +163,7 @@ export default {
         }
     },
     mounted() {
+        this.lostGoodsTotal();
         this.lostGoodsList();
     }
 }
