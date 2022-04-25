@@ -10,7 +10,7 @@ import lombok.Data;
 public class Admin {
     @TableId(type = IdType.AUTO) //id自增
     private Integer id;
-    private Integer uid;
+    private String uid;
     private String name;
     private String pwd;
     private String phone;

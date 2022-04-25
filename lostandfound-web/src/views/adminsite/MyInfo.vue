@@ -93,7 +93,7 @@ export default {
 
 //查询方法
     load() {
-      request.get("/api/admin", {
+      request.get("/api/adminUser", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -101,8 +101,8 @@ export default {
         }
       }).then(res => {
         console.log(res)
-        this.tableData = res.data.records //将后台请求到的值放在tableData里，实现数据库的渲染
-        this.total = res.data.total
+        this.tableData = res.records //将后台请求到的值放在tableData里，实现数据库的渲染
+        this.total = res.total
       })
     },
 
@@ -113,36 +113,22 @@ export default {
 
     save() {
       if (this.form.id) {  //更新
-        request.put("/api/admin", this.form).then(res => {
+        request.put("/api/adminUser", this.form).then(res => {
           console.log(res)
-          if (res.code === '0') {
             this.$message({
               type: "success",
               message: "更新成功"
             })
-          } else {
-            this.$message({
-              type: "error",
-              message: res.msg
-            })
-          }
           this.load()  //刷新表格的数据
           this.dialogVisible = false   //关闭弹窗
         })
       } else {  //新增，用post是因为后台接口用的@PostMapping,要保持一致
-        request.post("/api/admin", this.form).then(res => {
+        request.post("/api/adminUser", this.form).then(res => {
           console.log(res)
-          if (res.code === '0') {
             this.$message({
               type: "success",
               message: "新增成功"
             })
-          } else {
-            this.$message({
-              type: "error",
-              message: res.msg
-            })
-          }
           this.load()//刷新表格的数据
           this.dialogVisible = false   //关闭弹窗
         })
@@ -156,7 +142,7 @@ export default {
 
     handleDelete(id) {
       console.log(id)
-      request.delete("/api/admin/" + id).then(res => {
+      request.delete("/api/adminUser/" + id).then(res => {
         if (res.code === '0') {
           this.$message({
             type: "success",

@@ -7,13 +7,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.system.lostandfoundserver.domain.Admin;
-import team.system.lostandfoundserver.common.Result;
+import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.mapper.AdminMapper;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/adminUser")
@@ -35,36 +36,36 @@ public class AdminController {
 
     @PostMapping
 //      新增
-    public Result<?> save(@RequestBody Admin admin){
+    public Result save(@RequestBody Admin admin){
+        admin.setUid(UUID.randomUUID().toString());
         adminMapper.insert(admin);
-        return Result.success();
+        return Result.success(null);
     }
 
 //    更新
     @PutMapping
-    public Result<?> update(@RequestBody Admin admin){
+    public Result update(@RequestBody Admin admin){
         adminMapper.updateById(admin);
-        return Result.success();
+        return Result.success(null);
     }
 
 //    删除
     @DeleteMapping("/{id}")
-    public Result<?> update(@PathVariable long id){
+    public Result update(@PathVariable long id){
         adminMapper.deleteById(id);
-        return Result.success();
+        return Result.success(null);
     }
 
     //分页查询，用后台写好的MybatisPlusConfig分页插件
     @GetMapping
-    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-                              @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search){
+    public Page<Admin> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
+                                @RequestParam(defaultValue = "10") Integer pageSize,
+                                @RequestParam(defaultValue = "") String search){
         LambdaQueryWrapper<Admin> Wrapper = Wrappers.<Admin> lambdaQuery();
         if(StrUtil.isNotBlank(search)){
             Wrapper.like(Admin::getId,search);
         }
-        Page<Admin> adminPage = adminMapper.selectPage(new Page<>(pageNum,pageSize),Wrapper);
-        return Result.success(adminPage);
+        return adminMapper.selectPage(new Page<>(pageNum,pageSize),Wrapper);
     }
 
 }
