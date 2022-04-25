@@ -20,4 +20,6 @@ public interface FindGoodsServiceImpl {
     FindGoods findById(Integer id);
 
     Integer countGoods();
+
+    Boolean deleteGoods(Integer id);
 }

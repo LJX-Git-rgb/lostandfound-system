@@ -73,4 +73,9 @@ public class FindGoodsService implements FindGoodsServiceImpl {
     public Integer countGoods() {
         return mapper.countGoods();
     }
+
+    @Override
+    public Boolean deleteGoods(Integer id) {
+        return mapper.deleteGoods(id);
+    }
 }

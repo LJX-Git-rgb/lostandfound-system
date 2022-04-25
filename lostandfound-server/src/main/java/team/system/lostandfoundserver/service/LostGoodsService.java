@@ -74,4 +74,9 @@ public class LostGoodsService implements LostGoodsServiceImpl {
     public Integer countGoods() {
         return mapper.countGoods();
     }
+
+    @Override
+    public Boolean deleteGoods(Integer id) {
+        return mapper.deleteGoods(id);
+    }
 }

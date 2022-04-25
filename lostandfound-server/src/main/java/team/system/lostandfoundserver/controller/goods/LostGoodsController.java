@@ -73,23 +73,28 @@ public class LostGoodsController {
         }
         return Result.error("500","发布失败，服务器错误");
     }
-
     @RequestMapping("/byUser")
     public List<LostGoods> findByUser(Integer uid){
         return getUrlList(service.findByUser(uid));
     }
-
     @RequestMapping("/search")
     public List<LostGoods> searchByText(String text){
         return getUrlList(service.searchText(text));
     }
-
     @RequestMapping("findById")
     public LostGoods findById(Integer id){
         LostGoods byId = service.findById(id);
         byId.setImageList(byId.getImage().split("&"));
         return byId;
     }
+    @RequestMapping("/delete")
+    public Result delete(Integer id){
+        if (service.deleteGoods(id)){
+            return Result.success(null);
+        }
+        return Result.error("500","删除不成功，可能服务器错误");
+    }
+
 
     private List<LostGoods> getUrlList(List<LostGoods> goods){
         for (int i = 0; i < goods.size(); i++) {

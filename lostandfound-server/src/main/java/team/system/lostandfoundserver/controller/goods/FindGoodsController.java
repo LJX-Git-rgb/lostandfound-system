@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.controller.goods;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,13 +79,22 @@ public class FindGoodsController {
   public List<FindGoods> searchByText(String text){
     return getUrlList(service.searchText(text));
   }
-
-  @RequestMapping("findById")
+  @RequestMapping("/findById")
   public FindGoods findById(Integer id){
     FindGoods byId = service.findById(id);
     byId.setImageList(byId.getImage().split("&"));
     return byId;
   }
+  @RequestMapping("/delete")
+  public Result delete(Integer id){
+    if (service.deleteGoods(id)){
+      return Result.success(null);
+    }
+    return Result.error("500","删除不成功，可能服务器错误");
+  }
+
+
+
 
   private List<FindGoods> getUrlList(List<FindGoods> goods){
     for (int i = 0; i < goods.size(); i++) {

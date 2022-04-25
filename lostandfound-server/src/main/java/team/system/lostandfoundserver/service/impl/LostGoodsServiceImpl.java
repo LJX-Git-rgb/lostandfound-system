@@ -21,4 +21,6 @@ public interface LostGoodsServiceImpl {
     LostGoods findById(Integer id);
 
     Integer countGoods();
+
+    Boolean deleteGoods(Integer id);
 }

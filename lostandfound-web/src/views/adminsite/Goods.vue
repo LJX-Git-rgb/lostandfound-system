@@ -23,7 +23,7 @@
                 <template slot-scope="scope">
                     <div style="display: flex">
                         <el-button @click="updateUser(scope.row)" type="primary" size="small">编辑</el-button>
-                        <el-button @click="updateUser(scope.row)" type="danger" size="small">移除</el-button>
+                        <el-button @click="deleteGoods(scope.row)" type="danger" size="small">移除</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -193,6 +193,26 @@ export default {
             }).then(res => {
                 this.lostPage.total = res.data;
             })
+        },
+
+        deleteGoods(row){
+            var url;
+            if (!this.isLostOrFind){
+                url="/api/finds/delete"
+            }else{
+                url="/api/losts/delete"
+            }
+          this.$axios({
+              url:url,
+              method:'get',
+              params:{
+                id: row.id,
+              }
+          }).then(res=>{
+              if (res.data.code == "200"){
+                  this.$message.success("删除成功");
+              }
+          })
         },
     },
     mounted() {

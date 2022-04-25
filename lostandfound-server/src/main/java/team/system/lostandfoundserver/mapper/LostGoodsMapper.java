@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -37,4 +38,7 @@ public interface LostGoodsMapper {
 
     @Select("select count(*) from lost_goods")
     Integer countGoods();
+
+    @Delete("delete from lost_goods where id = #{id}")
+    Boolean deleteGoods(Integer id);
 }
