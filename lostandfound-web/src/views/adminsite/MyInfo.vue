@@ -1,147 +1,193 @@
 <!--后台我的信息页面-->
 
 <template>
-    <div id="adminInfo">
-        <div id="adminButton">
-            <el-button @click="upLoad">导入</el-button>
-            <el-button @click="downLoad">导出</el-button>
+    <div style="padding:10px">
+      <!--    新增-->
+        <div style="margin: 10px 0">
+          <el-button type="primary" @click="add">新增</el-button>
+          <el-button type="primary" @click="upLoad">导入</el-button>
+          <el-button type="primary" @click="downLoad">导出</el-button>
         </div>
-
-        <el-table
-            :data="tableData"
-            border
-            :highlight-current-row="true"
-            style="width: 100%"
-            ref="multipleTable"
-            tooltip-effect="dark"
-            @selection-change="handleSelectionChange">
+      <!--    搜索-->
+      <div style="margin: 10px 0">
+        <el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable></el-input>
+        <el-button type="primary" style="margin-left: 5px" @click="load">搜索</el-button>
+      </div>
+      <!--操作数据-->
+        <el-table :data="tableData" border stripe style="width: 100%">
           <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="id" label="ID" width="150" sortable=""></el-table-column>
+            <el-table-column prop="id" label="ID" width="150"></el-table-column>
+            <el-table-column prop="uid" label="Uid" width="150"></el-table-column>
             <el-table-column prop="name" label="管理员名" width="120"></el-table-column>
             <el-table-column prop="pwd" label="密码" width="150"></el-table-column>
             <el-table-column prop="phone" label="电话" width="300"></el-table-column>
-
-            <!-- <el-table-column prop="createtime" label="标签" width="100"
-                :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-                filter-placement="bottom-end">
-                <template slot-scope="scope">
-                    <el-tag
-                    :type="scope.row.tag === '家' ? 'primary' : 'success'"
-                    disable-transitions>{{scope.row.tag}}</el-tag>
-                </template>
-            </el-table-column> -->
             <el-table-column fixed="right" label="操作" width="150">
-                <template slot-scope="scope">
-                    <el-button @click="updateUser(scope.row)" type="primary" size="small">编辑</el-button>
-                    <el-button
-                        @click.native.prevent="deleteUser(scope.row)"
-                        type="danger"
-                        size="small">
-                        移除
-                    </el-button>
+                <template #default="scope">
+                  <el-button @click="handleEdit(scope.row)" type="primary" size="small">编辑</el-button>
+                  <el-popconfirm title="确认删除吗?" @confirm="handleDelete(scope.row.id)">
+                    <template #reference>
+                      <el-button type="danger" size="small" style="margin-left: 10px">删除</el-button>
+                    </template>
+                  </el-popconfirm>
                 </template>
             </el-table-column>
         </el-table>
+
+      <!--    分页-->
+      <div style="margin: 10px 0">
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="page.currentPage"
-            :page-sizes="page.pageSizes"
-            :page-size="page.pageSize"
+            :current-page="currentPage"
+            :page-sizes="[5,10,20]"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="page.total">
+            :total="total">
         </el-pagination>
+
+        <!--弹窗-->
+        <el-dialog :visible.sync="dialogVisible" title="提示" width="30%">
+          <el-form :model="form" label-width="120px">
+            <el-form-item label="管理员名">
+              <el-input v-model="form.name" style="width: 80%" />
+            </el-form-item>
+            <el-form-item label="密码">
+              <el-input v-model="form.pwd" style="width: 80%" />
+            </el-form-item>
+            <el-form-item label="电话">
+              <el-input v-model="form.phone" style="width: 80%" />
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="dialogVisible = false">取消</el-button>
+              <el-button type="primary" @click="save">确定</el-button>
+            </span>
+          </template>
+        </el-dialog>
+      </div>
     </div>
 </template>
 
 <script>
+import request from "@/components/utils/request";
+
 export default {
     data() {
         return {
-            input: '',
-            select: '',
-
-            // table
-            tableData: [],
-
-            // page
-            page: {
-                total: 0,
-                currentPage: 0,
-                pageSizes: [5, 10, 20, 50],
-                pageSize: 5,
-            },
+          form:{},
+          search:'',
+          tableData: [],
+          currentPage:1,
+          pageSize:10,
+          total:0,
+          dialogVisible : false
         }
     },
-    methods: {
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-            this.page.pageSize = val
-            this.showUserInfo()
-        },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
-            this.page.currentPage = val;
-            this.showUserInfo()
-        },
 
-        downLoad() {
+  created() {
+      this.load()
+  },
 
-        },
+  methods: {
 
-        upLoad() {
-
-        },
-        handleSelectionChange(val) {
-          this.multipleSelection = val;
-        },
-
-        // axios function
-        showUserInfo() {
-            if (this.page.total == 0) {
-                this.countUserTotal();
-            }
-            this.$axios({
-                method: 'get',
-                url: '/api/account/findAll',
-                params: {
-                    currentPage: this.page.currentPage,
-                    pageSize: this.page.pageSize
-                }
-            }).then(res => {
-                this.tableData = res.data;
-            })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-        countUserTotal() {
-            this.$axios({
-                method: 'get',
-                url: '/api/account/countUser',
-            }).then(res => {
-                this.page.total = res.data;
-            })
-        },
+//查询方法
+    load() {
+      request.get("/api/admin", {
+        params: {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+          search: this.search
+        }
+      }).then(res => {
+        console.log(res)
+        this.tableData = res.data.records //将后台请求到的值放在tableData里，实现数据库的渲染
+        this.total = res.data.total
+      })
     },
 
-    created() {
-        this.showUserInfo();
-    }
+    add() {
+      this.dialogVisible = true
+      this.form = {}
+    },
+
+    save() {
+      if (this.form.id) {  //更新
+        request.put("/api/admin", this.form).then(res => {
+          console.log(res)
+          if (res.code === '0') {
+            this.$message({
+              type: "success",
+              message: "更新成功"
+            })
+          } else {
+            this.$message({
+              type: "error",
+              message: res.msg
+            })
+          }
+          this.load()  //刷新表格的数据
+          this.dialogVisible = false   //关闭弹窗
+        })
+      } else {  //新增，用post是因为后台接口用的@PostMapping,要保持一致
+        request.post("/api/admin", this.form).then(res => {
+          console.log(res)
+          if (res.code === '0') {
+            this.$message({
+              type: "success",
+              message: "新增成功"
+            })
+          } else {
+            this.$message({
+              type: "error",
+              message: res.msg
+            })
+          }
+          this.load()//刷新表格的数据
+          this.dialogVisible = false   //关闭弹窗
+        })
+      }
+    },
+
+    handleEdit(row) {
+      this.form = JSON.parse(JSON.stringify(row))  //避免先拷贝问题
+      this.dialogVisible = true
+    },
+
+    handleDelete(id) {
+      console.log(id)
+      request.delete("/api/admin/" + id).then(res => {
+        if (res.code === '0') {
+          this.$message({
+            type: "success",
+            message: "删除成功"
+          })
+        } else {
+          this.$message({
+            type: "error",
+            message: res.msg
+          })
+        }
+        this.load()   //删除之后，重新加载表格中的数据
+      })
+    },
+
+    handleSizeChange(pageSize) {   //改变当前每页的个数时触发
+      this.pageSize = pageSize
+      this.load()
+    },
+    handleCurrentChange(pageNum) {   //改变当前页码触发
+      this.currentPage = pageNum
+      this.load()
+    },
+
+    downLoad() {
+
+    },
+
+    upLoad() {
+
+    },
+  }
 }
 </script>
-
-<style lang="less" scoped>
-#userInfo {
-    margin: 10px;
-
-    #userButton {
-        margin-bottom: 10px;
-    }
-}
-
-//#select{
-//    width: 600px;
-//    margin-top: 15px;
-//}
-</style>
