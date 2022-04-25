@@ -5,13 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@TableName("admin_user")
+@TableName("notice")
 @Data
-public class Admin {
+public class Notice {
     @TableId(type = IdType.AUTO) //id自增
     private Integer id;
-    private Integer uid;
-    private String name;
-    private String pwd;
-    private String phone;
+    private String content;
 }
