@@ -87,7 +87,7 @@ export default {
     },
     computed: {
         url() {
-            return this.$route.query.state + "s/findById"
+            return "api/" + this.$route.query.state + "s/findById"
         },
         goodsTags() {
             var split = this.goods.tag.split('&');
