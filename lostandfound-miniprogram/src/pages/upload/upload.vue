@@ -26,7 +26,21 @@
 						<uni-datetime-picker type="datetime" return-type="timestamp" v-model="uploadForm.time"/>
 					</uni-forms-item>
 					<uni-forms-item>
-						<uni-file-picker limit="9" title="最多选择9张图片"></uni-file-picker>
+						<!-- 限制9张 ， 绑定值，限定只能图片，grid类型展示，取消自动上传，绑定的方法 -->
+						<uni-file-picker 
+						limit="9" 
+						title="最多选择9张图片"
+						v-model="imageValue" 
+						fileMediatype="image" 
+						mode="grid" 
+						:auto-upload="false"
+						@select="select" 
+						@progress="progress" 
+						@success="success" 
+						@fail="fail" 
+						>
+						
+						</uni-file-picker>
 					</uni-forms-item>
 					<uni-forms-item>
 						<button @click="upload">Submit</button>
@@ -68,6 +82,7 @@ export default {
 		data() {
 			return {
 				uploadForm: {},
+				imageValue:[],
 				type: [
 					{"value": "现金","text": "现金"	},
 					{"value": "卡","text": "卡"},
@@ -86,6 +101,12 @@ export default {
 				}
 			},
 			upload(){
+				
+				//上传图片
+				this.$refs.files.upload()
+
+
+
 				var url="";
 				let tag = "", image = "";
                 for (let i = 0; i < this.uploadForm.type.length; i++) {
@@ -112,6 +133,27 @@ export default {
 						console.log(res.data);
 					}
 				});
+			},
+
+			//上传组件的方法
+			// 获取上传状态
+			select(e){
+				console.log('选择文件：',e)
+				console.log(this.imageValue)
+			},
+			// 获取上传进度
+			progress(e){
+				console.log('上传进度：',e)
+			},
+			
+			// 上传成功
+			success(e){
+				console.log('上传成功')
+			},
+			
+			// 上传失败
+			fail(e){
+				console.log('上传失败：',e)
 			}
 		}
 }

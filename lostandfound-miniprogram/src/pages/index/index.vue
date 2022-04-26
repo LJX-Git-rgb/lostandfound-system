@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import QQMapWX from "@/utils/qqmap-wx-jssdk.min.js"
+import Vue from 'vue'
 	export default {
 		data() {
 			return {
@@ -164,8 +166,19 @@
 			uni.getLocation({
 				type: 'wgs84',
 				success: function (res) {
+					let qqmapsdk = new QQMapWX({
+						key: '5N6BZ-JICC3-OLO3L-3L3L2-4ILHF-6LBB4'
+					});
 					//根据经纬度进行地址定位
-					console.log(res);
+					qqmapsdk.reverseGeocoder({
+						location: {
+							latitude: res.latitude,
+							longitude: res.longitude
+						},
+						success(res){
+							new Vue().$store.dispatch('setLocation',res.result.ad_info.city)
+						},
+					})
 				}
 			});
 		}
