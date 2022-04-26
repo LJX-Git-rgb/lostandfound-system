@@ -49,7 +49,8 @@ public class NoticeController {
         if (StrUtil.isNotBlank(search)) {
             Wrapper.like(Notice::getId, search);
         }
-        Page<Notice> noticePage = noticeMapper.selectPage(new Page<>(pageNum, pageSize), Wrapper);
-        return noticePage;
+//        Page<Notice> noticePage = noticeMapper.selectPage(new Page<>(pageNum, pageSize), Wrapper);
+//        return noticePage;
+        return noticeMapper.selectPage(new Page<>(pageNum,pageSize),Wrapper);
     }
 }
