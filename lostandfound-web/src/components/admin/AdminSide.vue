@@ -25,7 +25,7 @@
         </el-menu-item>
 
         <el-menu-item index="myInfo" :disabled="this.adminLogin == false || this.adminLogin == null">
-            <template slot="title"><i class="el-icon-s-cooperation"></i>我的信息</template>
+            <template slot="title"><i class="el-icon-s-cooperation"></i>管理员信息</template>
         </el-menu-item>
     </el-menu>
 </template>
