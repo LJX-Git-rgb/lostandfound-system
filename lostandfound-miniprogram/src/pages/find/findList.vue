@@ -1,5 +1,17 @@
 <template>
   <view id="content">
+        <uni-search-bar 
+				v-model="searchValue" 
+				placeholder="搜索" 
+				bgColor="#EEEEEE"
+				class="search-bar"
+				@confirm="search" 
+				@blur="blur" 
+				@focus="focus" 
+				@input="input"
+				@cancel="cancel" 
+				@clear="clear">
+		</uni-search-bar>
         <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" v-for="item in foundGoodsList" :key="item.id">
             <!-- 轮播图 -->
             <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="500">
@@ -67,7 +79,34 @@ export default {
                 title:text,
                 icon:'none'
             })
-        }
+        },
+
+
+        // 搜索事件
+        //查询
+        search(res) {
+            console.log('search:', res)
+        },
+        //输入
+        input(res) {
+            console.log('input:', res)
+        },
+        //清空
+        clear(res) {
+            console.log("clear",res)
+        },
+        //离开
+        blur(res) {
+            console.log("blur",res)
+        },
+        //聚焦
+        focus(e) {
+            console.log("focus",e)
+        },
+        //取消搜索
+        cancel(res) {
+            console.log("cancel",res)
+        },
     },
     mounted() {
         var url=this.$baseUrl+"finds/findLimit?begin=" + this.begin + "&end="+this.end
