@@ -86,18 +86,36 @@ export default {
 
             //展示行数和列数
             rowCount:2,
-            columnCount:5
+            columnCount:5,
+
+            //数据总数
+            countFindGoods:0,
         }
     },
     computed: {
         noMore() {
-            return this.goodsList.length % 5 != 0;
+            return this.goodsList.length == this.countFindGoods;
         },
         disabled() {
             return this.loading || this.noMore
         }
     },
     methods: {
+        //请求记录总数,用作判断是否无限滚动到底
+        findGoodsTotal(){
+            this.$axios({
+                url:'/api/generalgoods/countGoods',
+                method:"get",
+                params:{
+                    flag: true
+                }
+            }).then(res=> {
+                this.countFindGoods = res.data;
+            }).catch(err=>{
+
+            })
+
+        },
         limitGoods(){
             this.$axios({
                 method: "post",
@@ -145,6 +163,7 @@ export default {
         }
     },
     mounted() {
+        this.findGoodsTotal();
         this.findGoodsList();
     }
 }
