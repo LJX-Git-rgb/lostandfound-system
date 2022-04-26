@@ -1,25 +1,5 @@
-// 1. 商品信息页
-// 3. 首页布局
 <template>
 	<view>
-		<ui-row class="bar">
-			<view class="local-bar">
-				<uni-icons type="location-filled" size="20"></uni-icons>
-				<text slot="">{{location}}</text>
-			</view>
-			<uni-search-bar 
-				v-model="searchValue" 
-				placeholder="搜索" 
-				bgColor="#EEEEEE"
-				class="search-bar"
-				@confirm="search" 
-				@blur="blur" 
-				@focus="focus" 
-				@input="input"
-				@cancel="cancel" 
-				@clear="clear">
-			</uni-search-bar>
-		</ui-row>
 		<uni-swiper-dot class="uni-swiper-dot-box" 
 			@clickItem=clickItem 
 			:info="info" 
@@ -46,6 +26,7 @@
 					<view>申请获取以下权限</view>
 					<text>获得你的公开信息(昵称，头像等)</text>
 					<button type="primary" @click="login">授权登录</button>
+					<!-- <button type="primary" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" @click="login">授权登录</button> -->
 				</view>
 			</view>
 		</uni-popup>
@@ -106,42 +87,10 @@
 				swiperDotIndex: 0,	
 
 				//卡片
-				cover: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
 				avatar: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png',
-				extraIcon:{
-					color: '#4cd964',
-					size: '22',
-					type: 'gear-filled'
-				}
 			}
 		},
 		methods: {
-			// 搜索事件
-			//查询
-			search(res) {
-				console.log('search:', res)
-			},
-			//输入
-			input(res) {
-				console.log('input:', res)
-			},
-			//清空
-			clear(res) {
-				console.log("clear",res)
-			},
-			//离开
-			blur(res) {
-				console.log("blur",res)
-			},
-			//聚焦
-			focus(e) {
-				console.log("focus",e)
-			},
-			//取消搜索
-			cancel(res) {
-				console.log("cancel",res)
-			},
-
 			// 轮播事件
 			change(e) {
 				this.current = e.detail.current
@@ -171,33 +120,55 @@
 				uni.navigateTo({url:'../lost/LostList'})
 			},
 
-			//登录
+			//微信登录--获取个人信息
 			login(){
 				wx.getUserProfile({
 					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
 					success: (res) => {
-						console.log("获取用户信息成功", res)
+						console.log(res);
 						this.$store.dispatch('setUser',res.userInfo);
 						this.$refs.popup.close();
 						wx.showTabBar();
+
+						//根据 用户名？对数据库进行查询，如果没有的话放入数据库，有的话查询信息放入vuex
+						// uni.request({
+						// 	url: 'https://www.example.com/request', //仅为示例，并非真实接口地址。
+						// 	data: {
+						// 		text: 'uni.request'
+						// 	},
+						// 	success: (res) => {
+						// 		console.log(res.data);
+						// 		this.text = 'request success';
+						// 	}
+						// });
 					},
 					fail: res => {
 						console.log("获取用户信息失败", res)
+						//退出小程序
 					}
 				})
-			}
+			},
+
+			// //获取电话号码（不支持）
+			// getPhoneNumber (e) {
+			// 	console.log(this.session_key)
+			// }
 		},
-		// mounted(){
-        // 	// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
-		// 	this.$refs.popup.open('bottom')
-		// 	wx.hideTabBar();
-		// 	uni.getLocation({
-		// 		type: 'wgs84',
-		// 		success: function (res) {
-		// 			console.log(res);
-		// 		}
-		// 	});
-		// }
+		mounted(){
+			// 底部弹出框
+        	// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
+			this.$refs.popup.open('bottom')
+			// 隐藏底部拦
+			wx.hideTabBar();
+			//获取地址，只有经纬度
+			uni.getLocation({
+				type: 'wgs84',
+				success: function (res) {
+					//根据经纬度进行地址定位
+					console.log(res);
+				}
+			});
+		}
 	}
 </script>
 

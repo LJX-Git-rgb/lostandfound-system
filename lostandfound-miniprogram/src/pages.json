@@ -19,6 +19,12 @@
 			}
 		},
 		{
+			"path": "pages/myinfo/PersonInfo",
+			"style": {
+				"navigationBarTitleText": "我的信息"
+			}
+		},
+		{
 			"path": "pages/lost/LostList",
 			"style": {
 				"navigationBarTitleText": "寻物启事",

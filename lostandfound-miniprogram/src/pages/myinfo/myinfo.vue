@@ -1,6 +1,6 @@
 <template>
     <view>
-        <view class="wechat-info">
+        <view class="wechat-info" @click="toPersonInfo">
             <view class="face-img">
                 <img :src="avatarUrl" alt="">
             </view>
@@ -9,9 +9,9 @@
             </view>
         </view>
         <view>
-            <uni-card title="我发布的失物招领" :thumbnail="avatar" @click="onClick">
+            <uni-card title="我发布的失物招领" :thumbnail="avatarUrl" @click="onClick">
             </uni-card>
-            <uni-card title="我发布的寻物启事"  :thumbnail="avatar" @click="onClick">
+            <uni-card title="我发布的寻物启事"  :thumbnail="avatarUrl" @click="onClick">
             </uni-card>
         </view>
     </view>
@@ -22,8 +22,12 @@ export default {
         return {
             nickName: this.$store.state.user.nickName,
             avatarUrl: this.$store.state.user.avatarUrl,
-            avatar: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png',
         }
+    },
+    methods:{
+        toPersonInfo(){
+            uni.navigateTo({url:'../myinfo/PersonInfo'})
+        },
     },
     mounted() {
         console.log(this.$store.state.user)
