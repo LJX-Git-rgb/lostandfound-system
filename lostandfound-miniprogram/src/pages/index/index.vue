@@ -26,7 +26,6 @@
 					<view>申请获取以下权限</view>
 					<text>获得你的公开信息(昵称，头像等)</text>
 					<button type="primary" @click="login">授权登录</button>
-					<!-- <button type="primary" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" @click="login">授权登录</button> -->
 				</view>
 			</view>
 		</uni-popup>
@@ -114,12 +113,12 @@ import Vue from 'vue'
 				console.log(22222, index);
 			},
 
-			//卡片事件
+			//卡片点击事件
 			toLostList(){
-				uni.navigateTo({url:'../find/FindList'})
+				uni.navigateTo({url:'../goods/List?state=true'})
 			},
 			toFindList(){
-				uni.navigateTo({url:'../lost/LostList'})
+				uni.navigateTo({url:'../goods/List?state=false'})
 			},
 
 			//微信登录--获取个人信息
@@ -127,7 +126,6 @@ import Vue from 'vue'
 				wx.getUserProfile({
 					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，会展示在弹窗中
 					success: (res) => {
-						console.log(res);
 						this.$refs.popup.close();
 						wx.showTabBar();
 
@@ -142,6 +140,7 @@ import Vue from 'vue'
 								signature: res.signature,
 							},
 							success: (res) => {
+								wx.setStorageSync("userInfo",JSON.stringify(res.data.data[0]));
 								this.$store.dispatch('setUser',res.data.data[0]);
 							}
 						});
@@ -154,30 +153,39 @@ import Vue from 'vue'
 			},
 		},
 		mounted(){
-			// 底部弹出框
-        	// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
-			this.$refs.popup.open('bottom')
-			// 隐藏底部拦
-			wx.hideTabBar();
-			//获取经纬度并逆地址解析
-			uni.getLocation({
-				type: 'wgs84',
-				success: function (res) {
-					let qqmapsdk = new QQMapWX({
-						key: '5N6BZ-JICC3-OLO3L-3L3L2-4ILHF-6LBB4'
-					});
-					//根据经纬度进行地址定位
-					qqmapsdk.reverseGeocoder({
-						location: {
-							latitude: res.latitude,
-							longitude: res.longitude
-						},
-						success(res){
-							new Vue().$store.dispatch('setLocation',res.result.ad_info.city)
-						},
-					})
-				}
-			});
+			if(wx.getStorageSync("userInfo").length == 0){
+				// 底部弹出框
+				// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
+				this.$refs.popup.open('bottom')
+				// 隐藏底部拦
+				wx.hideTabBar();
+			}else{
+				this.$store.dispatch('setUser',JSON.parse(wx.getStorageSync("userInfo")))
+			}
+			if(wx.getStorageSync("location").length == 0){
+				//获取经纬度并逆地址解析
+				uni.getLocation({
+					type: 'wgs84',
+					success: function (res) {
+						let qqmapsdk = new QQMapWX({
+							key: '5N6BZ-JICC3-OLO3L-3L3L2-4ILHF-6LBB4'
+						});
+						//根据经纬度进行地址定位
+						qqmapsdk.reverseGeocoder({
+							location: {
+								latitude: res.latitude,
+								longitude: res.longitude
+							},
+							success(res){
+								new Vue().$store.dispatch('setLocation',res.result.ad_info.city)
+								wx.setStorageSync("location",res.result.ad_info.city)
+							},
+						})
+					}
+				});
+			}else{
+				this.$store.dispatch('setLocation',wx.getStorageSync("location"))
+			}
 		}
 	}
 </script>

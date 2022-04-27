@@ -25,22 +25,17 @@
 			}
 		},
 		{
-			"path": "pages/lost/LostList",
+			"path": "pages/goods/List",
 			"style": {
-				"navigationBarTitleText": "寻物启事",
+				"navigationBarTitleText": "失物招领",
 				"enablePullDownRefresh": true,
 				"onReachBottomDistance": 300
 			}
 		},
 		{
-			"path": "pages/lost/LostInfo"
-		},
-		{
-			"path": "pages/find/FindList",
+			"path": "pages/goods/Info",
 			"style": {
-				"navigationBarTitleText": "失物招领",
-				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 300
+				"navigationBarTitleText": "物品详情"
 			}
 		}
 	],

@@ -12,7 +12,7 @@
 				@cancel="cancel" 
 				@clear="clear">
 		</uni-search-bar>
-        <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" v-for="item in foundGoodsList" :key="item.id">
+        <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" v-for="item in goodsList" :key="item.id">
             <!-- 轮播图 -->
             <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="500">
                <swiper-item v-for="(url, index) in item.imageList" :key="index">
@@ -48,32 +48,15 @@
 export default {
     data() {
         return {
-            info: [{
-						colorClass: 'uni-bg-red',
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 A'
-					},
-					{
-						colorClass: 'uni-bg-green',
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 B'
-					},
-					{
-						colorClass: 'uni-bg-blue',
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 C'
-					}
-			],
-            foundGoodsList:[],
+            goodsList:[],
 
             begin:0,
             end:5,
+
+            flag:true,
         }
     },
     methods: {
-        onClick(e){
-            console.log(e)
-        },
         actionsClick(text){
             uni.showToast({
                 title:text,
@@ -107,24 +90,51 @@ export default {
         cancel(res) {
             console.log("cancel",res)
         },
+
+
+        //
+        load(){
+            if(this.flag == "true"){
+                var url=this.$baseUrl+"finds/findLimit?begin=" + this.begin + "&end="+this.end
+                uni.request({
+                    url: url,
+                    method: 'GET',
+                    success: (res)=>{
+                        if(res.statusCode == 200){
+                            this.goodsList = res.data;
+                        }
+                        console.log(this.goodsList)
+                    },
+                })
+            }else{
+                var url=this.$baseUrl+"losts/lostLimit?begin=" + this.begin + "&end="+this.end
+                uni.request({
+                    url: url,
+                    method: 'GET',
+                    success: (res)=>{
+                        if(res.statusCode == 200){
+                            this.goodsList = res.data;
+                        }
+                    },
+                })
+            }
+        },
+    },
+    onLoad(option) { //option为object类型，会序列化上个页面传递的参数
+		this.flag = option.state
+	},
+    onPullDownRefresh() {
+        this.end = 10;
+        this.begin = 0;
+        this.load()
     },
     mounted() {
-        var url=this.$baseUrl+"finds/findLimit?begin=" + this.begin + "&end="+this.end
-        console.log(url);
-        uni.request({
-            url: url,
-            method: 'GET',
-            success: (res)=>{
-                if(res.statusCode == 200){
-                    this.foundGoodsList = res.data;
-                }
-                console.log(this.foundGoodsList)
-            },
-            fail: (err)=>{
-
-            }
+      this.load();
+      if(this.flag == "false"){
+        wx.setNavigationBarTitle({
+            title: "寻物启事"
         })
-
+      }
     },
 }
 </script>

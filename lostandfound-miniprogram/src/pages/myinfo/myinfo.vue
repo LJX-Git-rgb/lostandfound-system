@@ -21,7 +21,7 @@ export default {
     data() {
         return {
             nickName: this.$store.state.user.nickName,
-            avatarUrl: this.$store.state.user.avatarUrl,
+            avatarUrl: this.$store.state.user.face,
         }
     },
     methods:{
@@ -30,7 +30,7 @@ export default {
         },
     },
     mounted() {
-        console.log(this.$store.state.user)
+        console.log(this.$store.state)
     },
 }
 </script>
