@@ -39,7 +39,8 @@
 			"path": "pages/find/FindList",
 			"style": {
 				"navigationBarTitleText": "失物招领",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 300
 			}
 		}
 	],
@@ -57,14 +58,20 @@
 		"list": [
 			{
 				"pagePath": "pages/index/index",
+				"selectedIconPath": "./static/img/main.png",
+				"iconPath": "./static/img/main_blank.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/upload/Upload",
+				"selectedIconPath": "./static/img/upload.png",
+				"iconPath": "./static/img/upload_blank.png",
 				"text": "我要发布"
 			},
 			{
 				"pagePath": "pages/myinfo/myinfo",
+				"selectedIconPath": "./static/img/my.png",
+				"iconPath": "./static/img/my_blank.png",
 				"text": "我的"
 			}
 		]

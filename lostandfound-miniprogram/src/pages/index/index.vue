@@ -125,24 +125,26 @@ import Vue from 'vue'
 			//微信登录--获取个人信息
 			login(){
 				wx.getUserProfile({
-					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，会展示在弹窗中
 					success: (res) => {
 						console.log(res);
-						this.$store.dispatch('setUser',res.userInfo);
 						this.$refs.popup.close();
 						wx.showTabBar();
 
-						//根据 用户名？对数据库进行查询，如果没有的话放入数据库，有的话查询信息放入vuex
-						// uni.request({
-						// 	url: 'https://www.example.com/request', //仅为示例，并非真实接口地址。
-						// 	data: {
-						// 		text: 'uni.request'
-						// 	},
-						// 	success: (res) => {
-						// 		console.log(res.data);
-						// 		this.text = 'request success';
-						// 	}
-						// });
+						// 根据 signature 对数据库进行查询，如果没有的话放入数据库，有的话查询信息放入vuex
+						uni.request({
+							url: this.$baseUrl + 'user/wechatLogin',
+							method:'POST',
+							data: {
+								nickName: res.userInfo.nickName,
+								gender: res.userInfo.gender == 0 ? "男" : "女",
+								face: res.userInfo.avatarUrl,
+								signature: res.signature,
+							},
+							success: (res) => {
+								this.$store.dispatch('setUser',res.data.data[0]);
+							}
+						});
 					},
 					fail: res => {
 						console.log("获取用户信息失败", res)
@@ -150,11 +152,6 @@ import Vue from 'vue'
 					}
 				})
 			},
-
-			// //获取电话号码（不支持）
-			// getPhoneNumber (e) {
-			// 	console.log(this.session_key)
-			// }
 		},
 		mounted(){
 			// 底部弹出框
@@ -162,7 +159,7 @@ import Vue from 'vue'
 			this.$refs.popup.open('bottom')
 			// 隐藏底部拦
 			wx.hideTabBar();
-			//获取地址，只有经纬度
+			//获取经纬度并逆地址解析
 			uni.getLocation({
 				type: 'wgs84',
 				success: function (res) {

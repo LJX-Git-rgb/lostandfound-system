@@ -80,6 +80,30 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
+    public User wechatLogin(User user) {
+        //查询是否微信注册过
+        User wechatUser = userMapper.searchWechatSignature(user.getSignature());
+        //没有的话微信直接注册（没有邮箱和密码
+        if (wechatUser == null){
+            user.setUid(UUID.randomUUID().toString());
+            user.setCreateTime(new Date());
+            user.setUserRole(1);
+            if(userMapper.addUser(user)){
+                return user;
+            }
+        }else{
+            if (wechatUser.getFace() == null || wechatUser.getFace().length() == 0){
+                wechatUser.setFace(user.getFace());
+                wechatUser.setGender(user.getGender());
+                userMapper.update(wechatUser);
+            }
+            //注册过的话直接返回查询到到用户就可以
+            return wechatUser;
+        }
+        return null;
+    }
+
+    @Override
     public User login(String userName) {
         return userMapper.findUserByEmail(userName);
     }

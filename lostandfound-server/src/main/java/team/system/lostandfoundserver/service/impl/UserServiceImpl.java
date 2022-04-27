@@ -25,4 +25,6 @@ public interface UserServiceImpl {
     User changepwd(String email ,String newPwd);
 
     User findUserByEmail(String email);
+
+    User wechatLogin(User user);
 }

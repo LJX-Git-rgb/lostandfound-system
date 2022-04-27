@@ -69,6 +69,17 @@ public class UserController {
         return Result.success(data);
     }
 
+    @RequestMapping("/wechatLogin")
+    public Result login(@RequestBody User user){
+        User loginUser = userService.wechatLogin(user);
+        if (loginUser == null) {
+            return Result.error("500", "服务器错误");
+        }
+        ArrayList<Object> data = new ArrayList<>();
+        data.add(loginUser);
+        return Result.success(data);
+    }
+
     /**
      * @Author: Jason
      * @Description: 找回自己的密码（未完成，需要邮件工具类和一些逻辑）
@@ -97,21 +108,5 @@ public class UserController {
         }
         return Result.success(data);
     }
-//    @RequestMapping("/update")
-//    public Result retrive(String email, String password){
-//        Boolean userByUserNameAndEmail = userService.findUserByUserNameAndEmail(email);
-//        boolean emailFlag;
-//        if (userByUserNameAndEmail) {
-//            //发邮件，返回结果
-//            emailFlag = true;
-//            if (emailFlag){
-//                //确认邮件后
-//
-//            }else{
-//                //没有确认，邮件失效后
-//            }
-//        }
-//        return Result.error("500","您的用户名和邮箱不匹配，请确认后重新输入");
-//    }
 }
 

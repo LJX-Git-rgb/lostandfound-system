@@ -45,4 +45,7 @@ public interface UserMapper {
 
     @Select("select count(*) from user_base")
     Integer countUser();
+
+    @Select("select * from user_base where signature = #{signature}")
+    User searchWechatSignature(String signature);
 }
