@@ -8,29 +8,31 @@
 				@clickItem="onClickItem" />
 		</view>
 		<view class="upload-form">
-			<view v-if="current === 0">
-				<uni-forms ref="baseForm" :modelValue="uploadForm">
-					<uni-forms-item label="标题" required>
+			<view>
+				<uni-forms 
+				:modelValue="uploadForm"
+				label-position="top">
+					<uni-forms-item label="标题：" >
 						<uni-easyinput v-model="uploadForm.title" placeholder="请起个标题吧"/>
 					</uni-forms-item>
-					<uni-forms-item label="拾物描述" required>
-						<uni-easyinput v-model="uploadForm.description" placeholder="请输入描述,我们将根据他匹配结果" />
+					<uni-forms-item :label="current === 0 ? '拾物描述：' : '失物描述：'" >
+						<uni-easyinput v-model="uploadForm.description" placeholder="请输入描述,越详细越好" type="textarea"/>
 					</uni-forms-item>
-					<uni-forms-item label="拾物类别" required>
+					<uni-forms-item label="物品类别：" >
 						<uni-data-checkbox v-model="uploadForm.type" multiple :localdata="type" />
 					</uni-forms-item>
-					<uni-forms-item label="捡到区域" required>
-						<uni-easyinput v-model="uploadForm.area" placeholder="你在哪里捡到的"/>
+					<uni-forms-item :label="current === 0 ? '捡到区域：' : '丢失区域：'" >
+						<uni-easyinput v-model="uploadForm.area" placeholder="市区内的地址"/>
 					</uni-forms-item>
-					<uni-forms-item label="捡到时间">
+					<uni-forms-item :label="current === 0 ? '捡到时间：' : '丢失时间：'">
 						<uni-datetime-picker type="datetime" return-type="timestamp" v-model="uploadForm.time"/>
 					</uni-forms-item>
-					<uni-forms-item>
+					<uni-forms-item label="上传图片：">
 						<!-- 限制9张 ， 绑定值，限定只能图片，grid类型展示，取消自动上传，绑定的方法 -->
 						<uni-file-picker 
 						limit="9" 
 						title="最多选择9张图片"
-						v-model="imageValue" 
+						v-model="imageList"
 						fileMediatype="image" 
 						mode="grid" 
 						:auto-upload="false"
@@ -39,7 +41,6 @@
 						@success="success" 
 						@fail="fail" 
 						>
-						
 						</uni-file-picker>
 					</uni-forms-item>
 					<uni-forms-item>
@@ -48,31 +49,6 @@
 				</uni-forms>
 			</view>
 
-			<view v-if="current === 1">
-				<uni-forms ref="baseForm" :modelValue="uploadForm">
-					<uni-forms-item label="标题" required>
-						<uni-easyinput v-model="uploadForm.name" placeholder="请起个标题吧" />
-					</uni-forms-item>
-					<uni-forms-item label="失物描述" required>
-						<uni-easyinput v-model="uploadForm.age" placeholder="请输入描述,我们将根据他匹配结果" />
-					</uni-forms-item>
-					<uni-forms-item label="失物类别" required>
-						<uni-data-checkbox v-model="uploadForm.hobby" multiple :localdata="hobbys" />
-					</uni-forms-item>
-					<uni-forms-item label="丢失区域" required>
-						<uni-data-checkbox v-model="uploadForm.hobby" multiple :localdata="hobbys" />
-					</uni-forms-item>
-					<uni-forms-item label="丢失时间">
-						<uni-datetime-picker type="datetime" return-type="timestamp" v-model="uploadForm.datetimesingle"/>
-					</uni-forms-item>
-					<uni-forms-item>
-						<uni-file-picker limit="9" title="最多选择9张图片"></uni-file-picker>
-					</uni-forms-item>
-					<uni-forms-item>
-						<button @click="upload">Submit</button>
-					</uni-forms-item>
-				</uni-forms>
-			</view>
 		</view>
 	</view>
 </template>
@@ -81,8 +57,10 @@
 export default {
 		data() {
 			return {
-				uploadForm: {},
-				imageValue:[],
+				uploadForm: {
+					images:[],
+				},
+				imageList:[],
 				type: [
 					{"value": "现金","text": "现金"	},
 					{"value": "卡","text": "卡"},
@@ -101,17 +79,48 @@ export default {
 				}
 			},
 			upload(){
-				
 				//上传图片
-				this.$refs.files.upload()
+				if(this.imageList.length > 0){
+					var url=""
+					if(this.current == 0){
+						url="finds/addImg"
+					}else{
+						url="losts/addImg"
+					}
 
-
-
+					for(let i = 0; i < this.imageList.length; i++){
+						uni.uploadFile({
+							url: this.$baseUrl + url,
+							filePath:this.imageList[i].url,
+							name:"file",
+							formData: {},
+							success: (res) => {
+								this.uploadForm.images.push(JSON.parse(res.data).data[0])
+							}
+						});
+					}
+					this.uploadOther();
+				}else{
+					this.uploadOther();
+				}
+				
+			},
+			uploadOther(){
+				//上传其他数据
 				var url="";
 				let tag = "", image = "";
-                for (let i = 0; i < this.uploadForm.type.length; i++) {
-                    tag += this.uploadForm.type[i] + '&';
-                }
+				if(this.uploadForm.type != undefined){
+					for (let i = 0; i < this.uploadForm.type.length; i++) {
+						tag += this.uploadForm.type[i] + '&';
+					}
+				}
+				if(this.uploadForm.images.length >= 0){
+					console.log(this.uploadForm.images);
+					for (let i = 0; i < this.uploadForm.images.length+1; i++) {
+						console.log(i,this.uploadForm.images[i]);
+						image += this.uploadForm.images[i] + '&';
+					}
+				}
 				if(this.current == 0){
 					url="finds/add"
 				}else{
@@ -138,8 +147,8 @@ export default {
 			//上传组件的方法
 			// 获取上传状态
 			select(e){
-				console.log('选择文件：',e)
-				console.log(this.imageValue)
+				console.log('选择文件：',e.tempFiles[0])
+				this.imageList.push(e.tempFiles[0])
 			},
 			// 获取上传进度
 			progress(e){
