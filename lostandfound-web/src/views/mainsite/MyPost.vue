@@ -3,7 +3,7 @@
         <span v-if="lostOrFind">我发布的寻物启事 : </span>
         <span v-if="!lostOrFind">我发布的失物招领 : </span>
         <el-timeline>
-            <el-timeline-item v-for="item in tableData" :key="item.id" :timestamp="item.createTime" placement="top">
+            <el-timeline-item v-for="item in tableData" :key="item.id" :timestamp="new Date(item.createTime).format('yyyy-MM-dd hh:mm:ss')" placement="top">
                 <a href="#">
                     <el-card>
                         <img :src="require('../../../../image' + item.imageList[0])" alt="" id="cardImg">
@@ -11,7 +11,7 @@
                             <span>{{item.title}}</span>
                             <h3>{{item.description}}</h3>
                             <br>
-                            <p>提交于 {{item.createTime}}</p>
+                            <p>提交于 {{new Date(item.createTime).format("yyyy-MM-dd hh:mm:ss")}}</p>
                         </div>
                     </el-card>
                 </a>
