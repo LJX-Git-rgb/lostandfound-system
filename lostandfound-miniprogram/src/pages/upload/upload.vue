@@ -37,9 +37,6 @@
 						mode="grid" 
 						:auto-upload="false"
 						@select="select" 
-						@progress="progress" 
-						@success="success" 
-						@fail="fail" 
 						>
 						</uni-file-picker>
 					</uni-forms-item>
@@ -58,7 +55,7 @@ export default {
 		data() {
 			return {
 				uploadForm: {
-					images:[],
+					imageUrlString:"",
 				},
 				imageList:[],
 				type: [
@@ -79,7 +76,7 @@ export default {
 				}
 			},
 			upload(){
-				//上传图片
+				//上传图片 由于异步的原因，可能没有上传完图片就开始上传其他数据，所以使用了settimeOut来进行同步操作，性能损失极大
 				if(this.imageList.length > 0){
 					var url=""
 					if(this.current == 0){
@@ -87,7 +84,6 @@ export default {
 					}else{
 						url="losts/addImg"
 					}
-
 					for(let i = 0; i < this.imageList.length; i++){
 						uni.uploadFile({
 							url: this.$baseUrl + url,
@@ -95,30 +91,24 @@ export default {
 							name:"file",
 							formData: {},
 							success: (res) => {
-								this.uploadForm.images.push(JSON.parse(res.data).data[0])
+								this.uploadForm.imageUrlString+=JSON.parse(res.data).data[0]+'&'
 							}
 						});
 					}
-					this.uploadOther();
+					setTimeout(() => {
+						this.uploadOther();
+                	}, 5000);
 				}else{
 					this.uploadOther();
 				}
-				
 			},
 			uploadOther(){
 				//上传其他数据
 				var url="";
-				let tag = "", image = "";
+				let tag = "";
 				if(this.uploadForm.type != undefined){
 					for (let i = 0; i < this.uploadForm.type.length; i++) {
 						tag += this.uploadForm.type[i] + '&';
-					}
-				}
-				if(this.uploadForm.images.length >= 0){
-					console.log(this.uploadForm.images);
-					for (let i = 0; i < this.uploadForm.images.length+1; i++) {
-						console.log(i,this.uploadForm.images[i]);
-						image += this.uploadForm.images[i] + '&';
 					}
 				}
 				if(this.current == 0){
@@ -136,34 +126,25 @@ export default {
 						foundArea: this.uploadForm.area + '&' + this.$store.state.user.location,
 						foundTime: this.uploadForm.time,
 						tag: tag,
-						image: image
+						image: this.uploadForm.imageUrlString,
 					},
 					success: (res) => {
 						console.log(res.data);
+						this.uploadForm.imageUrlString = "";
+						if(this.current == 0){
+							uni.navigateTo({url:'../goods/List?state=true'})
+						}else{
+							uni.navigateTo({url:'../goods/List?state=false'})
+						}
 					}
 				});
 			},
 
 			//上传组件的方法
-			// 获取上传状态
 			select(e){
 				console.log('选择文件：',e.tempFiles[0])
 				this.imageList.push(e.tempFiles[0])
 			},
-			// 获取上传进度
-			progress(e){
-				console.log('上传进度：',e)
-			},
-			
-			// 上传成功
-			success(e){
-				console.log('上传成功')
-			},
-			
-			// 上传失败
-			fail(e){
-				console.log('上传失败：',e)
-			}
 		}
 }
 </script>
