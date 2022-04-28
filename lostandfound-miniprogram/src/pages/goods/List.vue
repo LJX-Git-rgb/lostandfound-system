@@ -26,11 +26,11 @@
             
             <!-- 选项 -->
             <view slot="actions" class="card-actions">
+                <button open-type="share" @click="shareId=item.id"></button>
                 <view class="card-actions-item" @click="actionsClick('分享')">
-                    <uni-icons type="staff" size="18" color="#999"></uni-icons>
-                    <text class="card-actions-item-text">分享</text>
-                    
-                </view>
+                        <uni-icons type="staff" size="18" color="#999"></uni-icons>
+                        <text class="card-actions-item-text">分享</text>
+                    </view>
                 <view class="card-actions-item" @click="actionsClick('点赞')">
                     <uni-icons type="heart" size="18" color="#999"></uni-icons>
                     <text class="card-actions-item-text">点赞</text>
@@ -45,7 +45,9 @@
 </template>
 
 <script>
+import { shareMixins} from '@/utils/share'
 export default {
+    mixins: [ shareMixins],
     data() {
         return {
             goodsList:[],
@@ -54,6 +56,12 @@ export default {
             end:5,
 
             flag:true,
+
+            shareId:'',
+            shareData: {
+                title: '这是一个分享',
+                path: '/pages/goods/List'           // 分享的页面路径
+            }
         }
     },
     methods: {
@@ -157,7 +165,14 @@ export default {
     .card-actions{
         display: flex;
         border-top: 1px solid #EBEEF5;
-        padding: 20rpx;        
+        padding: 20rpx;
+
+        button{
+            position: relative;
+            left: 120rpx;
+            opacity: 0;
+        }
+
         .card-actions-item{
             flex: 1;
             text-align: center;
