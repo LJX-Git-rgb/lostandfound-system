@@ -1,9 +1,13 @@
 package team.system.lostandfoundserver.controller.user;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.domain.UserContactInfo;
@@ -11,6 +15,7 @@ import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName: UserController
@@ -119,5 +124,33 @@ public class UserController {
             return Result.error("500","服务器出错了");
         }
     }
+
+//    @RequestMapping("/getWechatOpenId")
+//    public Result getWechatOpenId(String code, String secret){
+//        String appid="wxdd4aab7be43c3876", grant_type="authorization_code";
+//
+//    }
+
+//    @Autowired
+//    private RestTemplate restTemplate;
+//
+//    public ResponseEntity<TokenModel> appletsLogin(@RequestBody  AppletsLoginModel appletsLoginModel) {
+//
+//        String url = "https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code";
+//        Map<String, String> requestMap = new HashMap<>();
+//        requestMap.put("appid", weChatConfig.getAppid());
+//        requestMap.put("secret", weChatConfig.getSecret());
+//        requestMap.put("code", code);
+//
+//        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class,requestMap);
+//        JSONObject jsonObject= JSONObject.parseObject(responseEntity.getBody());
+//        String openId=jsonObject.getString("openid");
+//        String session_key=jsonObject.getString("session_key");
+//
+//        //自定义方法用openId和session_key换取token
+//        TokenModel tokenModel=new TokenModel()
+//        return ResponseEntity.status(HttpStatus.OK).body(tokenModel);
+//
+//    }
 }
 
