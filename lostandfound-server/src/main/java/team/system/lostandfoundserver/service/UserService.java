@@ -5,6 +5,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.domain.Admin;
+import team.system.lostandfoundserver.domain.UserContactInfo;
 import team.system.lostandfoundserver.mapper.UserMapper;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 import team.system.lostandfoundserver.utils.SMTPClient;
@@ -101,6 +102,11 @@ public class UserService implements UserServiceImpl {
             return wechatUser;
         }
         return null;
+    }
+
+    @Override
+    public UserContactInfo searchUserContactInfoByUid(Integer uid) {
+        return userMapper.searchUserContactInfoByUid(uid);
     }
 
     @Override

@@ -1,15 +1,14 @@
-package team.system.lostandfoundserver.controller.account;
+package team.system.lostandfoundserver.controller.user;
 
-import com.alibaba.fastjson.support.odps.udf.CodecCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.domain.User;
+import team.system.lostandfoundserver.domain.UserContactInfo;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -107,6 +106,18 @@ public class UserController {
             return Result.error("500", "抱歉，确认密码输入错误，请重新确认");
         }
         return Result.success(data);
+    }
+
+    @RequestMapping("/searchUserContact")
+    public Result searchUserContact(Integer uid){
+        UserContactInfo userContactInfo = userService.searchUserContactInfoByUid(uid);
+        if (userContactInfo != null){
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add(userContactInfo);
+            return Result.success(objects);
+        }else{
+            return Result.error("500","服务器出错了");
+        }
     }
 }
 

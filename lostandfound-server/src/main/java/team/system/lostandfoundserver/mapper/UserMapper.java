@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.domain.Admin;
+import team.system.lostandfoundserver.domain.UserContactInfo;
 
 import java.util.List;
 
@@ -48,4 +49,7 @@ public interface UserMapper {
 
     @Select("select * from user_base where signature = #{signature}")
     User searchWechatSignature(String signature);
+
+    @Select("select * from user_contact_information where uid = #{uid}")
+    UserContactInfo searchUserContactInfoByUid(Integer uid);
 }

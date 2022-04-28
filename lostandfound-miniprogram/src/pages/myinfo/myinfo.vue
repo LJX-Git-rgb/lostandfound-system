@@ -9,9 +9,9 @@
             </view>
         </view>
         <view>
-            <uni-card title="我发布的失物招领" :thumbnail="avatarUrl" @click="onClick">
+            <uni-card title="我发布的失物招领" :thumbnail="avatarUrl" @click="toFindList">
             </uni-card>
-            <uni-card title="我发布的寻物启事"  :thumbnail="avatarUrl" @click="onClick">
+            <uni-card title="我发布的寻物启事"  :thumbnail="avatarUrl" @click="toLostList">
             </uni-card>
         </view>
     </view>
@@ -27,6 +27,14 @@ export default {
     methods:{
         toPersonInfo(){
             uni.navigateTo({url:'../myinfo/PersonInfo'})
+        },
+    
+        //卡片点击事件
+        toLostList(){
+            uni.navigateTo({url:'../myinfo/MyUpload?state=false'})
+        },
+        toFindList(){
+            uni.navigateTo({url:'../myinfo/MyUpload?state=true'})
         },
     },
     mounted() {

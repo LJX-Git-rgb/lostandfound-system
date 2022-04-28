@@ -37,6 +37,13 @@
 			"style": {
 				"navigationBarTitleText": "物品详情"
 			}
+		},
+		{
+			"path": "pages/myinfo/MyUpload",
+			"style": {
+				"navigationBarTitleText": "我的发布-失物招领",
+				"enablePullDownRefresh": true
+			}
 		}
 	],
 	"globalStyle": {

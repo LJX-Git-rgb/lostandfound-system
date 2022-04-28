@@ -2,6 +2,7 @@ package team.system.lostandfoundserver.service.impl;
 
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.domain.Admin;
+import team.system.lostandfoundserver.domain.UserContactInfo;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface UserServiceImpl {
     User findUserByEmail(String email);
 
     User wechatLogin(User user);
+
+    UserContactInfo searchUserContactInfoByUid(Integer uid);
 }
