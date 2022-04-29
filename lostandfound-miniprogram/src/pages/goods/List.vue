@@ -73,7 +73,10 @@ export default {
             },
 
             //无限加载
-            status:'more'
+            status:'more',
+
+            //搜索框内容
+            searchValue:'',
         }
     },
     methods: {
@@ -89,18 +92,27 @@ export default {
         },
         // 搜索事件
         //查询
-        search(res) {
-            console.log('search:', res)
+        search() {
+            this.goodsList = this.goodsList.filter(item => {
+                if (this.flag == "true") {
+                    return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1
+                        || item.tag.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.foundArea.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+                }else {
+                    return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1
+                        || item.tag.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.lostArea.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+                }
+            })
         },
         //清空
-        clear(res) {
-            console.log("clear", res)
+        clear() {
+            this.onPullDownRefresh();
         },
         //离开
-        blur(res) {
-            console.log("blur", res)
+        blur() {
+            if (this.searchValue == undefined || this.searchValue.length == 0){
+                this.onPullDownRefresh();
+            }
         },
-
 
         //
         load() {
