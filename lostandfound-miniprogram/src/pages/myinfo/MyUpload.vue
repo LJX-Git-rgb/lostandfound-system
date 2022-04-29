@@ -6,10 +6,6 @@
             bgColor="#EEEEEE"
             class="search-bar"
             @confirm="search"
-            @blur="blur"
-            @focus="focus"
-            @input="input"
-            @cancel="cancel"
             @clear="clear">
         </uni-search-bar>
         <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" v-for="item in goodsList"
@@ -49,30 +45,41 @@
 export default {
     data() {
         return {
-            flag:"",
-            goodsList:[],
+            flag: "",
+            goodsList: [],
+            listBac:[],
+            searchValue:"",
         }
     },
-    methods:{
-        load(){
-            if(this.flag == "true"){
-                var url=this.$baseUrl+"finds/byUser?uid="+this.$store.state.user.id
+    methods: {
+        search(){
+            this.listBac = this.goodsList;
+            this.goodsList = this.goodsList.filter(item => {
+                return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+            })
+        },
+        clear(){
+            console.log("clear")
+        },
+        load() {
+            if (this.flag == "true") {
+                var url = this.$baseUrl + "finds/byUser?uid=" + this.$store.state.user.id
                 uni.request({
                     url: url,
                     method: 'GET',
-                    success: (res)=>{
-                        if(res.statusCode == 200){
+                    success: (res) => {
+                        if (res.statusCode == 200) {
                             this.goodsList = res.data;
                         }
                     },
                 })
-            }else{
-                var url=this.$baseUrl+"losts/byUser?uid="+this.$store.state.user.id
+            } else {
+                var url = this.$baseUrl + "losts/byUser?uid=" + this.$store.state.user.id
                 uni.request({
                     url: url,
                     method: 'GET',
-                    success: (res)=>{
-                        if(res.statusCode == 200){
+                    success: (res) => {
+                        if (res.statusCode == 200) {
                             this.goodsList = res.data;
                         }
                     },
@@ -81,14 +88,14 @@ export default {
         },
     },
     onLoad(option) { //option为object类型，会序列化上个页面传递的参数
-		this.flag = option.state
-	},
+        this.flag = option.state
+    },
     onPullDownRefresh() {
         this.load()
     },
-    mounted(){
+    mounted() {
         this.load();
-        if(this.flag == "false"){
+        if (this.flag == "false") {
             wx.setNavigationBarTitle({
                 title: "我的发布-寻物启事"
             })
