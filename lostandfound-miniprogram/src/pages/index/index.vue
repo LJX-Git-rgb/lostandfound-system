@@ -129,30 +129,35 @@ import Vue from 'vue'
 
 					    //获取用户资料成功后,进行登录,获取code和secret
                         wx.login({
+
                             success (res) {
-                                console.log(res)
                                 //登录成功后传参进后端,进行对openId的查询
                                 uni.request({
-                                    url: this.$baseUrl + 'user/getWechatOpenId?code='+res.code + '&secret=' +res.secret,
+                                    url: new Vue({}).$baseUrl + 'user/getWechatOpenId?code='+res.code,
                                     method:'GET',
                                     success: (res) => {
-
-                                        //如果能返回openid
-                                        // 根据 openId 对数据库进行查询，如果没有的话放入数据库，有的话查询信息放入vuex
-                                        uni.request({
-                                            url: this.$baseUrl + 'user/wechatLogin',
-                                            method:'POST',
-                                            data: {
-                                                nickName: resUser.userInfo.nickName,
-                                                gender: resUser.userInfo.gender == 0 ? "男" : "女",
-                                                face: resUser.userInfo.avatarUrl,
-                                                openId: res.openId,
-                                            },
-                                            success: (res) => {
-                                                wx.setStorageSync("userInfo",JSON.stringify(res.data.data[0]));
-                                                this.$store.dispatch('setUser',res.data.data[0]);
-                                            }
-                                        });
+										let openid = JSON.parse(res.data.data[0]).openid;
+										if(openid != undefined){
+											//如果能返回openid
+											// 根据 openId 对数据库进行查询，如果没有的话放入数据库，有的话查询信息放入vuex
+											uni.request({
+												url: new Vue({}).$baseUrl + 'user/wechatLogin',
+												method:'POST',
+												data: {
+													nickName: resUser.userInfo.nickName,
+													gender: resUser.userInfo.gender == 0 ? "男" : "女",
+													face: resUser.userInfo.avatarUrl,
+													openId: openid,
+												},
+												success: (res) => {
+													wx.setStorageSync("userInfo",JSON.stringify(res.data.data[0]));
+													new Vue({}).$store.dispatch('setUser',res.data.data[0]);
+												}
+											});
+										}
+										else{
+											console.log("login failed")
+										}
                                     }
                                 })
                             }

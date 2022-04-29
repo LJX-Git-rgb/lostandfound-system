@@ -31,6 +31,9 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     /**
      * @Author: Jason
      * @Description: 用户注册
@@ -125,32 +128,19 @@ public class UserController {
         }
     }
 
-//    @RequestMapping("/getWechatOpenId")
-//    public Result getWechatOpenId(String code, String secret){
-//        String appid="wxdd4aab7be43c3876", grant_type="authorization_code";
-//
-//    }
+    @RequestMapping("/getWechatOpenId")
+    public Result getWechatOpenId(String code){
+        String appid = "wxdd4aab7be43c3876",
+                secret = "f00ac1f52e4d1c1347ef647d742b4ce7";
 
-//    @Autowired
-//    private RestTemplate restTemplate;
-//
-//    public ResponseEntity<TokenModel> appletsLogin(@RequestBody  AppletsLoginModel appletsLoginModel) {
-//
-//        String url = "https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code";
-//        Map<String, String> requestMap = new HashMap<>();
-//        requestMap.put("appid", weChatConfig.getAppid());
-//        requestMap.put("secret", weChatConfig.getSecret());
-//        requestMap.put("code", code);
-//
-//        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class,requestMap);
-//        JSONObject jsonObject= JSONObject.parseObject(responseEntity.getBody());
-//        String openId=jsonObject.getString("openid");
-//        String session_key=jsonObject.getString("session_key");
-//
-//        //自定义方法用openId和session_key换取token
-//        TokenModel tokenModel=new TokenModel()
-//        return ResponseEntity.status(HttpStatus.OK).body(tokenModel);
-//
-//    }
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" +appid + "&secret=" + secret + "&js_code=" + code +"&grant_type=authorization_code";
+        String wechatLoginInfo = restTemplate.getForObject(url, String.class);
+        if (wechatLoginInfo != null){
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add(wechatLoginInfo);
+            return Result.success(objects);
+        }
+        return Result.error("500", "小程序登录失败");
+    }
 }
 
