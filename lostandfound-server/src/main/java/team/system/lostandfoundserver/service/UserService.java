@@ -83,7 +83,7 @@ public class UserService implements UserServiceImpl {
     @Override
     public User wechatLogin(User user) {
         //查询是否微信注册过
-        User wechatUser = userMapper.searchWechatSignature(user.getSignature());
+        User wechatUser = userMapper.searchOpenId(user.getOpenId());
         //没有的话微信直接注册（没有邮箱和密码
         if (wechatUser == null){
             user.setUid(UUID.randomUUID().toString());

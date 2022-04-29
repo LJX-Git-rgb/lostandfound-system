@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 27/04/2022 14:28:28
+ Date: 29/04/2022 15:28:48
 */
 
 SET NAMES utf8mb4;
@@ -71,7 +71,7 @@ CREATE TABLE `found_goods` (
   `found_time` timestamp NULL DEFAULT NULL COMMENT '找到日期',
   `uid` int DEFAULT NULL COMMENT '发布者',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of found_goods
@@ -90,6 +90,7 @@ INSERT INTO `found_goods` VALUES (10, '/foundgoods/4f2477cd-a316-4f18-8936-cfbf9
 INSERT INTO `found_goods` VALUES (11, '/foundgoods/666afc91-655a-4a5a-bfc9-846721c16578.jpg&', '罗技（G）G502 HERO主宰者游戏鼠标电竞鼠标有线RGB机械配重竞技FPS吃鸡lol宏cf', '鼠标', 0, '电子产品&', '2022-04-18 11:46:12', '中原区一品香老碗面&漯河市', '2022-04-02 00:00:00', 24);
 INSERT INTO `found_goods` VALUES (12, '/foundgoods/e95b994d-c894-4360-97fc-e6315a2d70c1.jpg&', '华为HUAWEI MatePad 11 2021款120Hz高刷全面屏 鸿蒙HarmonyOS 影音娱乐办公学习平板电脑8+128GB WIFI曜石灰', '平板电脑', 0, '电子产品&', '2022-04-18 11:47:31', '爱学习自习室&漯河市', '2022-04-13 00:00:00', 24);
 INSERT INTO `found_goods` VALUES (13, '/foundgoods/927c253c-c237-4800-8f80-1b1838bee64b.jpg&', 'Apple iPad Air 10.9英寸平板电脑 2022年款WLAN版/M1芯片 星光色 WLAN版256GB(官方标配)', '平板电脑', 0, '电子产品&', '2022-04-18 11:49:48', '步步登高自习室&漯河市', '2022-04-14 00:00:00', 24);
+INSERT INTO `found_goods` VALUES (101, '/foundgoods/f99f32f5-bdf7-4592-ac55-5e0e822ebfed.jpg&', '哈哈哈这是一个logo', '这是一个logo', 0, '生活用品&', '2022-04-28 14:54:03', '无锡&undefined', '2022-04-21 00:00:00', 22);
 COMMIT;
 
 -- ----------------------------
@@ -108,7 +109,7 @@ CREATE TABLE `lost_goods` (
   `lost_time` timestamp NULL DEFAULT NULL COMMENT '丢失日期',
   `uid` int DEFAULT NULL COMMENT '发布者',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of lost_goods
@@ -131,6 +132,7 @@ INSERT INTO `lost_goods` VALUES (14, '/lostgoods/a8d0c0c0-f8d4-4ceb-bc7e-8fbc24a
 INSERT INTO `lost_goods` VALUES (15, '/lostgoods/ead04a89-72bb-4eac-9b38-3d95ffc9e16e.jpg&', 'HUAWEI P50 原色双影像单元 搭载HarmonyOS 2 万象双环设计 支持66W超级快充 8GB+256GB可可茶金 华为手机', '华为手机', 0, '手机&', '2022-04-18 11:35:23', '碧沙岗公园&漯河市', '2022-04-08 00:00:00', 24);
 INSERT INTO `lost_goods` VALUES (16, '/lostgoods/87eb63ef-1b0f-4b9d-aa90-c7fcf3afbdf1.jpg&', '华为Mate40Pro 麒麟9000 SoC芯片 8GB+256GB 秘银色 5G全网通手机（无充电器和数据线）', '华为手机', 0, '手机&', '2022-04-18 11:36:18', '郑州市中原福塔&漯河市', '2022-04-08 00:00:00', 24);
 INSERT INTO `lost_goods` VALUES (17, '/lostgoods/dc8b54c5-39c9-48e1-a6be-71b7a2f27a89.jpg&', '小米11 Ultra 至尊 5G 骁龙888 2K AMOLED四曲面柔性屏 陶瓷工艺 12GB+256GB 黑色 游戏手机', '小米手机', 0, '手机&', '2022-04-18 11:37:24', '嵩山少林寺&漯河市', '2022-04-13 00:00:00', 24);
+INSERT INTO `lost_goods` VALUES (18, '/lostgoods/feebd5f7-82bf-4253-840d-38a7def67fb3.png&', '哈哈哈', '这是一个房子', 0, '电子产品&', '2022-04-28 15:38:05', NULL, NULL, 22);
 COMMIT;
 
 -- ----------------------------
@@ -164,18 +166,20 @@ CREATE TABLE `user_base` (
   `face` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '头像',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
-  `wechat_signature` varchar(255) DEFAULT NULL COMMENT '微信标记，有的话表示这个用户有微信账户',
+  `openid` varchar(255) DEFAULT NULL COMMENT '微信标记，有的话表示这个用户有微信账户',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid` (`uid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of user_base
 -- ----------------------------
 BEGIN;
-INSERT INTO `user_base` VALUES (22, '8e36a7e9-16cd-4d3e-acbc-a036b89a4714', '于我', '1612253221@qq.com', 'haha', '男', 1, '', '2022-04-16 14:51:42', NULL, NULL);
+INSERT INTO `user_base` VALUES (22, '8e36a7e9-16cd-4d3e-acbc-a036b89a4714', '于我', '1612253221@qq.com', 'haha', '男', 1, 'https://thirdwx.qlogo.cn/mmopen/vi_32/utmvXMJsTSrOCccIibl4lEyUcDwiaLVqMxOrbSnicJUFIsD0ZWDwepNVSrSFGJ0IEWbyCbeKFrl9lkuTNDmbNv5pw/132', '2022-04-16 14:51:42', NULL, 'ohw7Y5wwpbzlh_MuiYk1_JyLc0lQ');
 INSERT INTO `user_base` VALUES (23, '174de058-3877-41d1-9a30-fa48ce7a2ed0', '沙雕王', '1853053252@qq.com', 'yyqx', '女', 1, '', '2022-04-16 14:58:36', NULL, NULL);
 INSERT INTO `user_base` VALUES (24, 'e4bbf5eb-ee3e-43d2-afa6-e350f45d6658', '韩先生', '645693789@qq.com', 'hyy', '男', 1, '', '2022-04-16 14:58:50', NULL, NULL);
+INSERT INTO `user_base` VALUES (33, 'cdbfac27-24e2-4301-9949-cd2f082a1b8a', NULL, NULL, NULL, NULL, NULL, '', '2022-04-29 14:37:02', NULL, NULL);
+INSERT INTO `user_base` VALUES (34, 'edb295c5-8abb-42a0-bab0-08e1736f8226', NULL, NULL, NULL, NULL, NULL, '', '2022-04-29 14:38:33', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -200,6 +204,7 @@ CREATE TABLE `user_contact_information` (
 -- Records of user_contact_information
 -- ----------------------------
 BEGIN;
+INSERT INTO `user_contact_information` VALUES (1, 22, 'Jason刘', '18703600437', '1612253221', 'LLLDDD1120', 'jason@dynadot.com', '河南省郑州市', '无', '无');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

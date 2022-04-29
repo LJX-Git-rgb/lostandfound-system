@@ -25,5 +25,5 @@ public class User {
     private String face;
     private Date createTime;
     private Date updateTime;
-    private String signature;
+    private String openId;
 }
