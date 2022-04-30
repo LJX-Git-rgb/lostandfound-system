@@ -7,9 +7,6 @@
             class="search-bar"
             @confirm="search"
             @blur="blur"
-            @focus="focus"
-            @input="input"
-            @cancel="cancel"
             @clear="clear">
         </uni-search-bar>
         <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" v-for="item in goodsList"

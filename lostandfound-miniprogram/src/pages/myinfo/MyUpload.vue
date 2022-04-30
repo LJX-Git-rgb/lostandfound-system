@@ -99,6 +99,9 @@ export default {
                 })
             }
         },
+        toGoodsInfo(id) {
+            uni.navigateTo({url:'../goods/Info?state=' + this.flag + '&id='+id})
+        }
     },
     onLoad(option) { //option为object类型，会序列化上个页面传递的参数
         this.flag = option.state
