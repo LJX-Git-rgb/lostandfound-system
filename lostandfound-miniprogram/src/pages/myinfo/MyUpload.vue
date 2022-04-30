@@ -6,6 +6,7 @@
             bgColor="#EEEEEE"
             class="search-bar"
             @confirm="search"
+            @blur="blur"
             @clear="clear">
         </uni-search-bar>
         <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" v-for="item in goodsList"
@@ -53,13 +54,24 @@ export default {
     },
     methods: {
         search(){
-            this.listBac = this.goodsList;
             this.goodsList = this.goodsList.filter(item => {
-                return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+                if (this.flag == "true") {
+                    return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1
+                        || item.tag.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.foundArea.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+                }else {
+                    return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1
+                        || item.tag.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.lostArea.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+                }
             })
         },
         clear(){
-            console.log("clear")
+            this.goodsList = this.listBac;
+        },
+        blur(){
+            if (this.searchValue == undefined || this.searchValue.length == 0){
+                this.goodsList = this.listBac;
+            }
+            console.log("haha")
         },
         load() {
             if (this.flag == "true") {
@@ -70,6 +82,7 @@ export default {
                     success: (res) => {
                         if (res.statusCode == 200) {
                             this.goodsList = res.data;
+                            this.listBac = res.data;
                         }
                     },
                 })

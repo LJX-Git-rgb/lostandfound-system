@@ -43,6 +43,7 @@
                 </view>
             </view>
         </uni-card>
+        <uni-load-more :status="status"></uni-load-more>
     </view>
 </template>
 
@@ -53,18 +54,29 @@ export default {
     mixins: [shareMixins],
     data() {
         return {
+            //goods 集合
             goodsList: [],
 
+            //查询限制
             begin: 0,
             end: 5,
+            total:0,
 
+            //表示是find or list
             flag: true,
 
+            //分享的参数
             shareId: '',
             shareData: {
                 title: '这是一个分享',
                 path: '/pages/goods/List'           // 分享的页面路径
-            }
+            },
+
+            //无限加载
+            status:'more',
+
+            //搜索框内容
+            searchValue:'',
         }
     },
     methods: {
@@ -80,30 +92,27 @@ export default {
         },
         // 搜索事件
         //查询
-        search(res) {
-            console.log('search:', res)
-        },
-        //输入
-        input(res) {
-            console.log('input:', res)
+        search() {
+            this.goodsList = this.goodsList.filter(item => {
+                if (this.flag == "true") {
+                    return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1
+                        || item.tag.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.foundArea.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+                }else {
+                    return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1
+                        || item.tag.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.lostArea.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
+                }
+            })
         },
         //清空
-        clear(res) {
-            console.log("clear", res)
+        clear() {
+            this.onPullDownRefresh();
         },
         //离开
-        blur(res) {
-            console.log("blur", res)
+        blur() {
+            if (this.searchValue == undefined || this.searchValue.length == 0){
+                this.onPullDownRefresh();
+            }
         },
-        //聚焦
-        focus(e) {
-            console.log("focus", e)
-        },
-        //取消搜索
-        cancel(res) {
-            console.log("cancel", res)
-        },
-
 
         //
         load() {
@@ -114,7 +123,7 @@ export default {
                     method: 'GET',
                     success: (res) => {
                         if (res.statusCode == 200) {
-                            this.goodsList = res.data;
+                            this.goodsList = this.goodsList.concat(res.data);
                         }
                         console.log(this.goodsList)
                     },
@@ -126,12 +135,21 @@ export default {
                     method: 'GET',
                     success: (res) => {
                         if (res.statusCode == 200) {
-                            this.goodsList = res.data;
+                            this.goodsList = this.goodsList.concat(res.data);
                         }
                     },
                 })
             }
         },
+        countGoods(){
+            uni.request({
+                url:this.$baseUrl + 'generalgoods/countGoods?flag=' + this.flag,
+                method:"GET",
+                success:(res)=>{
+                    this.total = res.data;
+                }
+            })
+        }
     },
     onLoad(option) { //option为object类型，会序列化上个页面传递的参数
         this.flag = option.state
@@ -141,7 +159,20 @@ export default {
         this.begin = 0;
         this.load()
     },
+    onReachBottom(){
+        if (this.begin + this.end < this.total) {
+            this.status = "loading"
+            setTimeout(() => {
+                this.begin += 5;
+                this.load();
+                this.status = "more"
+            }, 5000);
+        }else {
+            this.status = 'no-more'
+        }
+    },
     mounted() {
+        this.countGoods();
         this.load();
         if (this.flag == "false") {
             wx.setNavigationBarTitle({
