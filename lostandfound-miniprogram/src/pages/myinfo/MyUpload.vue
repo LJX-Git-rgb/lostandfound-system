@@ -15,7 +15,7 @@
             <view @click="toGoodsInfo(item.id)">
                 <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="500">
                     <swiper-item v-for="(url, index) in item.imageList" :key="index">
-                        <image :src="'../../../../image'  + url " alt="">
+                        <image :src="'../../static/image'  + url " alt="" mode='aspectFit'>
                     </swiper-item>
                 </swiper>
                 <!-- desc -->

@@ -2,7 +2,7 @@
     <div id="body">
         <swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="500">
             <swiper-item v-for="(url, index) in goods.imageList" :key="index">
-                <image :src="'../../../../image'  + url " alt="">
+                <image :src="'../../static/image'  + url " alt="" mode='aspectFit'>
             </swiper-item>
         </swiper>
         <div id="goodsInfo">
@@ -100,6 +100,13 @@ export default {
 <style lang="scss" scoped>
 #body {
     padding: 0rpx 20rpx;
+
+    swiper {
+        image {
+            width: 100%;
+            height: 100%;
+        }
+    }
 
     #goodsInfo {
         margin-top: 10rpx;
