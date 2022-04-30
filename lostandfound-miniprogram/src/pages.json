@@ -44,6 +44,12 @@
 				"navigationBarTitleText": "我的发布-失物招领",
 				"enablePullDownRefresh": true
 			}
+		},
+		{
+			"path": "pages/myinfo/UpdateMyUpload",
+			"style": {
+				"navigationBarTitleText": "修改发布"
+			}
 		}
 	],
 	"globalStyle": {

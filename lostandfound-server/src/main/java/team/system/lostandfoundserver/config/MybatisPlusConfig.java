@@ -1,4 +1,4 @@
-package team.system.lostandfoundserver.common;
+package team.system.lostandfoundserver.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
