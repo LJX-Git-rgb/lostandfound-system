@@ -53,7 +53,7 @@ public class LostGoodsController {
                 byte[] bytes = file.getBytes();
                 String[] split = file.getOriginalFilename().split("\\.");
                 String fileName = UUID.randomUUID() + "." + split[split.length - 1];
-                String uploadPath = "./image/lostgoods/" + fileName;
+                String uploadPath = "./lostandfound-miniprogram/src/static/image/lostgoods/" + fileName;
                 stream = new BufferedOutputStream(new FileOutputStream(new File(uploadPath)));
                 stream.write(bytes);
                 stream.close();

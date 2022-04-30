@@ -14,7 +14,7 @@
             <div id="carousel-wrap">
                 <el-carousel>
                     <el-carousel-item v-for="item in goods.imageList" :key="item">
-                        <img :src="require('../../../../image' + item)" alt="">
+                        <img :src="require('../../../../lostandfound-miniprogram/src/static/image' + item)" alt="">
                     </el-carousel-item>
                 </el-carousel>
             </div>

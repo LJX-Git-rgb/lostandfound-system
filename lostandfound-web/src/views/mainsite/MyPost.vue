@@ -6,7 +6,7 @@
             <el-timeline-item v-for="item in tableData" :key="item.id" :timestamp="new Date(item.createTime).format('yyyy-MM-dd hh:mm:ss')" placement="top">
                 <a href="#">
                     <el-card>
-                        <img :src="require('../../../../image' + item.imageList[0])" alt="" id="cardImg">
+                        <img :src="require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" alt="" id="cardImg">
                         <div id="content">
                             <span>{{item.title}}</span>
                             <h3>{{item.description}}</h3>

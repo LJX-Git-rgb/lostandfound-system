@@ -4,7 +4,7 @@
             <el-col v-for="(item, index) in list" :key="item.id" :offset="index > 0 ? 1 : 0">
                 <a @click="$router.push({path: 'goodsInfo', query:{state:findOrLost, id:item.id}})">
                 <el-card :body-style="{ padding: '10px'}">
-                    <img :src="require('../../../../image' + item.imageList[0])" class="image">
+                    <img :src="require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" class="image">
                     <div id="card-text">
                         {{ item.title }}
                     </div>
