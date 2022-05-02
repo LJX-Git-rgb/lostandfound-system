@@ -76,8 +76,8 @@ public class FindGoodsController {
     return getUrlList(service.findByUser(uid));
   }
   @RequestMapping("/search")
-  public List<FindGoods> searchByText(String text){
-    return getUrlList(service.searchText(text));
+  public List<FindGoods> searchByText(String searchInput){
+    return getUrlList(service.searchText(searchInput));
   }
   @RequestMapping("/findById")
   public FindGoods findById(Integer id){

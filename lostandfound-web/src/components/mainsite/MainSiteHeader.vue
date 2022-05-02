@@ -15,6 +15,10 @@
             <div id="header-search">
                 <div id="search-bar">
                     <el-input placeholder="请输入查找关键字：物品名，姓名或证件号后四位" v-model="searchInput" class="input-with-select">
+                      <el-select v-model="type" slot="prepend" placeholder="请选择" style="width: 110px">
+                        <el-option label="失物招领" value="lost"></el-option>
+                        <el-option label="寻物启事" value="find"></el-option>
+                      </el-select>
                         <el-button slot="append" icon="el-icon-search"  @click="searchByText"></el-button>
                     </el-input>
                 </div>
@@ -102,6 +106,7 @@ export default {
             states: [],
             list: [],           //所有市级地址
             options: [],        //查询地址框匹配的地址
+            type:''
         }
     },
     methods: {
@@ -157,18 +162,23 @@ export default {
         },
 
         searchByText(){
-        //     var url= '/finds/search'
-        //     this.$axios({
-        //         method:'get',
-        //         url:url,
-        //         params:{
-        //             searchInput: this.searchInput
-        //         }
-        //     }).then(res => {
-        //
-        //     }).catch(err => {
-        //
-        //     })
+          let url;
+          if (this.type == "find") {
+            url = '/api/finds/search'
+          }else{
+            url = 'api/losts/search'
+          }
+            this.$axios({
+                method:'get',
+                url:url,
+                params:{
+                    searchInput: this.searchInput,
+                }
+            }).then(res => {
+              console.log(res);
+            }).catch(err => {
+              console.log(res);
+            })
         },
 
         toPost(){
@@ -287,6 +297,11 @@ export default {
         }
 
         /* search */
+
+
+      .input-with-select .el-input-group__prepend {
+        background-color: #fff;
+      }
 
         #header-search {
             flex: 1 auto;

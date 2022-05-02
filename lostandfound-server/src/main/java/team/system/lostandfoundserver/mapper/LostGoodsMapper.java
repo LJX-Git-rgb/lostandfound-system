@@ -31,7 +31,7 @@ public interface LostGoodsMapper {
     List<LostGoods> findByUser(Integer uid);
 
     @Select("select * from lost_goods where " +
-            "title like #{text} or description like #{text} or tag like #{text} or lost_area like #{text}")
+            "title like CONCAT('%',#{text},'%') or description like CONCAT('%',#{text},'%') or tag like CONCAT('%',#{text},'%') or lost_area like CONCAT('%',#{text},'%')")
     List<LostGoods> searchByText(String text);
 
     @Select("select * from lost_goods where id = #{id}")
