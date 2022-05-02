@@ -67,7 +67,10 @@ export default {
               url: this.$baseUrl + 'generalgoods/changestate?flag=' + this.option.state + '&id=' + this.goods.id,
               method: 'GET',
               success: (res) => {
-                  console.log(res);
+                  uni.showToast({title: '不以善小而不为,谢谢你做了好事'});
+                  setTimeout(() => {
+                      uni.navigateTo({url:'/pages/goods/List?state=' + this.option.state})
+                  },1000)
               }
           })
         },

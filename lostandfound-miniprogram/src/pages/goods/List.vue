@@ -30,10 +30,6 @@
                     <uni-icons type="staff" size="18" color="#999"></uni-icons>
                     <text class="card-actions-item-text">分享</text>
                 </view>
-                <view class="card-actions-item" @click="actionsClick('点赞')">
-                    <uni-icons type="heart" size="18" color="#999"></uni-icons>
-                    <text class="card-actions-item-text">点赞</text>
-                </view>
                 <view class="card-actions-item" @click="actionsClick('评论')">
                     <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
                     <text class="card-actions-item-text">评论</text>
