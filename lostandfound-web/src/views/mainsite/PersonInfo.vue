@@ -12,7 +12,8 @@
         >
 
             <template slot="extra">
-                <el-button type="primary" size="small">完善信息</el-button>
+                <el-button v-if="user.userRole == 1" type="success" size="small" @click="approve">认证</el-button>
+                <el-button type="primary" size="small" @click="completed">完善信息</el-button>
             </template>
 
             <el-descriptions-item>
@@ -154,19 +155,192 @@
 
         <hr>
 
+      <!--完善信息弹窗-->
+      <el-dialog :visible.sync="CompleteDialogVisible" title="提示" width="30%">
+        <el-form :model="CompleteForm" label-width="120px">
+          <el-form-item label="用户名">
+            <el-input v-model="CompleteForm.nickName" style="width: 80%" />
+          </el-form-item>
+          <el-form-item label="性别">
+            <el-radio v-model="CompleteForm.gender" label="男">男</el-radio>
+            <el-radio v-model="CompleteForm.gender" label="女">女</el-radio>
+          </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="CompleteForm.email" style="width: 80%"/>
+          </el-form-item>
+          <el-form-item label="头像">
+            <el-upload
+                class="upload-demo"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :on-change="handleChange"
+                :file-list="fileList">
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="CompleteDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="CompletedUserInfo">确定</el-button>
+      </span>
+        </template>
+      </el-dialog>
+
+      <!--认证信息弹窗-->
+      <el-dialog :visible.sync="ApproveDialogVisible" title="提示" width="30%">
+        <el-form
+            label-width="120px"
+            :rules="rules"
+            ref="add"
+            class="formDetails formDetailsNew">
+          <el-form-item label="姓名">
+            <el-input v-model="ApproveForm.name" style="width: 80%" />
+          </el-form-item>
+          <el-form-item label="身份证号" prop="inname">
+            <el-input v-model="ApproveForm.idNumber" placeholder="请输入身份证号" maxlength="50" style="width: 80%"/>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="ApproveDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="approveRole">确定</el-button>
+      </span>
+        </template>
+      </el-dialog>
+
     </div>
 </template>
 
 <script>
+import request from "@/components/utils/request";
+
 export default {
     data(){
         return{
-            user:this.$store.state.user,
+          user:this.$store.state.user,
+          ApproveForm:{
+            name:"",
+            idNumber: "",
+          },
+          CompleteForm:{},
+          CompleteDialogVisible:false,
+          ApproveDialogVisible:false,
+          fileList:[],
+          rules: {
+            //身份证
+            idNumber: [
+              { required: true, message: "请输入身份证号", trigger: "blur" },
+              { validator: this.idcard, trigger: "blur" },
+            ]
+          }
         }
     },
     mounted() {
 
-    }
+    },
+
+  methods:{
+    approve(){
+      this.ApproveDialogVisible=true
+      this.ApproveForm={}
+    },
+
+    completed(){
+      this.CompleteDialogVisible=true
+      this.CompleteForm={}
+    },
+
+    approveRole(){
+      this.ApproveForm.uid = this.user.id;
+        request.post("/api/approve",this.ApproveForm).then(res => {
+          if(res.code === '200'){
+            this.$message({
+              type:"success",
+              message:"认证成功"
+            })
+
+          }else {
+            this.$message({
+              type:"error",
+              message:res.msg
+            })
+          }
+          this.ApproveDialogVisible=false   //关闭弹窗
+        })
+
+    },
+
+    CompletedUserInfo(){
+
+    },
+
+    handleChange(file, fileList) {
+      this.fileList = fileList.slice(-3);
+    },
+
+    //身份证校验
+    idcard(rule, value, callback) {
+      if (!value) {
+        if (rule.field == "idNumber") {
+          return callback(new Error("身份证号码不能为空"));
+        } else {
+          return;
+        }
+      }
+      //setTimeout(() => {
+      let regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+      //如果通过该验证，说明身份证格式正确，但准确性还需计算
+      if (regIdCard.test(value)) {
+        if (value.length == 18) {
+          var idCardWi = new Array(
+              7,
+              9,
+              10,
+              5,
+              8,
+              4,
+              2,
+              1,
+              6,
+              3,
+              7,
+              9,
+              10,
+              5,
+              8,
+              4,
+              2
+          ); //将前17位加权因子保存在数组里
+          var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+          var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
+          for (var i = 0; i < 17; i++) {
+            idCardWiSum += value.substring(i, i + 1) * idCardWi[i];
+          }
+          var idCardMod = idCardWiSum % 11; //计算出校验码所在数组的位置
+          var idCardLast = value.substring(17); //得到最后一位身份证号码
+          //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+          if (idCardMod == 2) {
+            if (idCardLast == "X" || idCardLast == "x") {
+              callback();
+            } else {
+              callback(new Error("身份证号码错误"));
+            }
+          } else {
+            //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+            if (idCardLast == idCardY[idCardMod]) {
+              callback();
+            } else {
+              callback(new Error("身份证号码错误"));
+            }
+          }
+        }
+      } else {
+        callback(new Error("身份证格式不正确"));
+      }
+      //}, 1000);
+    },
+  }
 };
 </script>
 
