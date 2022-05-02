@@ -9,7 +9,7 @@
             @blur="blur"
             @clear="clear">
         </uni-search-bar>
-        <uni-card :title="item.title" :sub-title="'发布时间' + item.createTime" class="card" v-for="item in goodsList"
+        <uni-card :title="item.title" :sub-title="'发布时间' + new Date(item.createTime).format('yyyy-MM-dd hh:mm:ss').toString()" class="card" v-for="item in goodsList"
                   :key="item.id">
             <!-- 轮播图 -->
             <view @click="toGoodsInfo(item.id)">

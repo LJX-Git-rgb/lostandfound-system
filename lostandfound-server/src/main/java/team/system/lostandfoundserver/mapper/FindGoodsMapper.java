@@ -15,20 +15,20 @@ public interface FindGoodsMapper {
     @Insert("insert into found_goods (image,description,title,state,tag,create_time,found_area,found_time,uid) values(#{image},#{description},#{title},#{state},#{tag},#{createTime},#{foundArea},#{foundTime},#{uid}) ")
     boolean addFoundGoods(FindGoods goods);
 
-    @Select("select * from found_goods limit #{begin},#{end}")
+    @Select("select * from found_goods where state=0 order by create_Time desc  limit #{begin},#{end}")
     List<FindGoods> findByLimit(Integer begin, Integer end);
 
-    @Select("select * from found_goods where create_time between #{beginTime} and #{endTime}")
+    @Select("select * from found_goods where state=0 and create_time between #{beginTime} and #{endTime}")
     List<FindGoods> limitTime(Date beginTime, Date endTime);
-    @Select("select * from found_goods where tag=#{tag}")
+    @Select("select * from found_goods where state=0 and tag=#{tag}")
     List<FindGoods> limitType(String tag);
-    @Select("select * from found_goods where (create_time between #{beginTime} and #{endTime}) and tag=#{tag}")
+    @Select("select * from found_goods where state=0 and (create_time between #{beginTime} and #{endTime}) and tag=#{tag}")
     List<FindGoods> limitTimeAndType(Date beginTime, Date endTime, String tag);
 
     @Select("select * from found_goods where uid = #{uid}")
     List<FindGoods> findByUser(Integer uid);
 
-    @Select("select * from found_goods where " +
+    @Select("select * from found_goods where state=0 and  " +
             "title like #{text} or description like #{text} or tag like #{text} or found_area like #{text}")
     List<FindGoods> searchByText(String text);
 

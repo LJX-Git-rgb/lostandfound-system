@@ -17,20 +17,20 @@ public interface LostGoodsMapper {
     @Insert("insert into lost_goods (image,description,title,state,tag,create_time,lost_area,lost_time,uid) values(#{image},#{description},#{title},#{state},#{tag},#{createTime},#{lostArea},#{lostTime},#{uid}) ")
     boolean addlostGoods(LostGoods goods);
 
-    @Select("select * from lost_goods limit #{begin},#{end}")
+    @Select("select * from lost_goods where state=0 order by create_Time desc  limit #{begin},#{end}")
     List<LostGoods> findByLimit(Integer begin, Integer end);
 
-    @Select("select * from lost_goods where create_time between #{beginTime} and #{endTime}")
+    @Select("select * from lost_goods where state=0 and create_time between #{beginTime} and #{endTime}")
     List<LostGoods> limitTime(Date beginTime, Date endTime);
-    @Select("select * from lost_goods where tag=#{tag}")
+    @Select("select * from lost_goods where state=0 and tag=#{tag}")
     List<LostGoods> limitType(String tag);
-    @Select("select * from lost_goods where (create_time between #{beginTime} and #{endTime}) and tag=#{tag}")
+    @Select("select * from lost_goods where state=0 and (create_time between #{beginTime} and #{endTime}) and tag=#{tag}")
     List<LostGoods> limitTimeAndType(Date beginTime, Date endTime, String tag);
 
     @Select("select * from lost_goods where uid = #{uid}")
     List<LostGoods> findByUser(Integer uid);
 
-    @Select("select * from lost_goods where " +
+    @Select("select * from lost_goods where state=0 and " +
             "title like CONCAT('%',#{text},'%') or description like CONCAT('%',#{text},'%') or tag like CONCAT('%',#{text},'%') or lost_area like CONCAT('%',#{text},'%')")
     List<LostGoods> searchByText(String text);
 

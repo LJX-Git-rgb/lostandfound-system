@@ -5,8 +5,8 @@
 				<uni-list-item title="昵称" :rightText="user.nickName" />
 				<uni-list-item title="性别" :rightText="user.gender" />
 				<uni-list-item title="注册邮箱" :rightText="user.email" />
-				<uni-list-item title="创建时间" :rightText="user.createTime" />
-				<uni-list-item title="更新时间" :rightText="user.updateTime" />
+				<uni-list-item title="创建时间" :rightText="new Date(user.createTime).format('yyyy-MM-dd hh:mm:ss').toString()" />
+				<uni-list-item title="更新时间" :rightText="new Date(user.updateTime).format('yyyy-MM-dd hh:mm:ss').toString()" />
 			</uni-list>
             <button>认证</button>
             <button>完善信息</button>

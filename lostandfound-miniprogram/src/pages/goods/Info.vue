@@ -10,12 +10,12 @@
                 <uni-list>
                     <uni-list-item title="标题" :rightText='goods.title'/>
                     <uni-list-item title="描述" :rightText='goods.description'/>
-                    <uni-list-item title="创建时间" :rightText='goods.createTime'/>
+                    <uni-list-item title="创建时间" :rightText='new Date(goods.createTime).format("yyyy-MM-dd hh:mm:ss").toString()'/>
                     <uni-list-item title="标签" :rightText='goods.tag'/>
                     <uni-list-item :title="option.state == 'true' ? '捡到地点' : '丢失地点'"
                                    :rightText='option.state == "true" ? goods.foundArea : goods.lostArea'/>
                     <uni-list-item :title="option.state == 'true' ? '捡到时间' : '丢失时间'"
-                                   :rightText='option.state == "true" ? goods.foundTime : goods.lostTime'/>
+                                   :rightText='option.state == "true" ? new Date(goods.foundTime).format("yyyy-MM-dd hh:mm:ss").toString() : new Date(goods.lostTime).format("yyyy-MM-dd hh:mm:ss").toString()'/>
                 </uni-list>
             </uni-group>
         </div>
