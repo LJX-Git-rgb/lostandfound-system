@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import team.system.lostandfoundserver.domain.FindGoods;
 import java.util.Date;
 import java.util.List;
@@ -39,4 +40,7 @@ public interface FindGoodsMapper {
 
     @Delete("delete from found_goods where id = #{id}")
     Boolean deleteGoods(Integer id);
+
+    @Update("update found_goods set state=1 where id=#{id}")
+    Boolean changeState(Integer id);
 }

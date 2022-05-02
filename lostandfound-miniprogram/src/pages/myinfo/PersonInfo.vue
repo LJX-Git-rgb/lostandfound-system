@@ -8,6 +8,8 @@
 				<uni-list-item title="创建时间" :rightText="user.createTime" />
 				<uni-list-item title="更新时间" :rightText="user.updateTime" />
 			</uni-list>
+            <button>认证</button>
+            <button>完善信息</button>
         </uni-group>
         <uni-group title="联系方式(可被看到)" margin-top="20">
             <uni-list>

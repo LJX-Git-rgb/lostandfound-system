@@ -53,6 +53,7 @@ export default {
         return {
             //goods 集合
             goodsList: [],
+            bacGoods:[],
 
             //查询限制
             begin: 0,
@@ -90,6 +91,9 @@ export default {
         // 搜索事件
         //查询
         search() {
+            if (this.bacGoods.length == 0) {
+                this.bacGoods = this.goodsList;
+            }
             this.goodsList = this.goodsList.filter(item => {
                 if (this.flag == "true") {
                     return item.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1
@@ -99,44 +103,38 @@ export default {
                         || item.tag.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1 || item.lostArea.toLowerCase().indexOf(this.searchValue.toLowerCase()) > -1;
                 }
             })
+            this.status = 'no-more';
         },
         //清空
         clear() {
-            this.onPullDownRefresh();
+            this.goodsList = this.bacGoods;
+            this.status = 'more';
         },
         //离开
         blur() {
             if (this.searchValue == undefined || this.searchValue.length == 0){
-                this.onPullDownRefresh();
+                this.clear()
             }
         },
 
         //
         load() {
+            var url;
             if (this.flag == "true") {
-                var url = this.$baseUrl + "finds/findLimit?begin=" + this.begin + "&end=" + this.end
-                uni.request({
-                    url: url,
-                    method: 'GET',
-                    success: (res) => {
-                        if (res.statusCode == 200) {
-                            this.goodsList = this.goodsList.concat(res.data);
-                        }
-                        console.log(this.goodsList)
-                    },
-                })
+                url = this.$baseUrl + "finds/findLimit?begin=" + this.begin + "&end=" + this.end
             } else {
-                var url = this.$baseUrl + "losts/lostLimit?begin=" + this.begin + "&end=" + this.end
-                uni.request({
-                    url: url,
-                    method: 'GET',
-                    success: (res) => {
-                        if (res.statusCode == 200) {
-                            this.goodsList = this.goodsList.concat(res.data);
-                        }
-                    },
-                })
+                url = this.$baseUrl + "losts/lostLimit?begin=" + this.begin + "&end=" + this.end
             }
+            uni.request({
+                url: url,
+                method: 'GET',
+                success: (res) => {
+                    if (res.statusCode == 200) {
+                        this.goodsList = this.goodsList.concat(res.data);
+                        this.bacGoods = this.goodsList;
+                    }
+                },
+            })
         },
         countGoods(){
             uni.request({
@@ -157,6 +155,9 @@ export default {
         this.load()
     },
     onReachBottom(){
+        if (this.status == 'no-more'){
+            return;
+        }
         if (this.begin + this.end < this.total) {
             this.status = "loading"
             setTimeout(() => {

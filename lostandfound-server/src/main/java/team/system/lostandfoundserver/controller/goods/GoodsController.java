@@ -1,11 +1,13 @@
 package team.system.lostandfoundserver.controller.goods;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.system.lostandfoundserver.domain.FindGoods;
 import team.system.lostandfoundserver.domain.LostGoods;
+import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.service.FindGoodsService;
 import team.system.lostandfoundserver.service.LostGoodsService;
 import java.util.List;
@@ -21,8 +23,14 @@ public class GoodsController {
     LostGoodsService lostGoodsService;
 
     @RequestMapping("changestate")
-    public boolean changeState(){
-        return true;
+    @ResponseBody
+    public Result changeState(Boolean flag, Integer id){
+        if (flag){
+            findGoodsService.changeState(id);
+        }else {
+            lostGoodsService.changeState(id);
+        }
+        return Result.success(null);
     }
 
     @RequestMapping("countGoods")

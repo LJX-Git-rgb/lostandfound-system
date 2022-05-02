@@ -78,4 +78,9 @@ public class FindGoodsService implements FindGoodsServiceImpl {
     public Boolean deleteGoods(Integer id) {
         return mapper.deleteGoods(id);
     }
+
+    @Override
+    public Boolean changeState(Integer id) {
+        return mapper.changeState(id);
+    }
 }

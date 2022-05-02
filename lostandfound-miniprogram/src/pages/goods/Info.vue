@@ -21,7 +21,8 @@
         </div>
 
         <button v-if="own" @click="updateGoodsInfo">修改发布内容(no image)</button>
-
+        <button v-if="own" @click="changeState">失主/东西已经找到
+        </button>
         <template v-if="!own">
             <button id="submit" @click="submit">{{ option.state == "true" ? "这是我的" : "我捡到它了" }}</button>
 
@@ -61,6 +62,15 @@ export default {
         }
     },
     methods: {
+        changeState(){
+          uni.request({
+              url: this.$baseUrl + 'generalgoods/changestate?flag=' + this.option.state + '&id=' + this.goods.id,
+              method: 'GET',
+              success: (res) => {
+                  console.log(res);
+              }
+          })
+        },
         updateGoodsInfo(){
             uni.navigateTo({url:'../myinfo/UpdateMyUpload?goods=' + encodeURIComponent(JSON.stringify(this.goods)) + "&state=" + this.option.state})
         },

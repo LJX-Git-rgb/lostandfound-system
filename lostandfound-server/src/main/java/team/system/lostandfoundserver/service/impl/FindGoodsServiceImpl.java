@@ -22,4 +22,6 @@ public interface FindGoodsServiceImpl {
     Integer countGoods();
 
     Boolean deleteGoods(Integer id);
+
+    Boolean changeState(Integer idw);
 }
