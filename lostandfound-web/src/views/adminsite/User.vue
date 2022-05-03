@@ -37,7 +37,6 @@
                 <template slot-scope="scope">
                     <div style="display: flex">
                         <el-button @click="updateUser(scope.row)" size="small" type="primary">认证</el-button>
-                        <el-button @click="updateUser(scope.row)" size="small" type="success">登录</el-button>
                         <el-button @click.native.prevent="deleteUser(scope.row)" type="warning" size="small">禁言</el-button>
                     </div>
                 </template>

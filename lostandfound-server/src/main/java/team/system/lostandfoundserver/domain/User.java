@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ public class User {
     private String gender;
     private Integer userRole;
     private String face;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
     private Date updateTime;
     private String openId;
