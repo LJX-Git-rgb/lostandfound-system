@@ -133,7 +133,7 @@
 
       <!--完善信息弹窗-->
       <el-dialog :visible.sync="CompleteDialogVisible" title="提示" width="30%">
-        <el-form :model="CompleteForm" label-width="120px">
+        <el-form label-width="120px">
           <el-form-item label="用户名">
             <el-input v-model="CompleteForm.nickName" style="width: 80%" />
           </el-form-item>
@@ -147,9 +147,12 @@
           <el-form-item label="头像">
             <el-upload
                 class="upload-demo"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action
                 :on-change="handleChange"
-                :file-list="fileList">
+                :on-remove="handleRemove"
+                :auto-upload="false"
+                :file-list="fileList"
+                limit="1">
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
@@ -234,33 +237,61 @@ export default {
       this.CompleteForm={}
     },
 
-    approveRole(){
+    approveRole() {
       this.ApproveForm.uid = this.user.id;
-        request.post("/api/approve",this.ApproveForm).then(res => {
-          if(res.code === '200'){
-            request.post("/api/user/changeRole",this.$store.state.user.email,2).then(res => {
-              if (res.code === '200') {
-                this.$message({
-                  type: "success",
-                  message: "认证成功"
-                })
-              }
-            })
-        }else {
-        this.$message({
-          type:"error",
-          message:res.msg
-        })
-      }
-          this.ApproveDialogVisible=false   //关闭弹窗
+      request.post("/api/approve", this.ApproveForm).then(res => {
+        if (res.code === '200') {
+          request.post("/api/user/changeRole", this.$store.state.user.email, 2).then(res => {
+            if (res.code === '200') {
+              this.$message({
+                type: "success",
+                message: "认证成功"
+              })
+            }
+          })
+        } else {
+          this.$message({
+            type: "error",
+            message: res.msg
+          })
+        }
+        this.ApproveDialogVisible = false   //关闭弹窗
+      })
     },
 
     CompletedUserInfo(){
-
+      //上传头像，成功后上传其他信息
+      if (this.fileList.length == 0) {
+        var user = this.user;
+        user.nickName = this.CompleteForm.nickName;
+        user.email = this.CompleteForm.email;
+        request.post('/api/user/updateUser', user).then(res => {
+          this.CompleteDialogVisible = false;
+        })
+      }else{
+        var formData = new FormData()
+        formData.append("file",this.fileList[0].raw)
+        this.$axios.post('/api/user/addImg', formData)
+            //判断上传是否成功，成功返回一个img的地址然后请求后台添加其他数据
+            .then(res=>{
+              if (res.status == "200") {
+                var user = this.user;
+                user.imgList = res.data.data;
+                user.nickName = this.CompleteForm.nickName;
+                user.email = this.CompleteForm.email;
+                request.post('/api/user/updateUser', user).then(res => {
+                  this.CompleteDialogVisible = false;
+                })
+              }
+            })
+      }
     },
 
+    handleRemove(file, fileList) {
+      this.fileList = fileList
+    },
     handleChange(file, fileList) {
-      this.fileList = fileList.slice(-3);
+      this.fileList = fileList
     },
 
     //身份证校验

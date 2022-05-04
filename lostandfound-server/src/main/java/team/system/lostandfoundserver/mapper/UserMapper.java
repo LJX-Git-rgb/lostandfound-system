@@ -32,7 +32,7 @@ public interface UserMapper {
     @Select("select * from user_base limit #{currentIndex},#{endIndex}")
     List<User> findByPage(Integer currentIndex,Integer endIndex);
 
-    @Update("update user_base set email = #{email},password = #{password},gender=#{gender},user_role = #{userRole},face = #{face},update_time = #{updateTime} where id = #{id}")
+    @Update("update user_base set nick_name=#{nickName}, email = #{email},password = #{password},gender=#{gender},user_role = #{userRole},face = #{face},update_time = #{updateTime} where id = #{id}")
     Boolean update(User user);
 
     @Delete("delete from user_base where id = #{id}")
