@@ -45,4 +45,7 @@ public interface LostGoodsMapper {
 
     @Update("update lost_goods set state=1 where id=#{id}")
     Boolean changeState(Integer id);
+
+    @Delete("delete from found_goods where uid = #{uid}")
+    Boolean deleteGoodsByUser(Integer uid);
 }

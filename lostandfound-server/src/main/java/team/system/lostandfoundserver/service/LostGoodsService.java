@@ -83,4 +83,9 @@ public class LostGoodsService implements LostGoodsServiceImpl {
     @Override public Boolean changeState(Integer id) {
         return mapper.changeState(id);
     }
+
+    @Override
+    public Boolean deleteGoodsByUser(Integer uid) {
+        return mapper.deleteGoodsByUser(uid);
+    }
 }

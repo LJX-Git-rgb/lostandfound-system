@@ -25,4 +25,6 @@ public interface LostGoodsServiceImpl {
     Boolean deleteGoods(Integer id);
 
     Boolean changeState(Integer id);
+
+    Boolean deleteGoodsByUser(Integer uid);
 }

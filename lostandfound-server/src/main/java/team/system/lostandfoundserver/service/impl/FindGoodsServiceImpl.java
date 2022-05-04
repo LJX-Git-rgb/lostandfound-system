@@ -24,4 +24,6 @@ public interface FindGoodsServiceImpl {
     Boolean deleteGoods(Integer id);
 
     Boolean changeState(Integer idw);
+
+    Boolean deleteGoodsByUser(Integer uid);
 }
