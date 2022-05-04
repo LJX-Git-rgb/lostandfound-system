@@ -52,4 +52,7 @@ public interface UserMapper {
 
     @Select("select * from user_contact_information where uid = #{uid}")
     UserContactInfo searchUserContactInfoByUid(Integer uid);
+
+    @Update("update user_contact_information set appellation=#{appellation},email=#{email},qq=#{qq},wechat=#{wechat},address=#{address},other=#{other},phone=#{phone} where id=#{id}")
+    Boolean updateUserContactInfo(UserContactInfo userContactInfo);
 }

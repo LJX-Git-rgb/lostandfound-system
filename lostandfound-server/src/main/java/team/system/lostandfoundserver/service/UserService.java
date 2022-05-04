@@ -110,6 +110,11 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
+    public Boolean updateUserContactInfo(UserContactInfo userContactInfo) {
+        return userMapper.updateUserContactInfo(userContactInfo);
+    }
+
+    @Override
     public User login(String userName) {
         return userMapper.findUserByEmail(userName);
     }

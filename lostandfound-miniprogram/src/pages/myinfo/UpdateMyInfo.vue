@@ -66,8 +66,20 @@ export default {
     data(){
         return{
             faceImage:{},
-            newUser:{},
-            userContactInfo:{},
+            newUser:{
+                nickName:"",
+                email:"",
+                face:"",
+            },
+            userContactInfo:{
+                appellation:'',
+                phone:'',
+                qq:'',
+                email:'',
+                wechat:'',
+                address:'',
+                other:'',
+            },
         }
     },
     mounted(){
@@ -81,25 +93,17 @@ export default {
     },
     methods:{
         updateUser(){
-            //上传图片 由于异步的原因，可能没有上传完图片就开始上传其他数据，所以使用了settimeOut来进行同步操作，性能损失极大
-            if(this.imageList.length > 0){
-                var url=""
-                if(this.current == 0){
-                    url="finds/addImg"
-                }else{
-                    url="losts/addImg"
-                }
-                for(let i = 0; i < this.imageList.length; i++){
+            // 上传图片 由于异步的原因，可能没有上传完图片就开始上传其他数据，所以使用了settimeOut来进行同步操作，性能损失极大
+            if(!JSON.stringify(this.faceImage) == "{}"){
                     uni.uploadFile({
-                        url: this.$baseUrl + url,
-                        filePath:this.imageList[i].url,
+                        url: this.$baseUrl + "user/addImg",
+                        filePath:this.faceImage.url,
                         name:"file",
                         formData: {},
                         success: (res) => {
-                            this.uploadForm.imageUrlString+=JSON.parse(res.data).data[0]+'&'
+                            this.newUser.face+=JSON.parse(res.data).data[0];
                         }
                     });
-                }
                 setTimeout(() => {
                     this.uploadOther();
                 }, 5000);
@@ -109,43 +113,38 @@ export default {
         },
         uploadOther(){
             //上传其他数据
-            var url="";
-            let tag = "";
-            if(this.uploadForm.type != undefined){
-                for (let i = 0; i < this.uploadForm.type.length; i++) {
-                    tag += this.uploadForm.type[i] + '&';
-                }
-            }
-            if(this.current == 0){
-                url="finds/add"
-            }else{
-                url="losts/add"
-            }
             uni.request({
-                url: this.$baseUrl + url,
+                url: this.$baseUrl + "user/update",
                 method: 'POST',
                 data: {
-                    uid: this.$store.state.user.id,
-                    title: this.uploadForm.title,
-                    description: this.uploadForm.description,
-                    foundArea: this.uploadForm.area + '&' + this.$store.state.user.location,
-                    foundTime: this.uploadForm.time,
-                    tag: tag,
-                    image: this.uploadForm.imageUrlString,
+                    id: this.user.id,
+                    nickName:this.newUser.nickName,
+                    email:this.newUser.email,
+                    face:this.newUser.face,
                 },
                 success: (res) => {
                     console.log(res.data);
-                    this.uploadForm.imageUrlString = "";
-                    if(this.current == 0){
-                        uni.navigateTo({url:'../goods/List?state=true'})
-                    }else{
-                        uni.navigateTo({url:'../goods/List?state=false'})
-                    }
                 }
             });
         },
         updateUserContactInfo(){
-
+            uni.request({
+                url: this.$baseUrl + 'user/updateUserContact',
+                method: 'POST',
+                data:{
+                    id:this.userContactInfo.id,
+                    appellation:this.userContactInfo.appellation,
+                    phone:this.userContactInfo.phone,
+                    qq:this.userContactInfo.qq,
+                    email:this.userContactInfo.email,
+                    wechat:this.userContactInfo.wechat,
+                    address:this.userContactInfo.address,
+                    other:this.userContactInfo.other,
+                },
+                success: res =>{
+                    console.log(res)
+                }
+            })
         },
         select(e){
             this.faceImage = e.tempFiles[0];

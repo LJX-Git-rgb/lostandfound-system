@@ -7,17 +7,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.domain.UserContactInfo;
 import team.system.lostandfoundserver.mapper.UserMapper;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @ClassName: UserController
@@ -58,6 +68,35 @@ public class UserController {
         Result regResult = Result.success(data);
         regResult.setMsg("恭喜您注册成功");
         return regResult;
+    }
+
+    @RequestMapping("/addImg")
+    public Result addFaceImg(HttpServletRequest request) throws IOException {
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file") ;
+        ArrayList<Object> pathList = new ArrayList<>();
+        BufferedOutputStream stream = null;
+        for (MultipartFile file: files) {
+            if (!file.isEmpty()) {
+                byte[] bytes = file.getBytes();
+                String[] split = file.getOriginalFilename().split("\\.");
+                String fileName = UUID.randomUUID() + "." + split[split.length - 1];
+                String uploadPath = "./lostandfound-miniprogram/src/static/image/face/" + fileName;
+                stream = new BufferedOutputStream(new FileOutputStream(new File(uploadPath)));
+                stream.write(bytes);
+                stream.close();
+
+                pathList.add("/face/" + fileName);
+            }
+        }
+        return Result.success(pathList);
+    }
+
+    @RequestMapping("/updateUser")
+    public Result updateUser(@RequestBody  User user){
+        if(mapper.update(user)){
+            return Result.success(null);
+        }
+        return Result.error("500","服务器错误");
     }
 
     /**
@@ -131,6 +170,15 @@ public class UserController {
         }else{
             return Result.error("500","服务器出错了");
         }
+    }
+
+    @RequestMapping("/updateUserContact")
+    public Result updateUserContact(@RequestBody UserContactInfo userContactInfo){
+        userService.updateUserContactInfo(userContactInfo);
+        if (userContactInfo != null){
+            Result.success(null);
+        }
+        return Result.error("500","服务器错误");
     }
 
     @RequestMapping("/getWechatOpenId")

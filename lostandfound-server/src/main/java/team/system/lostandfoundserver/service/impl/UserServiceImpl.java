@@ -30,4 +30,6 @@ public interface UserServiceImpl {
     User wechatLogin(User user);
 
     UserContactInfo searchUserContactInfoByUid(Integer uid);
+
+    Boolean updateUserContactInfo(UserContactInfo userContactInfo);
 }
