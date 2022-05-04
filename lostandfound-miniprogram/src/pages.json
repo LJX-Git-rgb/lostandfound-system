@@ -50,6 +50,12 @@
 			"style": {
 				"navigationBarTitleText": "修改发布"
 			}
+		},
+		{
+			"path": "pages/myinfo/UpdateMyInfo",
+			"style": {
+				"navigationBarTitleText": "修改我的信息"
+			}
 		}
 	],
 	"globalStyle": {

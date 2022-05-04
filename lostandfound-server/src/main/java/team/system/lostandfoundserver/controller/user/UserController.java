@@ -152,7 +152,11 @@ public class UserController {
     public Result changeRole(String email,Integer role){
         User userByEmail = mapper.findUserByEmail(email);
         userByEmail.setUserRole(role);
-        return Result.success(null);
+        if (mapper.update(userByEmail)) {
+            return Result.success(null);
+        }else{
+            return Result.error("500","认证失败,服务器错误");
+        }
     }
 }
 
