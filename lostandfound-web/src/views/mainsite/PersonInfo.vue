@@ -115,14 +115,6 @@
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-office-building"></i>
-                    微博
-                </template>
-                {{ userContactInfo.microblogging }}
-            </el-descriptions-item>
-
-            <el-descriptions-item>
-                <template slot="label">
-                    <i class="el-icon-office-building"></i>
                     联系地址
                 </template>
                 {{ userContactInfo.address }}
