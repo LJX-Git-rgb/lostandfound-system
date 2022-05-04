@@ -221,7 +221,7 @@ export default {
 
         button {
             position: relative;
-            left: 120rpx;
+            left: 170rpx;
             opacity: 0;
         }
 
