@@ -1,4 +1,4 @@
-package team.system.lostandfoundserver.controller.admin;
+package team.system.lostandfoundserver.controller.user;
 
 
 import org.springframework.web.bind.annotation.*;

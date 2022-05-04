@@ -1,6 +1,7 @@
 package team.system.lostandfoundserver.controller.user;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.api.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.domain.UserContactInfo;
+import team.system.lostandfoundserver.mapper.UserMapper;
 import team.system.lostandfoundserver.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
@@ -33,6 +35,9 @@ public class UserController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private UserMapper mapper;
 
     /**
      * @Author: Jason
@@ -141,6 +146,13 @@ public class UserController {
             return Result.success(objects);
         }
         return Result.error("500", "小程序登录失败");
+    }
+
+    @RequestMapping("/changeRole")
+    public Result changeRole(String email,Integer role){
+        User userByEmail = mapper.findUserByEmail(email);
+        userByEmail.setUserRole(role);
+        return Result.success(null);
     }
 }
 
