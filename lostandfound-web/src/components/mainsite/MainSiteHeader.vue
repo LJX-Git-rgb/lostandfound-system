@@ -74,7 +74,7 @@
                                     </span>
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item command="personInfo">个人中心</el-dropdown-item>
-                                        <el-dropdown-item command="setting">设置</el-dropdown-item>
+<!--                                        <el-dropdown-item command="setting">设置</el-dropdown-item>-->
                                         <el-dropdown-item command="quit">退出账号</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>

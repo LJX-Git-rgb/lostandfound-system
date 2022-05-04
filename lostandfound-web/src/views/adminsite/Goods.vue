@@ -1,7 +1,18 @@
-<!--后台失物招领管理页面-->
+<!--后台失物招领/寻物启事管理页面-->
 
 <template>
-    <div id="userInfo">
+    <div id="goodsInfo">
+      <div id="select" style="margin-bottom: 20px;width: 30%">
+        <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
+          <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
+            <el-option label="人名" value="1"></el-option>
+            <el-option label="人名" value="1"></el-option>
+            <el-option label="人名" value="1"></el-option>
+
+          </el-select>
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+      </div>
         <el-table
             :data="tableData"
             border
@@ -14,15 +25,20 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="ID" width="60" sortable=""></el-table-column>
             <el-table-column prop="title" label="标题" width="120"></el-table-column>
+            <el-table-column  width="150" label="首图">
+              <template #default="scope">
+                <img :src="require('../../../../lostandfound-miniprogram/src/static/image' + scope.row.image.split('&')[0])" style="width: 100px">
+              </template>
+            </el-table-column>
             <el-table-column prop="description" label="详情描述" width="180"></el-table-column>
             <el-table-column prop='state' label="状态" width="50"></el-table-column>
-            <el-table-column prop="createTime" label="发布日期" width="180"></el-table-column>
+
+          <el-table-column prop="createTime" label="发布日期" width="180"></el-table-column>
             <el-table-column :prop="isLostOrFind ? 'lostArea' : 'foundArea'" :label="isLostOrFind ? '捡到区域' : '丢失区域'" width="180"></el-table-column>
             <el-table-column :prop="isLostOrFind ? 'lostTime' : 'foundTime'" :label="isLostOrFind ? '捡到日期' : '丢失日期'" width="180"></el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
-                        <el-button @click="updateUser(scope.row)" type="primary" size="small">编辑</el-button>
                         <el-button @click="deleteGoods(scope.row)" type="danger" size="small">移除</el-button>
                     </div>
                 </template>
@@ -41,26 +57,7 @@
 </template>
 
 <script>
-Date.prototype.format = function (fmt) {
-    var o = {
-        "M+": this.getMonth() + 1,                 //月份
-        "d+": this.getDate(),                    //日
-        "h+": this.getHours(),                   //小时
-        "m+": this.getMinutes(),                 //分
-        "s+": this.getSeconds(),                 //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds()             //毫秒
-    };
-    if (/(y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    }
-    for (var k in o) {
-        if (new RegExp("(" + k + ")").test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-        }
-    }
-    return fmt;
-}
+
 
 export default {
     data() {
@@ -141,10 +138,6 @@ export default {
                 }
             }).then(res => {
                 this.findGoodsList = res.data;
-                for (let i = 0; i < this.findGoodsList.length; i++) {
-                    this.findGoodsList[i].createTime= new Date(this.findGoodsList[i].createTime).format("yyyy-MM-dd hh:mm:ss");
-                    this.findGoodsList[i].foundTime = new Date(this.findGoodsList[i].foundTime).format("yyyy-MM-dd hh:mm:ss");
-                }
             }).catch(err => {
                 this.$message.error("服务器错误")
             })
@@ -223,7 +216,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#userInfo {
+#goodsInfo {
     margin: 10px;
     flex: 1;
     #userButton {

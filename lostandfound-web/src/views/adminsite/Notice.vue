@@ -5,8 +5,6 @@
       <!--    新增-->
       <div style="margin: 10px 0">
         <el-button type="primary" @click="add">新增</el-button>
-        <el-button type="primary" @click="upLoad">导入</el-button>
-        <el-button type="primary" @click="downLoad">导出</el-button>
       </div>
       <!--    搜索-->
       <div style="margin: 10px 0">
@@ -169,9 +167,4 @@ export default {
         margin-bottom: 10px;
     }
 }
-
-//#select{
-//    width: 600px;
-//    margin-top: 15px;
-//}
 </style>

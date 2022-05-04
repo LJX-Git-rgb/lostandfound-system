@@ -27,6 +27,10 @@
         <el-menu-item index="myInfo" :disabled="this.adminLogin == false || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-cooperation"></i>管理员信息</template>
         </el-menu-item>
+
+        <el-menu-item index="feedback" :disabled="this.adminLogin == false || this.adminLogin == null">
+          <template slot="title"><i class="el-icon-s-cooperation"></i>举报管理</template>
+        </el-menu-item>
     </el-menu>
 </template>
 

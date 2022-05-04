@@ -9,6 +9,7 @@ import Goods from "@/views/adminsite/Goods";
 import Notice from "@/views/adminsite/Notice";
 import AdminRights from "@/views/adminsite/AdminRights";
 import MyInfo from "@/views/adminsite/MyInfo";
+import Feedback from "@/views/adminsite/Feedback";
 
 //login
 import Login from "@/views/login/Login";
@@ -137,6 +138,10 @@ const routes = [
             {
                 path: 'myInfo',
                 component: MyInfo
+            },
+            {
+                path: 'feedback',
+                component: Feedback
             },
         ]
     },

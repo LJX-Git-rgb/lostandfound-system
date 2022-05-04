@@ -5,50 +5,43 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
-import team.system.lostandfoundserver.domain.Notice;
+import team.system.lostandfoundserver.domain.Feedback;
 import team.system.lostandfoundserver.domain.Result;
-import team.system.lostandfoundserver.mapper.NoticeMapper;
-
+import team.system.lostandfoundserver.mapper.FeedbackMapper;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RestController
-@RequestMapping("/notice")
-public class NoticeController {
+@RequestMapping("/feedback")
+public class FeedbackController {
     @Resource
-    NoticeMapper noticeMapper;
+    FeedbackMapper feedbackMapper;
 
     @PostMapping
-//      新增
-    public Result save(@RequestBody Notice notice){
-        noticeMapper.insert(notice);
-        return Result.success(null);
-    }
 
     //    更新
     @PutMapping
-    public Result update(@RequestBody Notice notice){
-        noticeMapper.updateById(notice);
+    public Result update(@RequestBody Feedback feedback){
+        feedbackMapper.updateById(feedback);
         return Result.success(null);
     }
 
     //    删除
     @DeleteMapping("/{id}")
     public Result update(@PathVariable long id){
-        noticeMapper.deleteById(id);
+        feedbackMapper.deleteById(id);
         return Result.success(null);
     }
 
     //分页查询，用后台写好的MybatisPlusConfig分页插件
     @GetMapping
-    public Page<Notice> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Page<Feedback> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                                  @RequestParam(defaultValue = "10") Integer pageSize,
                                  @RequestParam(defaultValue = "") String search) {
-        LambdaQueryWrapper<Notice> Wrapper = Wrappers.<Notice>lambdaQuery();
+        LambdaQueryWrapper<Feedback> Wrapper = Wrappers.<Feedback>lambdaQuery();
         if (StrUtil.isNotBlank(search)) {
-            Wrapper.like(Notice::getId, search);
+            Wrapper.like(Feedback::getId, search);
         }
-        return noticeMapper.selectPage(new Page<>(pageNum,pageSize),Wrapper);
+        return feedbackMapper.selectPage(new Page<>(pageNum,pageSize),Wrapper);
     }
 }

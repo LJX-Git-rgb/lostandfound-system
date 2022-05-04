@@ -7,8 +7,11 @@
             <el-button @click="downLoad">导出</el-button>
             <div id="select">
                 <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
-                    <el-select v-model="select" slot="prepend" placeholder="请选择">
-                        <el-option label="人名" value="1"></el-option>
+                    <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
+                      <el-option label="人名" value="1"></el-option>
+                      <el-option label="人名" value="1"></el-option>
+                      <el-option label="人名" value="1"></el-option>
+
                     </el-select>
                     <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>

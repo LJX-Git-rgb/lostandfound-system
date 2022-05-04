@@ -238,20 +238,21 @@ export default {
       this.ApproveForm.uid = this.user.id;
         request.post("/api/approve",this.ApproveForm).then(res => {
           if(res.code === '200'){
-            this.$message({
-              type:"success",
-              message:"认证成功"
+            request.post("/api/user/changeRole",this.$store.state.user.email,2).then(res => {
+              if (res.code === '200') {
+                this.$message({
+                  type: "success",
+                  message: "认证成功"
+                })
+              }
             })
-
-          }else {
-            this.$message({
-              type:"error",
-              message:res.msg
-            })
-          }
-          this.ApproveDialogVisible=false   //关闭弹窗
+        }else {
+        this.$message({
+          type:"error",
+          message:res.msg
         })
-
+      }
+          this.ApproveDialogVisible=false   //关闭弹窗
     },
 
     CompletedUserInfo(){
