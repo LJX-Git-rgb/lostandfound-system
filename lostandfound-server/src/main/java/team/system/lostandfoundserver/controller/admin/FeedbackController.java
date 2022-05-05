@@ -20,7 +20,7 @@ public class FeedbackController {
     @PostMapping
 
     //    更新
-    @PutMapping
+    @RequestMapping("/update")
     public Result update(@RequestBody Feedback feedback){
         feedbackMapper.updateById(feedback);
         return Result.success(null);

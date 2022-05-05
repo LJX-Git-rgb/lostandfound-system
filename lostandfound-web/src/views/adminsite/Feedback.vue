@@ -15,9 +15,10 @@
       <el-table-column prop="content" label="内容" width="300"></el-table-column>
       <el-table-column prop="lid" label="寻物信息" width="150"></el-table-column>
       <el-table-column prop="fid" label="失物信息" width="150"></el-table-column>
+      <el-table-column prop="state" label="状态" width="150"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template #default="scope">
-          <el-button @click="handleEdit(scope.row)" type="primary" size="small">确认</el-button>
+          <el-button @click="tackle(scope.row)" type="primary" size="small">处理</el-button>
           <el-popconfirm title="确认删除吗?" @confirm="handleDelete(scope.row.id)">
             <template #reference>
               <el-button type="danger" size="small" style="margin-left: 10px">删除</el-button>
@@ -66,7 +67,7 @@ export default {
 
 //查询方法
     load() {
-      request.get("/api/adminUser", {
+      request.get("/api/feedback", {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -79,43 +80,34 @@ export default {
       })
     },
 
-    add() {
-      this.dialogVisible = true
-      this.form = {}
-    },
-
-    save() {
-      if (this.form.id) {  //更新
-        request.put("/api/adminUser", this.form).then(res => {
-          console.log(res)
-          this.$message({
-            type: "success",
-            message: "更新成功"
-          })
-          this.load()  //刷新表格的数据
-          this.dialogVisible = false   //关闭弹窗
+    tackle(row) {
+      row.state = 1
+      console.log(row)
+      var form = JSON.parse(JSON.stringify(row))  //避免先拷贝问题
+      this.$axios({
+        method: "post",
+        url: "/api/feedback/update",
+        data: {
+          id:row.id,
+          uid:row.uid,
+          content:row.content,
+          lid:row.lid,
+          fid:row.fid,
+          state:row.state,
+        }
+      }).then(res => {
+        console.log(res)
+        this.$message({
+          type: "success",
+          message: "处理成功"
         })
-      } else {  //新增，用post是因为后台接口用的@PostMapping,要保持一致
-        request.post("/api/adminUser", this.form).then(res => {
-          console.log(res)
-          this.$message({
-            type: "success",
-            message: "新增成功"
-          })
-          this.load()//刷新表格的数据
-          this.dialogVisible = false   //关闭弹窗
-        })
-      }
-    },
-
-    handleEdit(row) {
-      this.form = JSON.parse(JSON.stringify(row))  //避免先拷贝问题
-      this.dialogVisible = true
+        this.load()  //刷新表格的数据
+      })
     },
 
     handleDelete(id) {
       console.log(id)
-      request.delete("/api/adminUser/" + id).then(res => {
+      request.delete("/api/feedback/" + id).then(res => {
         if (res.code === '0') {
           this.$message({
             type: "success",

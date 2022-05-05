@@ -14,4 +14,5 @@ public class Feedback {
     private String content;
     private String lid;
     private String fid;
+    private Integer state;
 }
