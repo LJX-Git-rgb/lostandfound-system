@@ -20,17 +20,18 @@
             <template slot="title"><i class="el-icon-s-comment"></i>公告管理</template>
         </el-menu-item>
 
+        <el-menu-item index="feedback" :disabled="this.adminLogin == false || this.adminLogin == null">
+          <template slot="title"><i class="el-icon-s-cooperation"></i>举报管理</template>
+        </el-menu-item>
+
+        <el-menu-item index="myInfo" :disabled="this.adminLogin == false || this.adminLogin == null">
+          <template slot="title"><i class="el-icon-s-cooperation"></i>管理员信息</template>
+        </el-menu-item>
+
         <el-menu-item index="rightsManege" :disabled="this.adminLogin == false  || this.adminLogin == null">
             <template slot="title"><i class="el-icon-s-cooperation"></i>管理员权限管理</template>
         </el-menu-item>
 
-        <el-menu-item index="myInfo" :disabled="this.adminLogin == false || this.adminLogin == null">
-            <template slot="title"><i class="el-icon-s-cooperation"></i>管理员信息</template>
-        </el-menu-item>
-
-        <el-menu-item index="feedback" :disabled="this.adminLogin == false || this.adminLogin == null">
-          <template slot="title"><i class="el-icon-s-cooperation"></i>举报管理</template>
-        </el-menu-item>
     </el-menu>
 </template>
 
