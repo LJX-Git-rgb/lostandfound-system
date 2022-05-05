@@ -9,6 +9,8 @@ import team.system.lostandfoundserver.domain.LostGoods;
 import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.service.FindGoodsService;
 import team.system.lostandfoundserver.service.LostGoodsService;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -78,5 +80,13 @@ public class GoodsController {
         }else{
             return lostGoodsService.deleteGoods(id);
         }
+    }
+
+    @RequestMapping("/searchPersonCharcter")
+    public List searchPersonCharcter(Integer uid){
+//        List list = lostGoodsService.searchPersonCharcter(uid);
+//        list.addAll(findGoodsService.searchPersonCharcter(uid));
+//        return list;
+        return new ArrayList();
     }
 }

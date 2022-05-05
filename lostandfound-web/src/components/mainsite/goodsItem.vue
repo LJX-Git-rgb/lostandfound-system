@@ -57,7 +57,9 @@ export default {
 }
 
 .image {
-    width: 100%;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
     display: block;
 }
 

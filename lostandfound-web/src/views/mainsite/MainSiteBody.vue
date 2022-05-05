@@ -26,17 +26,17 @@
             </div>
             <ul id="filter-menu">
                 <li>
-                    <div v-for="item in foundGoods.slice(0,5)" :key="item.id">
+                    <div v-for="item in foundGoods.slice(0,4)" :key="item.id">
                         <a @click="$router.push({path:'/'})">
-                            <img :src= "require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" alt="" v-if="item.image != '' ">
+                            <img :src= "require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" :title="item.title" v-if="item.image != '' ">
                             <span>{{ item.title }}</span>
                         </a>
                     </div>
                 </li>
                 <li>
-                    <div v-for="item in lostGoods.slice(0,5)" :key="item.id">
+                    <div v-for="item in lostGoods.slice(0,4)" :key="item.id">
                         <a @click="$router.push({path:'/'})">
-                            <img :src= "require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" alt="">
+                            <img :src= "require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" :title="item.title">
                             <span>{{ item.title }}</span></a>
                     </div>
                 </li>
@@ -74,9 +74,10 @@ export default {
             begin:0,
             end:10,
 
-            //数据集--存储前10个数据
+            //数据集--存储前10个数据和算法匹配的数据
             foundGoods:[],
             lostGoods:[],
+            personalCharacteristicGoods: [],
 
             // 轮播图
             imgFolder: '',
@@ -125,6 +126,17 @@ export default {
             }
         }).catch(err => {
         });
+
+        this.$axios({
+            url:'/api/general/searchPersonCharcter',
+            method:'GET',
+            params:{
+                id:this.$store.state.user.id
+            }
+        }).then(res=>{
+            console.log(res)
+            this.personalCharacteristicGoods = res.data[0];
+        })
     }
 }
 </script>
@@ -191,6 +203,8 @@ export default {
                             height: 80%;
                         }
                         span{
+                            width: 200px;
+                            display: inline-block;
                             overflow:hidden;//超出一行文字自动隐藏
                             text-overflow:ellipsis;//文字隐藏后添加省略号
                             white-space:nowrap;//强制不换行
