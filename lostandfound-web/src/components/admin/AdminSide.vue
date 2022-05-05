@@ -1,6 +1,9 @@
 <template>
     <el-menu
-        default-active="1"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        :default-active="path"
         class="el-menu-vertical-demo"
         router>
 
@@ -37,6 +40,12 @@
 
 <script>
 export default {
+  name:"",
+  data(){
+    return{
+      path:this.$route.path  //设置默认高亮菜单
+    }
+  },
     computed: {
         adminLogin() {
             return this.$store.state.admin.adminIsLogin;

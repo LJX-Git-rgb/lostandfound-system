@@ -3,8 +3,6 @@
 <template>
     <div id="userInfo">
         <div id="userButton">
-            <el-button @click="upLoad">导入</el-button>
-            <el-button @click="downLoad">导出</el-button>
             <div id="select">
                 <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
                     <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
@@ -86,12 +84,6 @@ export default {
             console.log(`当前页: ${val}`);
             this.page.currentPage = val;
             this.showUserInfo()
-        },
-        downLoad() {
-
-        },
-        upLoad() {
-
         },
 
         updateUser:function (){

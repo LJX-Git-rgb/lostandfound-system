@@ -2,17 +2,12 @@
 
 <template>
     <div id="goodsInfo">
-      <div id="select" style="margin-bottom: 20px;width: 30%">
-        <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
-          <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
-            <el-option label="人名" value="1"></el-option>
-            <el-option label="人名" value="1"></el-option>
-            <el-option label="人名" value="1"></el-option>
-
-          </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>
+      <!--    搜索-->
+      <div style="margin: 10px 0">
+        <el-input v-model="search" placeholder="请输入关键字" style="width: 30%" clearable></el-input>
+        <el-button type="primary" style="margin-left: 5px" @click="load">搜索</el-button>
       </div>
+<!--      操作数据-->
         <el-table
             :data="tableData"
             border
@@ -33,7 +28,7 @@
             <el-table-column prop="description" label="详情描述" width="180"></el-table-column>
             <el-table-column prop='state' label="状态" width="50"></el-table-column>
 
-          <el-table-column prop="createTime" label="发布日期" width="180"></el-table-column>
+            <el-table-column prop="createTime" label="发布日期" width="180"></el-table-column>
             <el-table-column :prop="isLostOrFind ? 'lostArea' : 'foundArea'" :label="isLostOrFind ? '捡到区域' : '丢失区域'" width="180"></el-table-column>
             <el-table-column :prop="isLostOrFind ? 'lostTime' : 'foundTime'" :label="isLostOrFind ? '捡到日期' : '丢失日期'" width="180"></el-table-column>
             <el-table-column fixed="right" label="操作">
@@ -44,6 +39,7 @@
                 </template>
             </el-table-column>
         </el-table>
+<!--      分页-->
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -62,8 +58,7 @@
 export default {
     data() {
         return {
-            input: '',
-            select: '',
+            search:"",
 
             // table
 
@@ -98,6 +93,10 @@ export default {
 
     },
     methods: {
+      load(){
+
+      },
+
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
             if (this.isLostOrFind) {
