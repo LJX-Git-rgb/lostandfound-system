@@ -4,14 +4,14 @@
     <div id="userInfo">
         <div id="userButton">
             <div id="select">
-                <el-input placeholder="请输入内容" v-model="input" class="input-with-select">
+                <el-input placeholder="请输入内容" v-model="searchInput" class="input-with-select">
                     <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
-                      <el-option label="人名" value="1"></el-option>
-                      <el-option label="人名" value="1"></el-option>
-                      <el-option label="人名" value="1"></el-option>
+                      <el-option label="ID" value="1"></el-option>
+                      <el-option label="姓名" value="2"></el-option>
+                      <el-option label="邮箱" value="3"></el-option>
 
                     </el-select>
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="adminSearchUserByInfo"></el-button>
                 </el-input>
             </div>
         </div>
@@ -29,7 +29,11 @@
             <el-table-column prop="id" label="ID" width="90" sortable=""></el-table-column>
             <el-table-column prop="nickName" label="姓名" width="80"></el-table-column>
             <el-table-column prop="gender" label="性别" width="50"></el-table-column>
-            <el-table-column prop='userRole' label="身份(0~6)" width="100"></el-table-column>
+            <el-table-column prop='userRole' label="身份(0~6)" width="100">
+                <template #default="scope">
+                    <el-tag size="small" id="tag">{{ scope.row.userRole == 1 ? '正常用户' :'认证用户'}}</el-tag>
+                </template>
+            </el-table-column>
             <el-table-column prop="email" label="注册邮箱" width="180"></el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
             <el-table-column prop="updateTime" label="最后更新时间"width="180"></el-table-column>
@@ -37,7 +41,6 @@
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
-                        <el-button @click="updateUser(scope.row)" size="small" type="primary">认证</el-button>
                         <el-button @click.native.prevent="deleteUser(scope.row)" type="warning" size="small">禁言</el-button>
                     </div>
                 </template>
@@ -59,7 +62,7 @@
 export default {
     data() {
         return {
-            input: '',
+            searchInput: '',
             select: '',
 
             // table
@@ -92,7 +95,7 @@ export default {
         deleteUser:function (){
 
         },
-      handleSelectionChange(val) {
+        handleSelectionChange(val) {
         this.multipleSelection = val;
       },
 
@@ -123,6 +126,20 @@ export default {
                 this.page.total = res.data;
             })
         },
+
+        adminSearchUserByInfo(){
+                this.axios({
+                    url:'/api/user/adminSearchUserByInfo',
+                    method:'get',
+                    params:{
+                        flag: this.select,
+                        input: this.searchInput,
+                    }
+                }).then(res=>{
+                    console.log(res);
+                    this.tableData = res.data;
+                })
+        }
     },
     mounted() {
         this.showUserInfo();

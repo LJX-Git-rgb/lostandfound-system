@@ -109,12 +109,11 @@ export default {
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+            console.log("haha",this.isLostOrFind)
             this.page.currentPage = val;
-            if (this.isLostOrFind) {
-                this.findPage.pageSize = val
+            if (!this.isLostOrFind) {
                 this.showFoundGoods();
             }else{
-                this.lostPage.pageSize = val
                 this.showLostGoods();
             }
         },
@@ -136,6 +135,7 @@ export default {
                     flag:true
                 }
             }).then(res => {
+                console.log(res.data)
                 this.findGoodsList = res.data;
             }).catch(err => {
                 this.$message.error("服务器错误")
@@ -149,7 +149,7 @@ export default {
                     flag:true
                 }
             }).then(res => {
-                this.findGoodsList.total = res.data;
+                this.findPage.total = res.data;
             })
         },
 
@@ -166,11 +166,8 @@ export default {
                     flag:false
                 }
             }).then(res => {
+                console.log(res)
                 this.lostGoodsList = res.data;
-                for (let i = 0; i < this.lostGoodsList.length; i++) {
-                    this.lostGoodsList[i].createTime= new Date(this.lostGoodsList[i].createTime).format("yyyy-MM-dd hh:mm:ss");
-                    this.lostGoodsList[i].lostTime = new Date(this.lostGoodsList[i].lostTime).format("yyyy-MM-dd hh:mm:ss");
-                }
             }).catch(err => {
                 this.$message.error("服务器错误")
             })
