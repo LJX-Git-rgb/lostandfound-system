@@ -11,6 +11,7 @@ import team.system.lostandfoundserver.mapper.NoticeMapper;
 
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,14 @@ public class NoticeController {
     public Result update(@PathVariable long id){
         noticeMapper.deleteById(id);
         return Result.success(null);
+    }
+
+    @RequestMapping("/search")
+    public Result search(Integer id){
+        Notice notice = noticeMapper.searchById(id);
+        ArrayList list = new ArrayList();
+        list.add(notice);
+        return Result.success(list);
     }
 
     //分页查询，用后台写好的MybatisPlusConfig分页插件

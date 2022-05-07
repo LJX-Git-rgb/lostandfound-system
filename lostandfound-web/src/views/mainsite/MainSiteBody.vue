@@ -13,6 +13,17 @@
 
 <template>
     <div id="mainsite-body">
+      <div class="advert-top" v-if="message">
+        <div class="ico-horn">
+          <img src="../../assets/image/notice_logo.png" alt="">
+        </div>
+        <!-- 滚动文字区域 -->
+        <div class="marquee-wrap">
+          <ul class="marquee-box" id="marquee-box">
+            <li class="marquee-list" v-for="i in 3" v-html="message" :id="i==1?'marquee':''" :key="i"></li>
+          </ul>
+        </div>
+      </div>
         <div id="menu-class">
         </div>
 <!--        轮播图和分类展示-->
@@ -62,7 +73,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/javascript">
 import goodsItem from '../../components/mainsite/goodsItem.vue'
 import FindGoods from "@/views/mainsite/FindGoods";
 
@@ -94,7 +105,10 @@ export default {
 
             //展示行数和列数
             rowCount:2,
-            columnCount:5
+            columnCount:5,
+
+          //公告
+          message:""
         }
     },
     mounted() {
@@ -136,12 +150,106 @@ export default {
         }).then(res=>{
             console.log(res)
             this.personalCharacteristicGoods = res.data[0];
-        })
+        });
+
+      this.$axios({
+        method: "get",
+        url:"/api/notice/search",
+        params: {
+          id: 1
+        }
+      }).then(res => {
+        console.log(res)
+        this.message = res.data.data[0].content
+      })
+      // 延时滚动
+      setTimeout(() => {
+        this.runMarquee();
+      }, 1000);
+    },
+  methods: {
+    runMarquee() {
+      // 获取文字 计算后宽度
+      var width = document.getElementById("marquee").getBoundingClientRect()
+              .width,
+          marquee = document.getElementById("marquee-box"),
+          disx = 0; // 位移距离
+      //设置位移
+      setInterval(() => {
+        disx--; // disx-=1; 滚动步长
+        if (-disx >= width) {
+          disx = 10; // 如果位移超过文字宽度，则回到起点  marquee-list的margin值
+        }
+        // marquee.style.transform = 'translateX(' + disx + 'px)'
+        marquee.style.left = disx + "px";
+      }, 30); //滚动速度
     }
+  }
 }
 </script>
 
 <style lang="less" scoped>
+
+body,
+div,
+html,
+img,
+li,
+ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+li {
+  list-style: none;
+}
+.advert-top {
+  position: relative;
+  display: flex;
+  //width: 300px;
+  height: 30px;
+  ////background-color: #fff;
+  //color: #2d8cf0;
+  //font-size: 14px;
+  align-items: center;
+}
+.ico-horn {
+  display: flex;
+  margin-right: 10px;
+  width: 14px;
+  height: 14px;
+  justify-content: center;
+  align-items: center;
+}
+.ico-horn > img {
+  width: 30px;
+  height: 30px;
+}
+/* 以下代码与滚动相关 */
+.marquee-wrap {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin-left: 20px;
+}
+.marquee-box {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+.marquee-list {
+  margin-right: 10px;
+}
+.marquee-list span {
+  padding: 0 0.04rem;
+  color: #ffe17b;
+  font-weight: 700;
+}
+
 #mainsite-body {
     padding: 0 6%;
     background: #74ebd5;
@@ -150,7 +258,7 @@ export default {
     overflow: auto;
 
     #menu-class {
-        margin: 20px 0px;
+        //margin: 20px 0px;
         width: 100%;
         height: 10px;
 
