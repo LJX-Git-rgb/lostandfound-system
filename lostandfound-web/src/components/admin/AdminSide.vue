@@ -1,7 +1,6 @@
 <template>
     <el-menu
-        background-color="#545c64"
-        text-color="#fff"
+        text-color="black"
         active-text-color="#ffd04b"
         :default-active="path"
         class="el-menu-vertical-demo"
@@ -32,7 +31,7 @@
         </el-menu-item>
 
         <el-menu-item index="rightsManege" :disabled="this.adminLogin == false  || this.adminLogin == null">
-            <template slot="title"><i class="el-icon-s-cooperation"></i>管理员权限管理</template>
+            <template slot="title"><i class="el-icon-s-cooperation"></i>权限管理</template>
         </el-menu-item>
 
     </el-menu>
@@ -43,7 +42,7 @@ export default {
   name:"",
   data(){
     return{
-      path:this.$route.path  //设置默认高亮菜单
+      path:this.$route.path //设置默认高亮菜单
     }
   },
     computed: {

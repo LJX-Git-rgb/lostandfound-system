@@ -4,8 +4,8 @@
     <div id="goodsInfo">
       <!--    搜索-->
       <div style="margin: 10px 0">
-        <el-input v-model="search" placeholder="请输入关键字" style="width: 30%" clearable></el-input>
-        <el-button type="primary" style="margin-left: 5px" @click="load">搜索</el-button>
+        <el-input v-model="searchInput" placeholder="请输入标题、描述或区域关键字" style="width: 30%" clearable></el-input>
+        <el-button type="primary" style="margin-left: 5px" @click="SearchGoods">搜索</el-button>
       </div>
 <!--      操作数据-->
         <el-table
@@ -58,7 +58,7 @@
 export default {
     data() {
         return {
-            search:"",
+          searchInput:"",
 
             // table
 
@@ -93,7 +93,28 @@ export default {
 
     },
     methods: {
-      load(){
+
+      SearchGoods(){
+        var url;
+        if (!this.isLostOrFind){
+          url="/api/finds/search"
+        }else{
+          url="/api/losts/search"
+        }
+        this.$axios({
+          url:url,
+          method:'get',
+          params:{
+            searchInput: this.searchInput,
+          }
+        }).then(res=>{
+          console.log(res);
+          if (!this.isLostOrFind){
+            this.findGoodsList = res.data
+          }else {
+            this.lostGoodsList = res.data
+          }
+        })
 
       },
 

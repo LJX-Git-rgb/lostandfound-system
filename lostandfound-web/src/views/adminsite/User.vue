@@ -4,12 +4,11 @@
     <div id="userInfo">
         <div id="userButton">
             <div id="select">
-                <el-input placeholder="请输入内容" v-model="searchInput" class="input-with-select">
+                <el-input placeholder="请输入用户ID" v-model="searchInput" class="input-with-select">
                     <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
                       <el-option label="ID" value="1"></el-option>
                       <el-option label="姓名" value="2"></el-option>
                       <el-option label="邮箱" value="3"></el-option>
-
                     </el-select>
                     <el-button slot="append" icon="el-icon-search" @click="adminSearchUserByInfo"></el-button>
                 </el-input>
@@ -29,7 +28,7 @@
             <el-table-column prop="id" label="ID" width="90" sortable=""></el-table-column>
             <el-table-column prop="nickName" label="姓名" width="80"></el-table-column>
             <el-table-column prop="gender" label="性别" width="50"></el-table-column>
-            <el-table-column prop='userRole' label="身份(0~6)" width="100">
+            <el-table-column prop='userRole' label="身份" width="100">
                 <template #default="scope">
                     <el-tag size="small" id="tag">{{ scope.row.userRole == 1 ? '正常用户' :'认证用户'}}</el-tag>
                 </template>
@@ -41,7 +40,8 @@
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
-                        <el-button @click.native.prevent="deleteUser(scope.row)" type="warning" size="small">禁言</el-button>
+                      <el-button @click.native.prevent="violate(scope.row)" type="warning" size="small">禁言</el-button>
+                      <el-button @click.native.prevent="relieve(scope.row)" type="success" size="small">解除</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -89,12 +89,16 @@ export default {
             this.showUserInfo()
         },
 
-        updateUser:function (){
+      //禁言
+      violate:function (){
 
         },
-        deleteUser:function (){
 
-        },
+      //解除
+      relieve:function(){
+
+      },
+
         handleSelectionChange(val) {
         this.multipleSelection = val;
       },
@@ -128,8 +132,8 @@ export default {
         },
 
         adminSearchUserByInfo(){
-                this.axios({
-                    url:'/api/user/adminSearchUserByInfo',
+                this.$axios({
+                    url:'/api/user/searchUserContact',
                     method:'get',
                     params:{
                         flag: this.select,
