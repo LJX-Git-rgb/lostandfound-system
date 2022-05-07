@@ -44,7 +44,8 @@
                     <i class="el-icon-office-building"></i>
                     用户权限
                 </template>
-                {{user.userRole == 1 ?'正常用户' : '被禁言用户'}}
+                {{ role }}
+
             </el-descriptions-item>
 
             <el-descriptions-item>
@@ -174,11 +175,11 @@
             :rules="rules"
             ref="add"
             class="formDetails formDetailsNew">
-          <el-form-item label="姓名">
+          <el-form-item label="姓名:">
             <el-input v-model="ApproveForm.name" style="width: 80%" />
           </el-form-item>
-          <el-form-item label="身份证号" prop="inname">
-            <el-input v-model="ApproveForm.idNumber" placeholder="请输入身份证号" maxlength="50" style="width: 80%"/>
+          <el-form-item label="身份证号:" prop="identitytionId" :label-width="formLabelWidth">
+            <el-input v-model="ApproveForm.idNumber" placeholder="请输入身份证号" onkeyup="this.value=this.value.replace(/[^\X0-9]/g, '')"/>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -197,6 +198,83 @@ import request from "@/components/utils/request";
 
 export default {
     data(){
+      var checkIdentitytionId = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error("身份证号不能为空"));
+        }
+        if (!/(^\d{15}$)|(^\d{17}(\d|X|x)$)/.test(value)) {
+          callback(new Error("你输入的身份证长度或格式错误"));
+        }
+        //身份证城市
+        var aCity = {
+          11: "北京",
+          12: "天津",
+          13: "河北",
+          14: "山西",
+          15: "内蒙古",
+          21: "辽宁",
+          22: "吉林",
+          23: "黑龙江",
+          31: "上海",
+          32: "江苏",
+          33: "浙江",
+          34: "安徽",
+          35: "福建",
+          36: "江西",
+          37: "山东",
+          41: "河南",
+          42: "湖北",
+          43: "湖南",
+          44: "广东",
+          45: "广西",
+          46: "海南",
+          50: "重庆",
+          51: "四川",
+          52: "贵州",
+          53: "云南",
+          54: "西藏",
+          61: "陕西",
+          62: "甘肃",
+          63: "青海",
+          64: "宁夏",
+          65: "新疆",
+          71: "台湾",
+          81: "香港",
+          82: "澳门",
+          91: "国外"
+        };
+        if (!aCity[parseInt(value.substr(0, 2))]) {
+          callback(new Error("你的身份证地区非法"));
+        }
+        // 出生日期验证
+        var sBirthday = (
+                value.substr(6, 4) +
+                "-" +
+                Number(value.substr(10, 2)) +
+                "-" +
+                Number(value.substr(12, 2))
+            ).replace(/-/g, "/"),
+            d = new Date(sBirthday);
+        if (
+            sBirthday !=
+            d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate()
+        ) {
+          callback(new Error("身份证上的出生日期非法"));
+        }
+
+        // 身份证号码校验
+        var sum = 0,
+            weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2],
+            codes = "10X98765432";
+        for (var i = 0; i < value.length - 1; i++) {
+          sum += value[i] * weights[i];
+        }
+        var last = codes[sum % 11]; //计算出来的最后一位身份证号码
+        if (value[value.length - 1] != last) {
+          callback(new Error("你输入的身份证号非法"));
+        }
+        callback();
+      };
         return{
           user:this.$store.state.user,
           userContactInfo:{},
@@ -208,11 +286,10 @@ export default {
           CompleteDialogVisible:false,
           ApproveDialogVisible:false,
           fileList:[],
+          //校验规则
           rules: {
-            //身份证
-            idNumber: [
-              { required: true, message: "请输入身份证号", trigger: "blur" },
-              { validator: this.idcard, trigger: "blur" },
+            identitytionId: [
+              { validator: checkIdentitytionId , trigger: "blur" }
             ]
           }
         }
@@ -242,14 +319,16 @@ export default {
       this.ApproveForm.uid = this.user.id;
       request.post("/api/approve", this.ApproveForm).then(res => {
         if (res.code === '200') {
-          request.post("/api/user/changeRole", this.$store.state.user.email, 2).then(res => {
-            if (res.code === '200') {
-              this.$message({
-                type: "success",
-                message: "认证成功"
-              })
-            }
-          })
+         this.$axios({
+           url:"/api/user/changeRole",
+           method:'get',
+           params:{
+             role:2,
+             email:this.$store.state.user.email
+           }
+         }).then(res=>{
+           this.$message.success('认证成功')
+         })
         } else {
           this.$message({
             type: "error",
@@ -295,67 +374,12 @@ export default {
       this.fileList = fileList
     },
 
-    //身份证校验
-    idcard(rule, value, callback) {
-      if (!value) {
-        if (rule.field == "idNumber") {
-          return callback(new Error("身份证号码不能为空"));
-        } else {
-          return;
-        }
-      }
-      //setTimeout(() => {
-      let regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
-      //如果通过该验证，说明身份证格式正确，但准确性还需计算
-      if (regIdCard.test(value)) {
-        if (value.length == 18) {
-          var idCardWi = new Array(
-              7,
-              9,
-              10,
-              5,
-              8,
-              4,
-              2,
-              1,
-              6,
-              3,
-              7,
-              9,
-              10,
-              5,
-              8,
-              4,
-              2
-          ); //将前17位加权因子保存在数组里
-          var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
-          var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
-          for (var i = 0; i < 17; i++) {
-            idCardWiSum += value.substring(i, i + 1) * idCardWi[i];
-          }
-          var idCardMod = idCardWiSum % 11; //计算出校验码所在数组的位置
-          var idCardLast = value.substring(17); //得到最后一位身份证号码
-          //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
-          if (idCardMod == 2) {
-            if (idCardLast == "X" || idCardLast == "x") {
-              callback();
-            } else {
-              callback(new Error("身份证号码错误"));
-            }
-          } else {
-            //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
-            if (idCardLast == idCardY[idCardMod]) {
-              callback();
-            } else {
-              callback(new Error("身份证号码错误"));
-            }
-          }
-        }
-      } else {
-        callback(new Error("身份证格式不正确"));
-      }
-      //}, 1000);
-    },
+    //身份证校验,测试组人员对添加表单中的身份信息提出了需求，在填写身份证信息时，
+    //希望能对所填信息进行合法性校验。比如身份证的位数（目前二代身份证都是18位）、地区编号（所在省（市，旗，区）的行政区代码）、出生年月日（月份所对应的28天/29天/30天/31天）、顺序码（第十五到十七位，第十七位奇数是男性，偶数是女性）
+    // 校验码（第十八位，如果尾号是10就用X代替了）
+
+
+
   }
 };
 </script>
