@@ -68,7 +68,8 @@
                     <i class="el-icon-office-building"></i>
                     我的头像
                 </template>
-                <el-image :src="require('../../../../lostandfound-miniprogram/src/static/image' + user.face)" style="height: 100px;"></el-image>
+                <el-image v-if='user.face.split("/")[1] != "face"' :src="user.face" style="height: 100px;"></el-image>
+                <el-image v-if='user.face.split("/")[1] == "face"' :src="require('../../../../lostandfound-miniprogram/src/static/image' + user.face)" style="height: 100px;"></el-image>
             </el-descriptions-item>
         </el-descriptions>
 
