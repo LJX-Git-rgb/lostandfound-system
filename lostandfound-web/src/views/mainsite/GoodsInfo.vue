@@ -108,10 +108,11 @@ export default {
     methods: {
         changeGoodsState() {
             this.$axios({
-                url: '/api/goods/changestate',
+                url: '/api/generalgoods/changestate',
                 method: "get",
                 params: {
-                    isLost: this.$route.query.state == "lost"
+                  flag: this.$route.query.state == "find",
+                  id:this.goods.id
                 }
             }).then(err => {
                 this.$message.success("恭喜您成功了，请看下方联系方式联系发表的人")
