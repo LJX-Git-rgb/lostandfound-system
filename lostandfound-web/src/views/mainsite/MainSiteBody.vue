@@ -1,16 +1,3 @@
-<!--
-    明天主要任务
-    1. 点我发布和我的发布进行登录的路由监听
-    2. 想终止无限加载的条件
-    3. 失物招领和寻物启事进行一下合并,使用一个路由进行不同参数判定
-    4. 根据物品title, desc, 类别进行查询展示在物品详细信息的右边(五个)
-
-    其他任务
-    1. 填充数据库的用户 详细联系信息表 user_contact_info
-    2. 在个人信息里面加个身份认证功能,数据库加身份证字段或者身份证照片路径字段
-    3. 在点击认领失物时判定是否已经实名认证了,然后将用户联系方式展示出来就可以(并且限制一人一天只能认领一个)
--->
-
 <template>
     <div id="mainsite-body">
       <div class="advert-top" v-if="message">
@@ -38,7 +25,7 @@
             <ul id="filter-menu">
                 <li>
                     <div v-for="item in foundGoods.slice(0,4)" :key="item.id">
-                        <a @click="$router.push({path:'/'})">
+                        <a @click="$router.push({path: 'goodsInfo', query:{state:'find', id:item.id}})">
                             <img :src= "require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" :title="item.title" v-if="item.image != '' ">
                             <span>{{ item.title }}</span>
                         </a>
@@ -46,7 +33,7 @@
                 </li>
                 <li>
                     <div v-for="item in lostGoods.slice(0,4)" :key="item.id">
-                        <a @click="$router.push({path:'/'})">
+                        <a @click="$router.push({path: 'goodsInfo', query:{state:'lost', id:item.id}})">
                             <img :src= "require('../../../../lostandfound-miniprogram/src/static/image' + item.imageList[0])" :title="item.title">
                             <span>{{ item.title }}</span></a>
                     </div>
