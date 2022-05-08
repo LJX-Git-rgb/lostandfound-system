@@ -104,6 +104,14 @@
             </el-descriptions-item>
 
             <el-descriptions-item>
+              <template slot="label">
+                <i class="el-icon-mobile-phone"></i>
+                QQ
+              </template>
+              {{ userContactInfo.qq }}
+            </el-descriptions-item>
+
+            <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-location-outline"></i>
                     邮箱
@@ -420,20 +428,22 @@ export default {
     //编辑完善user_contact
     editUserContact(){
       this.ContactDialogVisible=true
-      this.ContactForm={}    },
+      this.ContactForm={}
+    },
 
     ContactSave(){
-      //上传头像，成功后上传其他信息
-      if (this.fileList.length == 0) {
-        var user = this.user;
-        user.nickName = this.BaseForm.nickName;
-        user.email = this.BaseForm.email;
-        this.$axios.post('/api/user/updateUser', user).then(res => {
-          this.BaseDialogVisible = false;
+      var userContactInfo = this.userContactInfo;
+      userContactInfo.appellation = this.ContactForm.appellation;
+      userContactInfo.phone = this.ContactForm.phone;
+      userContactInfo.qq = this.ContactForm.qq;
+      userContactInfo.wechat = this.ContactForm.wechat;
+      userContactInfo.email = this.ContactForm.email;
+      userContactInfo.address = this.ContactForm.address;
+      userContactInfo.other = this.ContactForm.other;
+        this.$axios.post('/api/user/updateUserContact', userContactInfo).then(res => {
+          this.$message.success("更新成功")
+          this.ContactDialogVisible = false;
         })
-      }else{
-
-      }
     },
 
     handleRemove(file, fileList) {
@@ -446,8 +456,6 @@ export default {
     //身份证校验,测试组人员对添加表单中的身份信息提出了需求，在填写身份证信息时，
     //希望能对所填信息进行合法性校验。比如身份证的位数（目前二代身份证都是18位）、地区编号（所在省（市，旗，区）的行政区代码）、出生年月日（月份所对应的28天/29天/30天/31天）、顺序码（第十五到十七位，第十七位奇数是男性，偶数是女性）
     // 校验码（第十八位，如果尾号是10就用X代替了）
-
-
 
   }
 };
