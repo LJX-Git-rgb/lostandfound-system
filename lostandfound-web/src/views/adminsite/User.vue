@@ -4,13 +4,8 @@
     <div id="userInfo">
         <div id="userButton">
             <div id="select">
-                <el-input placeholder="请输入用户ID" v-model="searchInput" class="input-with-select">
-                    <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
-                      <el-option label="ID" value="1"></el-option>
-                      <el-option label="姓名" value="2"></el-option>
-                      <el-option label="邮箱" value="3"></el-option>
-                    </el-select>
-                    <el-button slot="append" icon="el-icon-search" @click="adminSearchUserByInfo"></el-button>
+                <el-input placeholder="请输入用户ID" v-model="searchInput" class="input-with-select" style="width: 50%">
+                    <el-button slot="append" icon="el-icon-search" @click="SearchUserByInfo"></el-button>
                 </el-input>
             </div>
         </div>
@@ -63,7 +58,6 @@ export default {
     data() {
         return {
             searchInput: '',
-            select: '',
 
             // table
             tableData: [],
@@ -131,17 +125,16 @@ export default {
             })
         },
 
-        adminSearchUserByInfo(){
+        SearchUserByInfo(){
                 this.$axios({
-                    url:'/api/user/searchUserContact',
+                    url:'/api/user/searchUserBase',
                     method:'get',
                     params:{
-                        flag: this.select,
-                        input: this.searchInput,
+                        id: this.searchInput,
                     }
                 }).then(res=>{
                     console.log(res);
-                    this.tableData = res.data;
+                    this.tableData = res.data.data;
                 })
         }
     },

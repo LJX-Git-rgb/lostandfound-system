@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.controller.user;
 
+import cn.hutool.system.UserInfo;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.api.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,6 +167,18 @@ public class UserController {
         if (userContactInfo != null){
             ArrayList<Object> objects = new ArrayList<>();
             objects.add(userContactInfo);
+            return Result.success(objects);
+        }else{
+            return Result.error("500","服务器出错了");
+        }
+    }
+
+    @RequestMapping("/searchUserBase")
+    public  Result searchUserBase(Integer id){
+        User user = userService.searchUserBaseInfoByid(id);
+        if (user != null){
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add(user);
             return Result.success(objects);
         }else{
             return Result.error("500","服务器出错了");

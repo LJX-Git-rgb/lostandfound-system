@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.service;
 
+import cn.hutool.system.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -107,6 +108,11 @@ public class UserService implements UserServiceImpl {
     @Override
     public UserContactInfo searchUserContactInfoByUid(Integer uid) {
         return userMapper.searchUserContactInfoByUid(uid);
+    }
+
+    @Override
+    public User searchUserBaseInfoByid(Integer id) {
+        return userMapper.searchUserBaseInfoByid(id);
     }
 
     @Override

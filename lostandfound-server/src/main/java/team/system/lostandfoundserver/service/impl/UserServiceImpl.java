@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.service.impl;
 
+import cn.hutool.system.UserInfo;
 import team.system.lostandfoundserver.domain.User;
 import team.system.lostandfoundserver.domain.Admin;
 import team.system.lostandfoundserver.domain.UserContactInfo;
@@ -30,6 +31,8 @@ public interface UserServiceImpl {
     User wechatLogin(User user);
 
     UserContactInfo searchUserContactInfoByUid(Integer uid);
+
+    User searchUserBaseInfoByid(Integer id);
 
     Boolean updateUserContactInfo(UserContactInfo userContactInfo);
 }

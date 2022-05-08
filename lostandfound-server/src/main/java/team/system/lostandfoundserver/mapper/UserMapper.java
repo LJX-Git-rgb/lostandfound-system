@@ -1,5 +1,6 @@
 package team.system.lostandfoundserver.mapper;
 
+import cn.hutool.system.UserInfo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -55,4 +56,7 @@ public interface UserMapper {
 
     @Update("update user_contact_information set appellation=#{appellation},email=#{email},qq=#{qq},wechat=#{wechat},address=#{address},other=#{other},phone=#{phone} where id=#{id}")
     Boolean updateUserContactInfo(UserContactInfo userContactInfo);
+
+    @Select("select * from user_base where id = #{id}")
+    User searchUserBaseInfoByid(Integer id);
 }
