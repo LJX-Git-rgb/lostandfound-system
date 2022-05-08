@@ -44,7 +44,7 @@
                     <i class="el-icon-office-building"></i>
                     用户权限
                 </template>
-                {{ role }}
+                <el-tag size="small" id="tag">{{ role }}</el-tag>
 
             </el-descriptions-item>
 
@@ -351,6 +351,21 @@ export default {
             this.userContactInfo = res.data.data[0];
         })
     },
+
+  computed:{
+    //用户角色
+    role(){
+      if(this.$store.state.user.userRole == 1){
+        return "正常用户"
+      }else if(this.$store.state.user.userRole == 2){
+        return  "认证用户"
+      }else if(this.$store.state.user.userRole == 3){
+        return "注销用户"
+      }else if(this.$store.state.user.userRole == 4){
+        return "被禁言用户"
+      }
+    }
+  },
 
   methods:{
 

@@ -25,7 +25,7 @@
             <el-table-column prop="gender" label="性别" width="50"></el-table-column>
             <el-table-column prop='userRole' label="身份" width="100">
                 <template #default="scope">
-                    <el-tag size="small" id="tag">{{ scope.row.userRole == 1 ? '正常用户' :'认证用户'}}</el-tag>
+                    <el-tag size="small" id="tag">{{ role }}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="email" label="注册邮箱" width="180"></el-table-column>
@@ -71,6 +71,22 @@ export default {
             },
         }
     },
+
+  computed:{
+    //用户角色
+    role(){
+      if(this.$store.state.user.userRole == 1){
+        return "正常用户"
+      }else if(this.$store.state.user.userRole == 2){
+        return  "认证用户"
+      }else if(this.$store.state.user.userRole == 3){
+        return "注销用户"
+      }else if(this.$store.state.user.userRole == 4){
+        return "被禁言用户"
+      }
+    }
+  },
+
     methods: {
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
