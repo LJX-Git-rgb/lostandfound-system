@@ -12,8 +12,8 @@
         >
 
             <template slot="extra">
-                <el-button v-if="user.userRole == 1" type="success" size="small" @click="approve">认证</el-button>
-                <el-button type="primary" size="small" @click="completed">完善信息</el-button>
+              <el-button v-if="user.userRole == 1" type="success" size="small" round @click="approve">认证</el-button>
+              <el-button type="primary" size="small" icon="el-icon-edit" circle @click="editUserBase"></el-button>
             </template>
 
             <el-descriptions-item>
@@ -83,6 +83,11 @@
             border
             direction="horizontal"
         >
+
+          <template slot="extra">
+            <el-button type="primary" size="small" icon="el-icon-edit" circle @click="editUserContact"></el-button>
+          </template>
+
             <el-descriptions-item>
                 <template slot="label">
                     <i class="el-icon-user"></i>称呼
@@ -133,41 +138,6 @@
 
         <hr>
 
-      <!--完善信息弹窗-->
-      <el-dialog :visible.sync="CompleteDialogVisible" title="提示" width="30%">
-        <el-form label-width="120px">
-          <el-form-item label="用户名">
-            <el-input v-model="CompleteForm.nickName" style="width: 80%" />
-          </el-form-item>
-          <el-form-item label="性别">
-            <el-radio v-model="CompleteForm.gender" label="男">男</el-radio>
-            <el-radio v-model="CompleteForm.gender" label="女">女</el-radio>
-          </el-form-item>
-          <el-form-item label="邮箱">
-            <el-input v-model="CompleteForm.email" style="width: 80%"/>
-          </el-form-item>
-          <el-form-item label="头像">
-            <el-upload
-                class="upload-demo"
-                action
-                :on-change="handleChange"
-                :on-remove="handleRemove"
-                :auto-upload="false"
-                :file-list="fileList"
-                limit="1">
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="CompleteDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="CompletedUserInfo">确定</el-button>
-      </span>
-        </template>
-      </el-dialog>
-
       <!--认证信息弹窗-->
       <el-dialog :visible.sync="ApproveDialogVisible" title="提示" width="30%">
         <el-form
@@ -186,6 +156,74 @@
       <span class="dialog-footer">
         <el-button @click="ApproveDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="approveRole">确定</el-button>
+      </span>
+        </template>
+      </el-dialog>
+
+      <!--编辑/完善user_base信息弹窗-->
+      <el-dialog :visible.sync="BaseDialogVisible" title="提示" width="30%">
+        <el-form label-width="120px">
+          <el-form-item label="用户名">
+            <el-input v-model="BaseForm.nickName" style="width: 80%" />
+          </el-form-item>
+          <el-form-item label="性别">
+            <el-radio v-model="BaseForm.gender" label="男">男</el-radio>
+            <el-radio v-model="BaseForm.gender" label="女">女</el-radio>
+          </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="BaseForm.email" style="width: 80%"/>
+          </el-form-item>
+          <el-form-item label="头像">
+            <el-upload
+                class="upload-demo"
+                action
+                :on-change="handleChange"
+                :on-remove="handleRemove"
+                :auto-upload="false"
+                :file-list="fileList"
+                limit="1">
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="BaseDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="BaseSave">确定</el-button>
+      </span>
+        </template>
+      </el-dialog>
+
+      <!--编辑/完善user_contact信息弹窗-->
+      <el-dialog :visible.sync="ContactDialogVisible" title="提示" width="30%">
+        <el-form label-width="120px">
+          <el-form-item label="称呼">
+            <el-input v-model="ContactForm.appellation" style="width: 80%" />
+          </el-form-item>
+          <el-form-item label="电话">
+            <el-input v-model="ContactForm.phone" style="width: 80%" />
+          </el-form-item>
+          <el-form-item label="QQ">
+            <el-input v-model="ContactForm.qq" style="width: 80%"/>
+          </el-form-item>
+          <el-form-item label="微信">
+            <el-input v-model="ContactForm.wechat" style="width: 80%"/>
+          </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="ContactForm.email" style="width: 80%"/>
+          </el-form-item>
+          <el-form-item label="地址">
+            <el-input v-model="ContactForm.address" style="width: 80%"/>
+          </el-form-item>
+          <el-form-item label="其他">
+            <el-input v-model="ContactForm.other" style="width: 80%"/>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="ContactDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="ContactSave">确定</el-button>
       </span>
         </template>
       </el-dialog>
@@ -282,9 +320,11 @@ export default {
             name:"",
             idNumber: "",
           },
-          CompleteForm:{},
-          CompleteDialogVisible:false,
+          BaseForm:{},
+          ContactForm:{},
           ApproveDialogVisible:false,
+          BaseDialogVisible:false,
+          ContactDialogVisible:false,
           fileList:[],
           //校验规则
           rules: {
@@ -305,14 +345,11 @@ export default {
     },
 
   methods:{
+
+    //  用户认证
     approve(){
       this.ApproveDialogVisible=true
       this.ApproveForm={}
-    },
-
-    completed(){
-      this.CompleteDialogVisible=true
-      this.CompleteForm={}
     },
 
     approveRole() {
@@ -339,14 +376,23 @@ export default {
       })
     },
 
-    CompletedUserInfo(){
+    //编辑完善user_base
+    editUserBase(){
+      this.BaseDialogVisible=true
+      this.BaseForm={}
+    },
+
+    BaseSave(){
       //上传头像，成功后上传其他信息
+      console.log(this.fileList)
       if (this.fileList.length == 0) {
         var user = this.user;
-        user.nickName = this.CompleteForm.nickName;
-        user.email = this.CompleteForm.email;
-        request.post('/api/user/updateUser', user).then(res => {
-          this.CompleteDialogVisible = false;
+        user.gender = this.BaseForm.gender;
+        user.nickName = this.BaseForm.nickName;
+        user.email = this.BaseForm.email;
+
+        this.$axios.post('/api/user/updateUser', user).then(res => {
+          this.BaseDialogVisible = false;
         })
       }else{
         var formData = new FormData()
@@ -354,16 +400,39 @@ export default {
         this.$axios.post('/api/user/addImg', formData)
             //判断上传是否成功，成功返回一个img的地址然后请求后台添加其他数据
             .then(res=>{
+              console.log("img",res)
               if (res.status == "200") {
                 var user = this.user;
-                user.imgList = res.data.data;
-                user.nickName = this.CompleteForm.nickName;
-                user.email = this.CompleteForm.email;
+                user.face = res.data.data[0];
+                user.gender = this.BaseForm.gender;
+                user.nickName = this.BaseForm.nickName;
+                user.email = this.BaseForm.email;
+
                 request.post('/api/user/updateUser', user).then(res => {
-                  this.CompleteDialogVisible = false;
+                  this.$message.success("更新成功")
+                  this.BaseDialogVisible = false;
                 })
               }
             })
+      }
+    },
+
+    //编辑完善user_contact
+    editUserContact(){
+      this.ContactDialogVisible=true
+      this.ContactForm={}    },
+
+    ContactSave(){
+      //上传头像，成功后上传其他信息
+      if (this.fileList.length == 0) {
+        var user = this.user;
+        user.nickName = this.BaseForm.nickName;
+        user.email = this.BaseForm.email;
+        this.$axios.post('/api/user/updateUser', user).then(res => {
+          this.BaseDialogVisible = false;
+        })
+      }else{
+
       }
     },
 

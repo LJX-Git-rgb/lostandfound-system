@@ -65,7 +65,7 @@
                 <li>
                     <div id="loginInfo">
                         <div v-if="this.$store.state.user.isLogin" id="userImg">
-                            <img src="../../assets/image/haha.jpeg" alt="" @click="$router.push({path: 'accountInfo'})">
+                            <img :src="require('../../../../lostandfound-miniprogram/src/static/image' + this.$store.state.user.face)" @click="$router.push({path: 'accountInfo'})"/>
                             <div>
                                 <el-dropdown @command="handleCommand">
                                     <span class="el-dropdown-link">
