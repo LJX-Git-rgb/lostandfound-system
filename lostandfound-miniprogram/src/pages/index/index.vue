@@ -2,14 +2,14 @@
 	<view>
 		<uni-swiper-dot class="uni-swiper-dot-box" 
 			@clickItem=clickItem 
-			:info="info" 
+			:info="swiperData"
 			:current="current" 
 			:mode="mode"
 			:dots-styles="dotsStyles" field="content">
 
 			<swiper class="swiper-box" @change="change" :current="swiperDotIndex" :autoplay="true" :circular="true">
-				<swiper-item v-for="(item, index) in info" :key="index">
-					<image :src="item.url" alt="">
+				<swiper-item v-for="(item, index) in swiperData" :key="index">
+					<image :src="item">
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
@@ -42,22 +42,11 @@ import Vue from 'vue'
 				searchValue: '',
 
 				//轮播图
-				info: [{
-						colorClass: 'uni-bg-red',
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 A'
-					},
-					{
-						colorClass: 'uni-bg-green',
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 B'
-					},
-					{
-						colorClass: 'uni-bg-blue',
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 C'
-					}
-				],
+                swiperData: [
+                    "../../static/image/swiper/banner_1.jpg",
+                    "../../static/image/swiper/banner_2.jpg",
+                    "../../static/image/swiper/logo.png",
+                ],
 				dotStyle: [{
 						backgroundColor: 'rgba(0, 0, 0, .3)',
 						border: '1px rgba(0, 0, 0, .3) solid',
@@ -150,6 +139,7 @@ import Vue from 'vue'
 													openId: openid,
 												},
 												success: (res) => {
+                                                    console.log("登陆成功", res.data.data[0])
 													wx.setStorageSync("userInfo",JSON.stringify(res.data.data[0]));
 													new Vue({}).$store.dispatch('setUser',res.data.data[0]);
 												}
@@ -168,7 +158,6 @@ import Vue from 'vue'
 					},
 					fail: res => {
 						console.log("获取用户信息失败", res)
-						//退出小程序
 					}
 				})
 			},
@@ -183,32 +172,28 @@ import Vue from 'vue'
 			}else{
 				this.$store.dispatch('setUser',JSON.parse(wx.getStorageSync("userInfo")))
 			}
-			if(wx.getStorageSync("location").length == 0){
-				//获取经纬度并逆地址解析
-				uni.getLocation({
-					type: 'wgs84',
-					success: function (res) {
-						let qqmapsdk = new QQMapWX({
-							key: '5N6BZ-JICC3-OLO3L-3L3L2-4ILHF-6LBB4'
-						});
-						//根据经纬度进行地址定位
-						qqmapsdk.reverseGeocoder({
-							location: {
-								latitude: res.latitude,
-								longitude: res.longitude
-							},
-							success(res){
-								new Vue().$store.dispatch('setLocation',res.result.ad_info.city)
-								wx.setStorageSync("location",res.result.ad_info.city)
-							},
-						})
-					}
-				});
-			}else{
-				this.$store.dispatch('setLocation',wx.getStorageSync("location"))
-			}
-		}
-	}
+            //获取经纬度并逆地址解析
+            uni.getLocation({
+                type: 'wgs84',
+                success: function (res) {
+                    let qqmapsdk = new QQMapWX({
+                        key: '5N6BZ-JICC3-OLO3L-3L3L2-4ILHF-6LBB4'
+                    });
+                    //根据经纬度进行地址定位
+                    qqmapsdk.reverseGeocoder({
+                        location: {
+                            latitude: res.latitude,
+                            longitude: res.longitude
+                        },
+                        success(res) {
+                            console.log("地址定位成功",res.result.ad_info.city)
+                            new Vue().$store.dispatch('setLocation', res.result.ad_info.city)
+                        },
+                    })
+                }
+            });
+        }
+    }
 </script>
 
 <style scoped>

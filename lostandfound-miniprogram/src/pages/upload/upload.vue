@@ -123,7 +123,7 @@ export default {
 						uid: this.$store.state.user.id,
 						title: this.uploadForm.title,
 						description: this.uploadForm.description,
-						foundArea: this.uploadForm.area + '&' + this.$store.state.user.location,
+						foundArea: this.uploadForm.area + '&' + this.$store.state.location,
 						foundTime: this.uploadForm.time,
 						tag: tag,
 						image: this.uploadForm.imageUrlString,
