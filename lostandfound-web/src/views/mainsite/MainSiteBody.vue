@@ -16,7 +16,7 @@
 <!--        轮播图和分类展示-->
         <div id="carousel-and-filter">
             <div id="carousel-wrap">
-                <el-carousel :interval="5000">
+                <el-carousel :interval="5000" loop>
                     <el-carousel-item v-for="(item,index) in imgList" :key="index">
                         <img :src=item.url alt="">
                     </el-carousel-item>
@@ -126,12 +126,16 @@ export default {
             imgFolder: '',
             imgList: [
                 {
-                    url: require('../../assets/image/haha.jpeg'),
-                    alt: 'haha'
+                  url: require('../../assets/image/logo.png'),
+                  alt: 'logo'
                 },
                 {
-                    url: require('../../assets/image/login_backImg.jpeg'),
-                    alt: 'heihei'
+                    url: require('../../assets/image/banner_1.jpg'),
+                    alt: 'banner_1'
+                },
+                {
+                    url: require('../../assets/image/banner_2.jpg'),
+                    alt: 'banner_2'
                 },
             ],
 
