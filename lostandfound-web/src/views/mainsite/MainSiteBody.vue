@@ -56,7 +56,52 @@
             </div>
         </div>
 <!--        底部-->
-        <div id="footer"></div>
+        <div class="footer">
+          <div class="alt">
+            <div class="foot">
+              <p>关于我们</p>
+              <a href="###">企业简介</a>
+              <a href="###">企业文化</a>
+              <a href="###">发展历程</a>
+              <a href="###">联系我们</a>
+
+            </div>
+            <div class="foot">
+              <p>新闻中心</p>
+              <a href="###">公司新闻</a>
+              <a href="###">行业新闻</a>
+            </div>
+            <div class="foot">
+              <p>产品及解决方案</p>
+              <a href="###">产品系列</a>
+              <a href="###">解决方案</a>
+            </div>
+            <div class="foot">
+              <p>研发与创新</p>
+              <a href="###">核心技术</a>
+              <a href="###">技术创新</a>
+            </div>
+            <div class="foot">
+              <p>经典案例</p>
+              <a href="###">智慧城市</a>
+              <a href="###">智慧网络</a>
+            </div>
+            <div class="foot">
+              <p>服务支持</p>
+              <a href="###">技术支持</a>
+              <a href="###">服务网络</a>
+            </div>
+            <div class="foot">
+              <p>关注我们</p>
+              <img src="../../assets/image/logo.png"/>
+            </div>
+          </div>
+          <div style="border-top:1px #1F1F1F solid;">
+            <p class="alt" style="color:#999; line-height:0;">@ 版权所有：侵权必究
+              <span style="float:right;">地址：郑州市中原中路41号中原工学院</span>
+            </p>
+          </div>
+        </div>
     </div>
 </template>
 
@@ -341,10 +386,58 @@ li {
         }
     }
 
-    #footer {
-        margin-top: 7%;
-        height: 100px;
-        border: 1px solid red;
-    }
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: '微软雅黑', Arial, Helvetica, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    border: none;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  .footer {
+    margin-top: 7%;
+  }
+
+  .footer .alt {
+    overflow: hidden;
+    padding: 20px 0;
+    width: 1000px;
+    margin: auto;
+  }
+
+  .footer .alt .foot {
+    width: 138px;
+    float: left;
+  }
+
+  .footer .alt .foot p {
+    color: #FFF;
+    line-height: 28px;
+  }
+
+  .footer .alt .foot a {
+    color: #999;
+    display: block;
+    line-height: 35px;
+  }
+
+  .footer .alt .foot a:hover {
+    color: #CCC;
+  }
+
+  .footer .alt .foot img {
+    padding-top: 0px;
+  }
+
 }
 </style>
