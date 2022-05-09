@@ -94,8 +94,16 @@ public class UserController {
 
     @RequestMapping("/updateUser")
     public Result updateUser(@RequestBody  User user){
-        if(mapper.update(user)){
-            return Result.success(null);
+        User userById = mapper.findUserById(user.getId());
+        userById.setNickName(user.getNickName());
+        userById.setEmail(user.getEmail());
+        if (user.getGender() != null){
+            userById.setGender(user.getGender());
+        }
+        if(mapper.update(userById)){
+            ArrayList list = new ArrayList();
+            list.add(userById);
+            return Result.success(list);
         }
         return Result.error("500","服务器错误");
     }
@@ -187,9 +195,9 @@ public class UserController {
 
     @RequestMapping("/updateUserContact")
     public Result updateUserContact(@RequestBody UserContactInfo userContactInfo){
-        userService.updateUserContactInfo(userContactInfo);
-        if (userContactInfo != null){
-            Result.success(null);
+        Boolean update = userService.updateUserContactInfo(userContactInfo);
+        if (update){
+            return Result.success(null);
         }
         return Result.error("500","服务器错误");
     }

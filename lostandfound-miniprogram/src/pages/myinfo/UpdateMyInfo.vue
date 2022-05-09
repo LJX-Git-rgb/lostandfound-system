@@ -4,49 +4,38 @@
             :modelValue="user"
             label-position="top">
             <uni-forms-item label="昵称：" >
-                <uni-easyinput v-model="newUser.nickName" />
+                <uni-easyinput v-model="user.nickName"/>
             </uni-forms-item>
             <uni-forms-item label="注册邮箱：" >
-                <uni-easyinput v-model="newUser.email"/>
-            </uni-forms-item>
-            <uni-forms-item label="头像：">
-                <img :src=" '../../static/image/face/' + newUser.face" alt="" v-if="newUser.face != null">
-                <uni-file-picker
-                    limit="1"
-                    v-model="faceImage"
-                    fileMediatype="image"
-                    :auto-upload="false"
-                    @select="select"
-                >
-                </uni-file-picker>
+                <uni-easyinput v-model="user.email"/>
             </uni-forms-item>
             <uni-forms-item>
-                <button @click="updateUser">更新注册信息</button>
+                <button @click="uploadUserInfo">更新注册信息</button>
             </uni-forms-item>
         </uni-forms>
 
         <uni-forms
             :modelValue="userContactInfo"
             label-position="top">
-            <uni-forms-item label="昵称：" >
+            <uni-forms-item label="称呼：" >
                 <uni-easyinput v-model="userContactInfo.appellation"/>
             </uni-forms-item>
-            <uni-forms-item label="注册邮箱：" >
+            <uni-forms-item label="手机号：" >
                 <uni-easyinput v-model="userContactInfo.phone"/>
             </uni-forms-item>
-            <uni-forms-item label="注册邮箱：" >
+            <uni-forms-item label="qq：" >
                 <uni-easyinput v-model="userContactInfo.qq"/>
             </uni-forms-item>
-            <uni-forms-item label="注册邮箱：" >
+            <uni-forms-item label="微信：" >
                 <uni-easyinput v-model="userContactInfo.wechat"/>
             </uni-forms-item>
-            <uni-forms-item label="注册邮箱：" >
+            <uni-forms-item label="邮箱：" >
                 <uni-easyinput v-model="userContactInfo.email"/>
             </uni-forms-item>
-            <uni-forms-item label="注册邮箱：" >
+            <uni-forms-item label="地址：" >
                 <uni-easyinput v-model="userContactInfo.address"/>
             </uni-forms-item>
-            <uni-forms-item label="注册邮箱：" >
+            <uni-forms-item label="其他：" >
                 <uni-easyinput v-model="userContactInfo.other"/>
             </uni-forms-item>
             <uni-forms-item>
@@ -58,19 +47,14 @@
 
 <script>
 export default {
-    computed:{
-        user(){
-            return this.$store.state.user;
-        }
-    },
     data(){
         return{
-            faceImage:{},
-            newUser:{
-                nickName:"",
-                email:"",
-                face:"",
+            user:{
+                id: this.$store.state.user.id,
+                email:this.$store.state.user.email,
+                nickName: this.$store.state.user.nickName,
             },
+            faceImage:{},
             userContactInfo:{
                 appellation:'',
                 phone:'',
@@ -92,38 +76,24 @@ export default {
         })
     },
     methods:{
-        updateUser(){
-            // 上传图片 由于异步的原因，可能没有上传完图片就开始上传其他数据，所以使用了settimeOut来进行同步操作，性能损失极大
-            if(!JSON.stringify(this.faceImage) == "{}"){
-                    uni.uploadFile({
-                        url: this.$baseUrl + "user/addImg",
-                        filePath:this.faceImage.url,
-                        name:"file",
-                        formData: {},
-                        success: (res) => {
-                            this.newUser.face+=JSON.parse(res.data).data[0];
-                        }
-                    });
-                setTimeout(() => {
-                    this.uploadOther();
-                }, 5000);
-            }else{
-                this.uploadOther();
-            }
-        },
-        uploadOther(){
-            //上传其他数据
+        uploadUserInfo(){
             uni.request({
-                url: this.$baseUrl + "user/update",
+                url: this.$baseUrl + "user/updateUser",
                 method: 'POST',
                 data: {
                     id: this.user.id,
-                    nickName:this.newUser.nickName,
-                    email:this.newUser.email,
-                    face:this.newUser.face,
+                    nickName:this.user.nickName,
+                    email:this.user.email,
                 },
                 success: (res) => {
-                    console.log(res.data);
+                    this.$store.dispatch('setUser',res.data.data[0]);
+                    wx.setStorageSync("userInfo",JSON.stringify(res.data.data[0]));
+                    uni.showToast({
+                        title:'更改成功'
+                    })
+                    setTimeout(() => {
+                        uni.navigateTo({url:'/pages/myinfo/PersonInfo'})
+                    },1000)
                 }
             });
         },
@@ -142,12 +112,14 @@ export default {
                     other:this.userContactInfo.other,
                 },
                 success: res =>{
-                    console.log(res)
+                    uni.showToast({
+                        title:'更改成功'
+                    })
+                    setTimeout(() => {
+                        uni.navigateTo({url:'/pages/myinfo/PersonInfo'})
+                    },1000)
                 }
             })
-        },
-        select(e){
-            this.faceImage = e.tempFiles[0];
         },
     }
 }
