@@ -82,7 +82,6 @@ export default {
               params:{
                   id:id,
                   flag: this.lostOrFind,
-                  visible:this.visible = true,
               }
           }).then(res =>{
               this.load();
