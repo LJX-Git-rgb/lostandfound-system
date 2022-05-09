@@ -27,15 +27,16 @@
             </el-table-column>
             <el-table-column prop="description" label="详情描述" width="180"></el-table-column>
             <el-table-column prop='state' label="状态" width="50"></el-table-column>
-
             <el-table-column prop="createTime" label="发布日期" width="180"></el-table-column>
             <el-table-column :prop="isLostOrFind ? 'lostArea' : 'foundArea'" :label="isLostOrFind ? '捡到区域' : '丢失区域'" width="180"></el-table-column>
             <el-table-column :prop="isLostOrFind ? 'lostTime' : 'foundTime'" :label="isLostOrFind ? '捡到日期' : '丢失日期'" width="180"></el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
-                    <div style="display: flex">
-                        <el-button @click="deleteGoods(scope.row)" type="danger" size="small">移除</el-button>
-                    </div>
+                  <el-popconfirm title="确认要移除吗?" @confirm="deleteGoods(scope.row)">
+                    <template #reference>
+                      <el-button type="danger" size="small" style="margin-left: 10px">移除</el-button>
+                    </template>
+                  </el-popconfirm>
                 </template>
             </el-table-column>
         </el-table>

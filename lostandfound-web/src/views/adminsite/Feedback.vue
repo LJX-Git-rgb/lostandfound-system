@@ -13,8 +13,8 @@
       <el-table-column prop="id" label="ID" width="150"></el-table-column>
       <el-table-column prop="uid" label="用户ID" width="150"></el-table-column>
       <el-table-column prop="content" label="内容" width="300"></el-table-column>
-      <el-table-column prop="lid" label="寻物信息" width="150"></el-table-column>
-      <el-table-column prop="fid" label="失物信息" width="150"></el-table-column>
+      <el-table-column prop="lid" label="寻物信息id" width="150"></el-table-column>
+      <el-table-column prop="fid" label="失物信息id" width="150"></el-table-column>
       <el-table-column prop="state" label="状态" width="150"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template #default="scope">
@@ -106,7 +106,6 @@ export default {
     },
 
     handleDelete(id) {
-      console.log(id)
       request.delete("/api/feedback/" + id).then(res => {
         if (res.code === '0') {
           this.$message({
