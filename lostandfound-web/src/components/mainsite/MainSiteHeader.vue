@@ -66,7 +66,7 @@
                     <div id="loginInfo">
                         <div v-if="this.$store.state.user.isLogin" id="userImg">
                             <img v-if='this.$store.state.user.face.split("/")[1] != "face"' :src="this.$store.state.user.face"  @click="$router.push({path: 'accountInfo'})"/>
-                            <img v-if='this.$store.state.user.face.split("/")[1] == "face"' :src="require('../../../../lostandfound-miniprogram/src/static/image' + user.face)"  @click="$router.push({path: 'accountInfo'})"/>
+                            <img v-if='this.$store.state.user.face.split("/")[1] == "face"' :src="require('../../../../lostandfound-miniprogram/src/static/image' + this.$store.state.user.face)"  @click="$router.push({path: 'accountInfo'})"/>
                             <div>
                                 <el-dropdown @command="handleCommand">
                                     <span class="el-dropdown-link">
@@ -376,8 +376,8 @@ export default {
             width: 100px;
 
             img {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
                 border-radius: 50%;
                 margin: auto;
                 cursor: pointer;
@@ -407,5 +407,8 @@ export default {
     background-color: #409eff;
     color: #ffffff;
     margin-top: 5px;
+}
+.el-dropdown-link{
+    font-size: 14px !important;
 }
 </style>
