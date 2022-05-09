@@ -42,6 +42,9 @@ public interface UserMapper {
     @Select("select * from user_base where email = #{email}")
     User findUserByEmail(String email);
 
+    @Select("select * from user_base where id = #{id}")
+    User findUserById(Integer id);
+
     @Select("select * from admin_user where name = #{name} and pwd =#{pwd}")
     Admin adminlogin(String name, String pwd);
 

@@ -43,7 +43,7 @@
 
             <div id="feedback">
                 <uni-group title="我要举报">
-                    <uni-easyinput type="textarea" placeholder="举报内容"/>
+                    <uni-easyinput type="textarea" placeholder="举报内容" v-model="content"/>
                     <button @click="feedBack">举报</button>
                 </uni-group>
             </div>
@@ -58,6 +58,7 @@ export default {
             option: {},
             goods: {},
             userContactInfo: {},
+            content:'',
             own:'',
         }
     },
@@ -78,7 +79,24 @@ export default {
             uni.navigateTo({url:'../myinfo/UpdateMyUpload?goods=' + encodeURIComponent(JSON.stringify(this.goods)) + "&state=" + this.option.state})
         },
         feedBack() {
-
+            uni.request({
+                url: this.$baseUrl + 'feedback/report',
+                method:'get',
+                data:{
+                    id: this.goods.id,
+                    uid:this.$store.state.user.id,
+                    content: this.content,
+                    isLost:!this.option.state
+                },
+                success: (res) => {
+                    uni.showToast({
+                        title:'举报成功',
+                    })
+                    setTimeout(() => {
+                        uni.navigateTo({url:'/pages/goods/List?state=' + this.option.state})
+                    },1000)
+                }
+            })
         },
         submit() {
             uni.request({

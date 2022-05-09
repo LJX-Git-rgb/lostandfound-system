@@ -30,9 +30,9 @@
                     <uni-icons type="staff" size="18" color="#999"></uni-icons>
                     <text class="card-actions-item-text">分享</text>
                 </view>
-                <view class="card-actions-item" @click="actionsClick('评论')">
+                <view class="card-actions-item" @click="deleteInfo(item.id)">
                     <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
-                    <text class="card-actions-item-text">评论</text>
+                    <text class="card-actions-item-text">删除</text>
                 </view>
             </view>
         </uni-card>
@@ -97,7 +97,23 @@ export default {
         },
         toGoodsInfo(id) {
             uni.navigateTo({url:'../goods/Info?state=' + this.flag + '&id='+id})
-        }
+        },
+        deleteInfo(id){
+          uni.request({
+              url: this.$baseUrl + 'generalgoods/deletebyid',
+              method:'get',
+              data:{
+                  id:id,
+                  flag: this.flag != "true",
+              },
+              success: (res) => {
+                  uni.showToast({
+                      title:"删除成功",
+                  })
+                  this.load();
+              },
+          })
+        },
     },
     onLoad(option) { //option为object类型，会序列化上个页面传递的参数
         this.flag = option.state
