@@ -49,13 +49,60 @@
             <hr>
             <div id="userInfo" v-if="identifed">
                 <el-descriptions title="个人信息">
+                  <el-descriptions-item label="称呼">
+                    {{ userContactInfo.appellation }}
+                  </el-descriptions-item>
+
+                  <el-descriptions-item label="手机号">
+                    {{ userContactInfo.phone }}
+                  </el-descriptions-item>
+
+                  <el-descriptions-item label="QQ">
+                    {{ userContactInfo.qq }}
+                  </el-descriptions-item>
+
+                  <el-descriptions-item label="邮箱">
+                    {{ userContactInfo.email}}
+                  </el-descriptions-item>
+
+                  <el-descriptions-item label="微信号">
+                    {{ userContactInfo.wechat }}
+                  </el-descriptions-item>
+
+                  <el-descriptions-item label="联系地址">
+                    {{ userContactInfo.address }}
+                  </el-descriptions-item>
+
+                  <el-descriptions-item label="其他">
+                    {{ userContactInfo.other }}
+                  </el-descriptions-item>
                 </el-descriptions>
             </div>
         </div>
+
+<!--      举报信息弹窗-->
+      <el-dialog :visible.sync="ReportDialogVisible" title="提示" width="30%">
+        <el-form
+            label-width="120px"
+            ref="ReportForm"
+            class="formDetails formDetailsNew">
+          <el-form-item label="内容:">
+            <el-input v-model="ReportForm.content" style="width: 80%" placeholder="请输入举报内容"/>
+          </el-form-item>
+        </el-form>
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="ReportDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="ReportSave">确定</el-button>
+      </span>
+        </template>
+      </el-dialog>
+
     </div>
 </template>
 
 <script>
+
 Date.prototype.format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1,                 //月份
@@ -83,6 +130,9 @@ export default {
             goods: {},
             otherGoodsList: [],
             identifed: false,
+          ReportDialogVisible:false,
+          ReportForm:{},
+          userContactInfo:{}
         }
     },
     computed: {
@@ -114,22 +164,43 @@ export default {
                   flag: this.$route.query.state == "find",
                   id:this.goods.id
                 }
-            }).then(err => {
+            }).then(res => {
                 this.$message.success("恭喜您成功了，请看下方联系方式联系发表的人")
                 this.identifed = true;
+              this.$axios({
+                url:'/api/user/searchUserContact',
+                method:'GET',
+                params:{
+                  uid:this.$store.state.user.id
+                }
+              }).then( res => {
+                console.log(res);
+                this.userContactInfo = res.data.data[0];
+              })
             })
         },
-        report() {
+
+      //举报
+      report(){
+        this.ReportDialogVisible = true
+        this.ReportForm = {}
+      },
+
+      ReportSave() {
             this.$axios({
-                url: '/api/goods/report',
+                url: '/api/feedback/report',
                 method: "get",
                 params: {
                     isLost: this.$route.query.state == "lost",
-                    goods:this.goods
+                    content:this.ReportForm.content,
+                    id:this.goods.id,
+                    uid:this.$store.state.user.id,
                 }
-            }).then(err => {
+            }).then(res => {
+              console.log(res);
                 this.$message.success("恭喜您举报成功，管理员会认真审核的")
             })
+        this.ReportDialogVisible = false
         }
     }
 }

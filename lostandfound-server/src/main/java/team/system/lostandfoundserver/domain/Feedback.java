@@ -10,9 +10,9 @@ import lombok.Data;
 public class Feedback {
     @TableId(type = IdType.AUTO) //id自增
     private Integer id;
-    private String uid;
+    private Integer uid;
     private String content;
-    private String lid;
-    private String fid;
+    private Integer lid;
+    private Integer fid;
     private Integer state;
 }

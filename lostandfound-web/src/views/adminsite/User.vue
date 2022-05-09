@@ -35,8 +35,8 @@
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
-                      <el-button @click.native.prevent="violate(scope.row)" type="warning" size="small">禁言</el-button>
-                      <el-button @click.native.prevent="relieve(scope.row)" type="success" size="small">解除</el-button>
+                      <el-button @click.native.prevent="violate" type="warning" size="small">禁言</el-button>
+                      <el-button @click.native.prevent="relieve" type="success" size="small">解除</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -100,12 +100,12 @@ export default {
         },
 
       //禁言
-      violate:function (){
+      violate (){
 
         },
 
       //解除
-      relieve:function(){
+      relieve (){
 
       },
 

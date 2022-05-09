@@ -10,6 +10,7 @@ import team.system.lostandfoundserver.domain.Result;
 import team.system.lostandfoundserver.mapper.FeedbackMapper;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/feedback")
@@ -17,7 +18,25 @@ public class FeedbackController {
     @Resource
     FeedbackMapper feedbackMapper;
 
-    @PostMapping
+//    新增
+    @RequestMapping("/report")
+    public Result report(Boolean isLost,String content,Integer id,Integer uid){
+        Feedback feedback = new Feedback();
+        if(isLost){
+            feedback.setLid(id);
+        }else{
+            feedback.setFid((id));
+        }
+        feedback.setContent(content);
+        feedback.setUid(uid);
+        feedback.setState(0);
+        int insert = feedbackMapper.insert(feedback);
+        if (insert >= 1) {
+            return Result.success(null);
+        }else{
+            return Result.error("500","服务器错误");
+        }
+    }
 
     //    更新
     @RequestMapping("/update")
