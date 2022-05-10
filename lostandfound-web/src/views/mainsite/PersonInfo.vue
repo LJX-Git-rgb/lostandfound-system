@@ -1,7 +1,6 @@
 <template>
     <div id="accountInfo">
-        <span>您的信息还未完善</span>
-        <el-progress :percentage="20" status="warning"></el-progress>
+        <hr>
 
         <el-descriptions
             class="margin-top"
