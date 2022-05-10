@@ -30,9 +30,9 @@
           <template slot="title"><i class="el-icon-s-cooperation"></i>管理员信息</template>
         </el-menu-item>
 
-        <el-menu-item index="rightsManege" :disabled="this.adminLogin == false  || this.adminLogin == null">
-            <template slot="title"><i class="el-icon-s-cooperation"></i>权限管理</template>
-        </el-menu-item>
+<!--        <el-menu-item index="rightsManege" :disabled="this.adminLogin == false  || this.adminLogin == null">-->
+<!--            <template slot="title"><i class="el-icon-s-cooperation"></i>权限管理</template>-->
+<!--        </el-menu-item>-->
 
     </el-menu>
 </template>

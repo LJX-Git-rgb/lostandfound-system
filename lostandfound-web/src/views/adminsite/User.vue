@@ -25,7 +25,7 @@
             <el-table-column prop="gender" label="性别" width="50"></el-table-column>
             <el-table-column prop='userRole' label="身份" width="100">
                 <template #default="scope">
-                    <el-tag size="small" id="tag">{{ role }}</el-tag>
+                    <el-tag size="small" id="tag">{{ role(scope.row) }}</el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="email" label="注册邮箱" width="180"></el-table-column>
@@ -35,8 +35,8 @@
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <div style="display: flex">
-                      <el-button @click.native.prevent="violate" type="warning" size="small">禁言</el-button>
-                      <el-button @click.native.prevent="relieve" type="success" size="small">解除</el-button>
+                      <el-button @click="violate(scope.row)" type="warning" size="small">禁言</el-button>
+                      <el-button @click="relieve(scope.row)" type="success" size="small">解除</el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import request from "@/components/utils/request";
+
 export default {
     data() {
         return {
@@ -72,22 +74,21 @@ export default {
         }
     },
 
-  computed:{
-    //用户角色
-    role(){
-      if(this.$store.state.user.userRole == 1){
-        return "正常用户"
-      }else if(this.$store.state.user.userRole == 2){
-        return  "认证用户"
-      }else if(this.$store.state.user.userRole == 3){
-        return "注销用户"
-      }else if(this.$store.state.user.userRole == 4){
-        return "被禁言用户"
-      }
-    }
-  },
-
     methods: {
+
+      //用户角色
+      role(row){
+        if(row.userRole == 1){
+          return "正常用户"
+        }else if(row.userRole == 2){
+          return  "认证用户"
+        }else if(row.userRole == 3){
+          return "注销用户"
+        }else if(row.userRole == 4){
+          return "被禁言用户"
+        }
+      },
+
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
             this.page.pageSize = val
@@ -100,13 +101,31 @@ export default {
         },
 
       //禁言
-      violate (){
-
+      violate (row){
+            this.$axios({
+              url:"/api/user/changeRole",
+              method:'get',
+              params:{
+                role:4,
+                email:row.email
+              }
+            }).then(res=>{
+              this.$message.success('禁言成功')
+            })
         },
 
       //解除
-      relieve (){
-
+      relieve (row){
+        this.$axios({
+          url:"/api/user/changeRole",
+          method:'get',
+          params:{
+            role:1,
+            email:row.email
+          }
+        }).then(res=>{
+          this.$message.success('解除禁言成功，请重新认证')
+        })
       },
 
         handleSelectionChange(val) {

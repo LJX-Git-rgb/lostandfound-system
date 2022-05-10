@@ -7,7 +7,7 @@
         <!-- 滚动文字区域 -->
         <div class="marquee-wrap">
           <ul class="marquee-box" id="marquee-box">
-            <li class="marquee-list" v-for="i in 3" v-html="message" :id="i==1?'marquee':''" :key="i"></li>
+            <li class="marquee-list" v-for="i in 1" v-html="message" :id="i==1?'marquee':''" :key="i"></li>
           </ul>
         </div>
       </div>
