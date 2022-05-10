@@ -157,16 +157,17 @@ export default {
     },
     methods: {
         changeGoodsState() {
+          if(this.$store.state.user.userRole == 2){
             this.$axios({
-                url: '/api/generalgoods/changestate',
-                method: "get",
-                params: {
-                  flag: this.$route.query.state == "find",
-                  id:this.goods.id
-                }
+              url: '/api/generalgoods/changestate',
+              method: "get",
+              params: {
+                flag: this.$route.query.state == "find",
+                id:this.goods.id
+              }
             }).then(res => {
-                this.$message.success("恭喜您成功了，请看下方联系方式联系发表的人")
-                this.identifed = true;
+              this.$message.success("恭喜您成功了，请看下方联系方式联系发表的人")
+              this.identifed = true;
               this.$axios({
                 url:'/api/user/searchUserContact',
                 method:'GET',
@@ -178,6 +179,9 @@ export default {
                 this.userContactInfo = res.data.data[0];
               })
             })
+          }else{
+            this.$message.error("您还未认证，请先认证")
+          }
         },
 
       //举报

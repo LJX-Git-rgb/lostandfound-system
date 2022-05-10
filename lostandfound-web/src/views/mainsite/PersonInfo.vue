@@ -360,9 +360,7 @@ export default {
       }else if(this.$store.state.user.userRole == 2){
         return  "认证用户"
       }else if(this.$store.state.user.userRole == 3){
-        return "注销用户"
-      }else if(this.$store.state.user.userRole == 4){
-        return "被禁言用户"
+        return "被禁言"
       }
     }
   },

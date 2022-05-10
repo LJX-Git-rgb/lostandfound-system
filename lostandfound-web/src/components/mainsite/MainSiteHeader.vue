@@ -75,7 +75,7 @@
                                     </span>
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item command="personInfo">个人中心</el-dropdown-item>
-                                        <el-dropdown-item command="logout">注销</el-dropdown-item>
+<!--                                        <el-dropdown-item command="logout">注销</el-dropdown-item>-->
                                         <el-dropdown-item command="quit">退出账号</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
@@ -129,8 +129,6 @@ export default {
         handleCommand(command) {
             if (command == "personInfo") {
                 this.$router.push('/accountInfo');
-            } else if (command == 'logout') {
-                console.log("logout")
             } else if (command == 'quit') {
                 console.log("quit")
                 this.$store.dispatch('quitLogin', "user");
@@ -184,7 +182,11 @@ export default {
 
         toPost(){
             if (this.$store.state.user.isLogin) {
+              if(this.$store.state.user.userRole == 3){
+                this.$message.error("您已被禁言了，请联系管理员")
+              }else{
                 this.$router.push({path: '/upload'})
+              }
             }else{
                 this.$message.error("您需要先登录")
                 this.$router.push({path: '/login'})

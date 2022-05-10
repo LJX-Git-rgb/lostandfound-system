@@ -77,15 +77,16 @@ export default {
     methods: {
 
       //用户角色
+      //正常用户：查看+发布
+      //认证用户：查看+发布+认领+捡拾
+      //禁言用户：仅查看
       role(row){
         if(row.userRole == 1){
           return "正常用户"
         }else if(row.userRole == 2){
           return  "认证用户"
         }else if(row.userRole == 3){
-          return "注销用户"
-        }else if(row.userRole == 4){
-          return "被禁言用户"
+          return "被禁言"
         }
       },
 
@@ -106,7 +107,7 @@ export default {
               url:"/api/user/changeRole",
               method:'get',
               params:{
-                role:4,
+                role:3,
                 email:row.email
               }
             }).then(res=>{
@@ -124,7 +125,7 @@ export default {
             email:row.email
           }
         }).then(res=>{
-          this.$message.success('解除禁言成功，请重新认证')
+          this.$message.success('解除禁言成功，如需认领请重新认证')
         })
       },
 
