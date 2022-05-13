@@ -25,25 +25,6 @@
               </el-collapse-item>
           </el-collapse>
       </div>
-      <div id="fk-titile">给我们反馈：</div>
-      <div id="fk">
-          <el-form :inline="true">
-              <div id="input">
-                  <el-input
-                            type="textarea"
-                            :rows="2"
-                            placeholder="请输入问题"
-                            v-model="textarea"
-                            style="width: 500px"></el-input>
-                  <a>
-                      <el-button
-                          type="primary"
-                          @click="foundPwd"
-                          style="height: 35px">提 交</el-button>
-                  </a>
-              </div>
-          </el-form>
-      </div>
   </div>
 </template>
 
