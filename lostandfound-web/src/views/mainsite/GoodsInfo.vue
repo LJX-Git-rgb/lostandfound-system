@@ -172,7 +172,7 @@ export default {
                 url:'/api/user/searchUserContact',
                 method:'GET',
                 params:{
-                  uid:this.$store.state.user.id
+                  uid:this.goods.uid
                 }
               }).then( res => {
                 console.log(res);
