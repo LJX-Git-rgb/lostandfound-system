@@ -26,6 +26,7 @@ import LostGoods from "@/views/mainsite/LostGoods";
 import FindGoods from "@/views/mainsite/FindGoods";
 import PersonInfo from "@/views/mainsite/PersonInfo";
 import GoodsInfo from "@/views/mainsite/GoodsInfo";
+import SearchGoodsList from "@/views/mainsite/SearchGoodsList";
 
 
 Vue.use(VueRouter)
@@ -87,6 +88,10 @@ const routes = [
             {
                 path: 'help',
                 component: Help
+            },
+            {
+                path: 'search',
+                component: SearchGoodsList
             }
         ]
     },

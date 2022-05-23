@@ -165,19 +165,9 @@ export default {
           if (this.type == "find") {
             url = '/api/finds/search'
           }else{
-            url = 'api/losts/search'
+            url = '/api/losts/search'
           }
-            this.$axios({
-                method:'get',
-                url:url,
-                params:{
-                    searchInput: this.searchInput,
-                }
-            }).then(res => {
-              console.log(res);
-            }).catch(err => {
-              console.log(res);
-            })
+           this.$router.push({path:'search',query:{url:url, searchInput:this.searchInput}})
         },
 
         toPost(){
