@@ -4,8 +4,11 @@
             <div id="header">
                 <h3>{{ goods.title }}</h3>
                 <div id="buttons">
-                    <el-button type="success" @click="changeGoodsState">
+                    <el-button v-if="!goods.uid == $store.state.user.id" type="success" @click="showUserContactInfo">
                         {{ this.$route.query.state == "find" ? "认领失物" : "我捡到了" }}
+                    </el-button>
+                    <el-button v-if="goods.uid == $store.state.user.id" type="success" @click="changeGoodsState">
+                        {{ "交接完成" }}
                     </el-button>
                     <el-button type="error" @click="report">举报</el-button>
                 </div>
@@ -156,16 +159,18 @@ export default {
         })
     },
     methods: {
-        changeGoodsState() {
-          if(this.$store.state.user.userRole == 2){
+        changeGoodsState(){
             this.$axios({
-              url: '/api/generalgoods/changestate',
-              method: "get",
-              params: {
-                flag: this.$route.query.state == "find",
-                id:this.goods.id
-              }
-            }).then(res => {
+                url: '/api/generalgoods/changestate',
+                method: "get",
+                params: {
+                    flag: this.$route.query.state == "find",
+                    id:this.goods.id
+                }
+            })
+        },
+        showUserContactInfo() {
+          if(this.$store.state.user.userRole == 2){
               this.$message.success("恭喜您成功了，请看下方联系方式联系发表的人")
               this.identifed = true;
               this.$axios({
@@ -178,7 +183,6 @@ export default {
                 console.log(res);
                 this.userContactInfo = res.data.data[0];
               })
-            })
           }else{
             this.$message.error("您还未认证，请先认证")
           }
