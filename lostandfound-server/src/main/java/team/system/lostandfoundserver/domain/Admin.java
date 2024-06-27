@@ -8,7 +8,7 @@ import lombok.Data;
 @TableName("admin_user")
 @Data
 public class Admin {
-    @TableId(type = IdType.AUTO) //id自增
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String uid;
     private String name;

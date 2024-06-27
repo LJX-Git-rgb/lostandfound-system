@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class UserContactInfo {
-
     Integer id;
     Integer uid;
     String appellation;
@@ -15,5 +14,4 @@ public class UserContactInfo {
     String address;
     String microblogging;
     String other;
-
 }

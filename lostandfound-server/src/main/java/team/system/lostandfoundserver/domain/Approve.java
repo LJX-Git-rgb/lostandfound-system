@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @TableName("approve")
 public class Approve {
-    @TableId(type = IdType.AUTO) //id自增
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String uid;
     private String name;

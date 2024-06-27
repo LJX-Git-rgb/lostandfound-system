@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FindGoodsService implements FindGoodsServiceImpl {
@@ -19,8 +20,7 @@ public class FindGoodsService implements FindGoodsServiceImpl {
 
     @Override
     public boolean addGoods(FindGoods goods) {
-        boolean b = mapper.addFoundGoods(goods);
-        return b;
+        return mapper.addFoundGoods(goods);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class FindGoodsService implements FindGoodsServiceImpl {
     @Override public List<FindGoods> limitByTimeAndType(String foundTimeRange,
         String tag) {
         if (foundTimeRange.length() == 2) {
-            if (tag == "") {
+            if (Objects.equals(tag, "")) {
                 return null;
             }else{
                 return mapper.limitType(tag);
@@ -46,7 +46,7 @@ public class FindGoodsService implements FindGoodsServiceImpl {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (tag == "") {
+            if (Objects.equals(tag, "")) {
                 return mapper.limitTime(beginTime, endTime);
             }else{
                 return mapper.limitTimeAndType(beginTime,endTime,tag);

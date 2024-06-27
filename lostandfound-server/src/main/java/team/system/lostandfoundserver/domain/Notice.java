@@ -8,7 +8,7 @@ import lombok.Data;
 @TableName("notice")
 @Data
 public class Notice {
-    @TableId(type = IdType.AUTO) //id自增
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String content;
 }

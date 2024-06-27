@@ -19,54 +19,45 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/adminUser")
 public class AdminController {
+  @Resource
+  AdminMapper adminMapper;
+  @Autowired
+  private UserServiceImpl userService;
 
-    @Resource
-    AdminMapper adminMapper;
+  @PostMapping("/login")
+  public Result adminlogin(@RequestBody HashMap<String, String> map) {
+    Admin admin = userService.adminlogin(map.get("name"), map.get("pwd"));
+    ArrayList<Object> data = new ArrayList<>();
+    data.add(admin);
+    return Result.success(data);
+  }
 
-    @Autowired
-    private UserServiceImpl userService;
+  @PostMapping
+  public Result save(@RequestBody Admin admin) {
+    admin.setUid(UUID.randomUUID().toString());
+    adminMapper.insert(admin);
+    return Result.success(null);
+  }
 
-    @PostMapping("/login")
-    public Result adminlogin(@RequestBody HashMap<String,String> map){
-        Admin admin = userService.adminlogin(map.get("name"),map.get("pwd"));
-        ArrayList<Object> data = new ArrayList<>();
-        data.add(admin);
-        return Result.success(data);
+  @PutMapping
+  public Result update(@RequestBody Admin admin) {
+    adminMapper.updateById(admin);
+    return Result.success(null);
+  }
+
+  @DeleteMapping("/{id}")
+  public Result update(@PathVariable long id) {
+    adminMapper.deleteById(id);
+    return Result.success(null);
+  }
+
+  @GetMapping
+  public Page<Admin> findPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "") String search) {
+    LambdaQueryWrapper<Admin> Wrapper = Wrappers.<Admin>lambdaQuery();
+    if (StrUtil.isNotBlank(search)) {
+      Wrapper.like(Admin::getId, search);
     }
-
-    @PostMapping
-//      新增
-    public Result save(@RequestBody Admin admin){
-        admin.setUid(UUID.randomUUID().toString());
-        adminMapper.insert(admin);
-        return Result.success(null);
-    }
-
-//    更新
-    @PutMapping
-    public Result update(@RequestBody Admin admin){
-        adminMapper.updateById(admin);
-        return Result.success(null);
-    }
-
-//    删除
-    @DeleteMapping("/{id}")
-    public Result update(@PathVariable long id){
-        adminMapper.deleteById(id);
-        return Result.success(null);
-    }
-
-    //分页查询，用后台写好的MybatisPlusConfig分页插件
-    @GetMapping
-    public Page<Admin> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
-                                @RequestParam(defaultValue = "10") Integer pageSize,
-                                @RequestParam(defaultValue = "") String search){
-        LambdaQueryWrapper<Admin> Wrapper = Wrappers.<Admin> lambdaQuery();
-        if(StrUtil.isNotBlank(search)){
-            Wrapper.like(Admin::getId,search);
-        }
-        return adminMapper.selectPage(new Page<>(pageNum,pageSize),Wrapper);
-    }
-
+    return adminMapper.selectPage(new Page<>(pageNum, pageSize), Wrapper);
+  }
 }
 

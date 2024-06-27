@@ -2,23 +2,14 @@ package team.system.lostandfoundserver.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class FindGoods {
-
-  private Integer id;
-  private String title;
-  private String description;
-  private String image;
-  private String tag;
-  private Integer state;
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
-  private Date createTime;
+public class FindGoods extends Goods{
   @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   private Date foundTime;
   private String foundArea;
-  private Integer uid;
-  private String[] imageList;
 }

@@ -1,6 +1,7 @@
 package team.system.lostandfoundserver.domain;
 
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 
 /**
@@ -12,60 +13,58 @@ import java.util.ArrayList;
  */
 @Component
 public class Result {
-    private String code;
-    private String msg;
-    private ArrayList<Object> data;
+  private String code;
+  private String msg;
+  private ArrayList<Object> data;
 
-    public Result() {}
-    public Result(ArrayList<Object> data) {
-        this.data = data;
-    }
+  public Result() {
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public Result(ArrayList<Object> data) {
+    this.data = data;
+  }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getMsg() {
-        return msg;
-    }
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+  public String getMsg() {
+    return msg;
+  }
 
-    public ArrayList<Object> getData() {
-        return data;
-    }
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
 
-    public void setData(ArrayList<Object> data) {
-        this.data = data;
-    }
+  public ArrayList<Object> getData() {
+    return data;
+  }
 
-    @Override
-    public String toString() {
-        return "Result{" +
-                "code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
-    }
+  public void setData(ArrayList<Object> data) {
+    this.data = data;
+  }
 
-    public static Result success(ArrayList<Object> data){
-        Result result = new Result(data);
-        result.setCode("200");
-        result.setMsg("success");
-        return  result;
-    }
+  @Override
+  public String toString() {
+    return "Result{" + "code='" + code + '\'' + ", msg='" + msg + '\'' + ", data=" + data + '}';
+  }
 
-    public static Result error(String code,String msg){
-        Result result = new Result();
-        result.setCode(code);
-        result.setMsg(msg);
-        return  result;
-    }
+  public static Result success(ArrayList<Object> data) {
+    Result result = new Result(data);
+    result.setCode("200");
+    result.setMsg("success");
+    return result;
+  }
+
+  public static Result error(String code, String msg) {
+    Result result = new Result();
+    result.setCode(code);
+    result.setMsg(msg);
+    return result;
+  }
 
 }
